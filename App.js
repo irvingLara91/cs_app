@@ -21,6 +21,7 @@ export default function App() {
           <Screen
             name={screens.POST_SPLASH}
             component={PostSplash}
+            options={{ headerShown: false }}
           />
           <Screen 
             name={screens.REGISTER}
