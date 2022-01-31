@@ -3,7 +3,9 @@ module.exports = {
 		browser: true,
 		es2021: true,
 	},
-	extends: ["eslint:recommended"],
+
+	extends: ["eslint:recommended", "plugin:react/recommended"],
+
 	parserOptions: {
 		ecmaFeatures: {
 			jsx: true,
@@ -13,6 +15,7 @@ module.exports = {
 	},
 
 	rules: {
+		"react/prop-types": "off",
 		indent: ["error", "tab"],
 		quotes: ["error", "double"],
 		semi: ["error", "always"],
