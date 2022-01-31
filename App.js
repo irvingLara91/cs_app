@@ -4,8 +4,9 @@ import { NativeBaseProvider } from "native-base";
 
 import LoginScreen from "~/components/Login";
 import HomeScreen from "~/components/Home";
+import PasswordRecovery from "~/components/Login/PasswordRecovery";
 
-import routes from "~/constants/routes";
+import screens from "~/constants/screens";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -15,12 +16,16 @@ export default function App() {
       <NavigationContainer>
         <Navigator>
           <Screen
-            name={routes.HOME}
+            name={screens.HOME}
             component={HomeScreen}
           />
           <Screen
-            name={routes.LOGIN}
+            name={screens.LOGIN}
             component={LoginScreen}
+          />
+          <Screen
+            name={screens.PASSWORD_RECOVERY}
+            component={PasswordRecovery}
           />
         </Navigator>
       </NavigationContainer>

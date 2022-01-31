@@ -1,4 +1,5 @@
 module.exports = {
   LOGIN: "LOGIN",
   HOME: "HOME",
+  PASSWORD_RECOVERY: "PASSWORD_RECOVERY"
 }
