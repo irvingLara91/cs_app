@@ -9,6 +9,7 @@ import {
 } from "native-base";
 import { useForm, Controller } from "react-hook-form";
 
+import screens from "~/constants/screens";
 import styles from "./styles";
 
 
@@ -17,6 +18,7 @@ const Form = ({navigation}) => {
   const { control, handleSubmit, formState: { errors } } = useForm();
   const onSubmit = (data) => {
     console.log('submiting with ', data);
+    navigation.navigate(screens.PENDING_REGISTER_VALIDATION)
   };
 
 
