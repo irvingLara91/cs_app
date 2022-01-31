@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { Link } from "@react-navigation/native";
 import { Dimensions } from "react-native";
 import { View, Center, Stack, Text, Box, Button, Image } from "native-base";
 import screens from "~/constants/screens";
@@ -43,6 +44,7 @@ const PostSplash = ({ navigation }) => {
     );
   };
 
+
   return (
     <Center>
       <Stack mt={50}>
@@ -83,3 +85,4 @@ const PostSplash = ({ navigation }) => {
 };
 
 export default PostSplash;
+

@@ -7,6 +7,7 @@ import LoginScreen from "~/components/Login";
 import HomeScreen from "~/components/Home";
 import PasswordRecovery from "~/components/Login/PasswordRecovery";
 import PostSplash from "~/components/PostSplash";
+import PendingRegisterValidation from "~/components/Register/PendingRegisterValidation";
 
 import screens from "~/constants/screens";
 
@@ -33,6 +34,11 @@ export default function App() {
           <Screen
             name={screens.PASSWORD_RECOVERY}
             component={PasswordRecovery}
+          />
+          <Screen
+            name={screens.PENDING_REGISTER_VALIDATION}
+            component={PendingRegisterValidation}
+            options={{detachPreviousScreen: true}}
           />
           <Screen
             name={screens.HOME}
