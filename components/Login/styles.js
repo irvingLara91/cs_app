@@ -8,7 +8,8 @@ module.exports = StyleSheet.create({
     justifyContent: 'center',
     width: "100%"
   },
-  textColor: {
-    color: "blue"
+  passwordRecoveryLink: {
+    fontSize: 13,
+    textAlign: "center"
   }
 })
