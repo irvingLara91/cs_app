@@ -2,8 +2,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
 
-import LoginScreen from "./components/Login";
-import HomeScreen from "./components/Home";
+import LoginScreen from "~/components/Login";
+import HomeScreen from "~/components/Home";
 
 import routes from "~/constants/routes";
 
