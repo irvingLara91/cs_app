@@ -2,9 +2,11 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NativeBaseProvider } from "native-base";
 
+import Register from "~/components/Register";
 import LoginScreen from "~/components/Login";
 import HomeScreen from "~/components/Home";
 import PasswordRecovery from "~/components/Login/PasswordRecovery";
+import PostSplash from "~/components/PostSplash";
 
 import screens from "~/constants/screens";
 
@@ -16,8 +18,12 @@ export default function App() {
       <NavigationContainer>
         <Navigator>
           <Screen
-            name={screens.HOME}
-            component={HomeScreen}
+            name={screens.POST_SPLASH}
+            component={PostSplash}
+          />
+          <Screen 
+            name={screens.REGISTER}
+            component={Register}
           />
           <Screen
             name={screens.LOGIN}
@@ -26,6 +32,10 @@ export default function App() {
           <Screen
             name={screens.PASSWORD_RECOVERY}
             component={PasswordRecovery}
+          />
+          <Screen
+            name={screens.HOME}
+            component={HomeScreen}
           />
         </Navigator>
       </NavigationContainer>
