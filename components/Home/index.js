@@ -36,7 +36,7 @@ export default function Home({navigation, route}) {
 			{
 				(Array.isArray(orders) && orders.length > 0) ? <Orders orders={orders} /> : <NoOrders />
 			} 
-			<Box w="300" mt="1"><Button bgColor="dark.50" borderRadius="none" onPress={() => navigation.navigate({name: screens.NEW_ORDER})}>New Order</Button></Box>
+			<Box w="full" maxW="300" ><Button bgColor="dark.50" borderRadius="none" onPress={() => navigation.navigate({name: screens.NEW_ORDER})}>New Order</Button></Box>
 		</Center>
 	);
 }
