@@ -13,8 +13,11 @@ module.exports = {
 		ecmaVersion: "latest",
 		sourceType: "module",
 	},
-
+	"plugins": [
+		"react-hooks"
+	],
 	rules: {
+		"react-hooks/rules-of-hooks": "error",
 		"react/prop-types": "off",
 		indent: ["error", "tab"],
 		quotes: ["error", "double"],
