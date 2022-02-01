@@ -6,12 +6,16 @@ import {
 	FormControl,
 } from "native-base";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
+import screens from "~/constants/screens";
+
 
 
 const Form = () => {
 	const { control, handleSubmit, formState: { errors } } = useForm();
+	const navigation = useNavigation();
 	const onSubmit = (data) => {
-		console.log("submiting with ", data);
+		navigation.navigate({ name: screens.HOME, params: { isFirsTime: false } });
 	};
 
 

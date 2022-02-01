@@ -1,15 +1,15 @@
 module.exports = function(api) {
-  api.cache(true);
-  return {
-    presets: ['babel-preset-expo'],
-    "plugins": [
-      [
-        "babel-plugin-root-import",
-        {
-          "rootPathSuffix": "./",
-          "rootPathPrefix": "~/"
-        }
-      ]
-    ],
-  };
+	api.cache(true);
+	return {
+		presets: ["babel-preset-expo"],
+		"plugins": [
+			[
+				"babel-plugin-root-import",
+				{
+					"rootPathSuffix": "./",
+					"rootPathPrefix": "~/"
+				}
+			]
+		],
+	};
 };

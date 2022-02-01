@@ -18,7 +18,9 @@ const PendingRegisterValidation = ({navigation}) => {
 					</Text>
 				</View>
 				<Box mt={3}>
-					<Button onPress={() => navigation.navigate(screens.HOME)}>Continue</Button>
+					<Button onPress={() => navigation.navigate({name: screens.HOME, params: { isFirstTime: true }})}>
+							Continue
+					</Button>
 				</Box>
 			</Stack>
 		</Center>
