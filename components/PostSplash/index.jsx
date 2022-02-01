@@ -46,7 +46,9 @@ const PostSplash = ({ navigation }) => {
 	return (
 		<Center>
 			<Stack mt={50}>
-				<Image alt="image" source={require("~/assets/cornerstone-logo-250px.png")} />
+				<Box>
+					<Image alt="image" source={require("~/assets/cornerstone-logo-300px.png")} />
+				</Box>
 			</Stack>
 			<Stack mt={100} space={4} w="75%" maxW="300px">
 				<Carousel

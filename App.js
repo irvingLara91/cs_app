@@ -44,7 +44,7 @@ export default function App() {
 					<Screen
 						name={screens.PENDING_REGISTER_VALIDATION}
 						component={PendingRegisterValidation}
-						options={{detachPreviousScreen: true}}
+						options={{detachPreviousScreen: true, headerShown: false}}
 					/>
 					<Screen
 						name={screens.HOME}
