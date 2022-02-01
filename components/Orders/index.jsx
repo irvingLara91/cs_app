@@ -9,7 +9,7 @@ const Orders = ({orders}) => {
 			<Box rounded="xl" p="10">
 				<Stack space={2} maxW="300px">
 					{
-						orders.map((order) => <Order key={order.orderID} {...order} />)
+						orders.map((order) => <Order key={order.orderId} {...order} />)
 					}
 				</Stack>
 			</Box>

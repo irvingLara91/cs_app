@@ -10,6 +10,7 @@ import PasswordRecovery from "~/components/Login/PasswordRecovery";
 import PostSplash from "~/components/PostSplash";
 import PendingRegisterValidation from "~/components/Register/PendingRegisterValidation";
 import NewOrder from "~/components/NewOrder";
+import OrderDetails from "./components/OrderDetails";
 
 import screens from "~/constants/screens";
 
@@ -53,6 +54,11 @@ export default function App() {
 					<Screen
 						name={screens.NEW_ORDER}
 						component={NewOrder}
+					/>
+					<Screen
+						name={screens.ORDER_DETAILS}
+						component={OrderDetails}
+						getId={({ params }) => params.orderId}
 					/>
 				</Navigator>
 			</NavigationContainer>
