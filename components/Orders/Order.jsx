@@ -1,10 +1,12 @@
 import React from "react";
 import { Image, View, Box, Text } from "native-base";
 import orderThumbnail from "~/assets/order_thumbnail.png";
+import styles from "./styles";
 
 const Order = ({status, date, orderID}) => {
+	console.log({styles});
 	return (
-		<View style={{display: "flex", flexDirection: "row", justifyContent: "space-between", width: "100%", alignItems: "center"}} p="2"  borderRadius="md" borderWidth="1" borderColor="dark.50">
+		<View style={styles.orderContainer} p="2"  borderRadius="md" borderWidth="1" borderColor="dark.50">
 			<Image source={orderThumbnail} alt="order thumbnail" />
 			<View w="1/3">
 				<Text fontSize="13" fontWeight="bold" >Order: {orderID}</Text>
