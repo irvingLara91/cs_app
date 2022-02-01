@@ -32,6 +32,7 @@ export default function App() {
 					<Screen
 						name={screens.LOGIN}
 						component={LoginScreen}
+						options={{ headerShown: false }}
 					/>
 					<Screen
 						name={screens.PASSWORD_RECOVERY}
