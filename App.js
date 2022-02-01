@@ -29,23 +29,27 @@ export default function App() {
 					<Screen 
 						name={screens.REGISTER}
 						component={Register}
+						options={{ headerShown: false }}
 					/>
 					<Screen
 						name={screens.LOGIN}
 						component={LoginScreen}
+						options={{ headerShown: false }}
 					/>
 					<Screen
 						name={screens.PASSWORD_RECOVERY}
 						component={PasswordRecovery}
+						options={{ headerShown: false }}
 					/>
 					<Screen
 						name={screens.PENDING_REGISTER_VALIDATION}
 						component={PendingRegisterValidation}
-						options={{detachPreviousScreen: true}}
+						options={{detachPreviousScreen: true, headerShown: false}}
 					/>
 					<Screen
 						name={screens.HOME}
 						component={HomeScreen}
+						options={{ headerShown: false }}
 					/>
 					<Screen
 						name={screens.NEW_ORDER}

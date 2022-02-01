@@ -1,11 +1,39 @@
 import React from "react";
-import { Center, Heading, FormControl, Input, Stack, VStack, Button } from "native-base";
+import {
+	Center,
+	Heading,
+	FormControl,
+	Input,
+	Stack,
+	VStack,
+	Button,
+	Flex,
+	Image,
+} from "native-base";
+import { TouchableOpacity } from "react-native";
 import { useForm, Controller } from "react-hook-form";
+import { MaterialIcons } from "@expo/vector-icons";
+import screens from "~/constants/screens";
 
-const PasswordRecovery =  () => {
+const PasswordRecovery = (props) => {
 	return (
 		<Center>
-			<Stack mt={3} space={4} w="75%" maxW="300px">
+			<Stack mt={5}>
+				<Flex direction="row" mb="2.5" mt="1.5">
+					<Center w={"10"} h={"16"}>
+						<TouchableOpacity onPress={() => props.navigation.navigate(screens.LOGIN)}>            
+							<MaterialIcons name="arrow-back-ios" size={32} color="black" />           
+						</TouchableOpacity>
+					</Center>
+					<Center>
+						<Image
+							alt="image"
+							source={require("~/assets/cornerstone-logo-250px.png")}
+						/>
+					</Center>
+				</Flex>
+			</Stack>
+			<Stack mt={20} space={4} w="75%" maxW="300px">
 				<Heading>Help with password</Heading>
 				<PasswordRecoveryForm />
 			</Stack>
@@ -14,16 +42,18 @@ const PasswordRecovery =  () => {
 };
 
 const PasswordRecoveryForm = () => {
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
-
-	const { control, handleSubmit, formState: { errors } } = useForm();
-
-	const onSubmit= (values) => {
-		console.log({values});
+	const onSubmit = (values) => {
+		console.log({ values });
 	};
 
 	return (
-		<VStack space={2} alignItems="center"> 
+		<VStack space={2} alignItems="center">
 			<FormControl isRequired isInvalid={"email" in errors}>
 				<FormControl.Label>Email address</FormControl.Label>
 				<Controller
@@ -44,7 +74,11 @@ const PasswordRecoveryForm = () => {
 					{errors?.email?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
-			<Button onPress={handleSubmit(onSubmit)} size="lg" style={{width: "100%"}}>
+			<Button
+				onPress={handleSubmit(onSubmit)}
+				size="lg"
+				style={{ width: "100%" }}
+			>
         Recover password
 			</Button>
 		</VStack>
