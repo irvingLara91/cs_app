@@ -11,7 +11,7 @@ import {
   Box,
   Image,
 } from "native-base";
-import { TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { TouchableOpacity} from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { MaterialIcons } from "@expo/vector-icons";
 import screens from "~/constants/screens";

@@ -1,14 +1,12 @@
 import React, { useRef, useState } from "react";
-import { Link } from "@react-navigation/native";
 import { Dimensions } from "react-native";
-import { View, Center, Stack, Text, Box, Button, Image } from "native-base";
+import { Center, Stack, Text, Box, Button, Image } from "native-base";
 import screens from "~/constants/screens";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import styles from "./styles";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
-const ITEM_HEIGHT = Math.round((ITEM_WIDTH * 3) / 4);
 
 const PostSplash = ({ navigation }) => {
 	const _carousel = useRef(null);

@@ -13,7 +13,7 @@ import {
 } from "native-base";
 import screens from "~/constants/screens";
 import pendingValidationImage from "~/assets/pending-register.png";
-import { TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const PendingRegisterValidation = ({ navigation }) => {

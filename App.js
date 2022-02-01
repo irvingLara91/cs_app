@@ -14,41 +14,48 @@ import NewOrder from "~/components/NewOrder";
 import screens from "~/constants/screens";
 
 export default function App() {
-  const Stack = createNativeStackNavigator();
-  const { Navigator, Screen } = Stack;
-  return (
-    <NativeBaseProvider>
-      <NavigationContainer>
-        <Navigator>
-          <Screen
-            name={screens.POST_SPLASH}
-            component={PostSplash}
-            options={{ headerShown: false }}
-          />
-          <Screen
-            name={screens.REGISTER}
-            component={Register}
-            options={{ headerShown: false }}
-          />
-          <Screen
-            name={screens.LOGIN}
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Screen
-            name={screens.PASSWORD_RECOVERY}
-            component={PasswordRecovery}
-            options={{ headerShown: false }}
-          />
-          <Screen
-            name={screens.PENDING_REGISTER_VALIDATION}
-            component={PendingRegisterValidation}
-            options={{ detachPreviousScreen: true, headerShown: false }}
-          />
-          <Screen name={screens.HOME} component={HomeScreen} />
-          <Screen name={screens.NEW_ORDER} component={NewOrder} />
-        </Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
-  );
+	const Stack = createNativeStackNavigator();
+	const { Navigator, Screen } = Stack;
+	return (
+		<NativeBaseProvider>
+			<NavigationContainer>
+				<Navigator>
+					<Screen
+						name={screens.POST_SPLASH}
+						component={PostSplash}
+						options={{ headerShown: false }}
+					/>
+					<Screen 
+						name={screens.REGISTER}
+						component={Register}
+						options={{ headerShown: false }}
+					/>
+					<Screen
+						name={screens.LOGIN}
+						component={LoginScreen}
+						options={{ headerShown: false }}
+					/>
+					<Screen
+						name={screens.PASSWORD_RECOVERY}
+						component={PasswordRecovery}
+						options={{ headerShown: false }}
+					/>
+					<Screen
+						name={screens.PENDING_REGISTER_VALIDATION}
+						component={PendingRegisterValidation}
+						options={{detachPreviousScreen: true}}
+					/>
+					<Screen
+						name={screens.HOME}
+						component={HomeScreen}
+						options={{ headerShown: false }}
+					/>
+					<Screen
+						name={screens.NEW_ORDER}
+						component={NewOrder}
+					/>
+				</Navigator>
+			</NavigationContainer>
+		</NativeBaseProvider>
+	);
 }

@@ -1,5 +1,5 @@
 import React from "react";
-import { TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { Link } from "@react-navigation/native";
 import { Stack, Box, Center, Image, Flex } from "native-base";
 import Form from "./Form";
@@ -14,18 +14,19 @@ export default function Login(props) {
     <Center>
       <Stack mt={50}>
         <Flex direction="row">
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate(screens.POST_SPLASH)}
-          >
-            <Box right={60} pt={2}>
+          <Box pt={2} paddingRight={60}>
+            <TouchableOpacity
+              onPress={() => props.navigation.navigate(screens.POST_SPLASH)}
+            >
               <MaterialIcons name="arrow-back-ios" size={24} color="black" />
-            </Box>
-          </TouchableOpacity>
-
-          <Image
-            alt="image"
-            source={require("~/assets/cornerstone-logo-250px.png")}
-          />
+            </TouchableOpacity>
+          </Box>
+          <Box pt={2} paddingRight={60}>
+            <Image
+              alt="image"
+              source={require("~/assets/cornerstone-logo-250px.png")}
+            />
+          </Box>
         </Flex>
       </Stack>
       <Stack mt={3} space={4} w="75%" maxW="300px">
