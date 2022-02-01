@@ -4,7 +4,6 @@ import orderThumbnail from "~/assets/order_thumbnail.png";
 import styles from "./styles";
 
 const Order = ({status, date, orderID}) => {
-	console.log({styles});
 	return (
 		<View style={styles.orderContainer} p="2"  borderRadius="md" borderWidth="1" borderColor="dark.50">
 			<Image source={orderThumbnail} alt="order thumbnail" />
