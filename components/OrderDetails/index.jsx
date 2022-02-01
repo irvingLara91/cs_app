@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Stack, Center, Divider, View, Text, Box, Heading, Image, Flex, Container } from "native-base";
+import { Stack, Center, Divider, Text, Box, Heading, Image, Flex } from "native-base";
 import Status from "./Status";
 import ordersService from "~/services/orders";
 import gravestoneMedia from "~/assets/gravestone-media.png";
