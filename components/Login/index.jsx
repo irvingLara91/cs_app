@@ -1,12 +1,12 @@
 import React from "react";
 import { TouchableOpacity, KeyboardAvoidingView } from "react-native";
 import { Link } from "@react-navigation/native";
-import { Stack, Box, Center, Image, Flex, Pressable } from "native-base";
+import { Stack, Box, Center, Image, Flex } from "native-base";
 import Form from "./Form";
 import ReferenceImage from "~/assets/image.png";
 import screens from "~/constants/screens";
 import styles from "./styles";
-import { MaterialIcons, Ionicons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function Login(props) {
   const { passwordRecoveryLink } = styles;
