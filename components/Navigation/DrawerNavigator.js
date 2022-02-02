@@ -102,8 +102,8 @@ const DrawerNavigator = () => {
 				component={Home}
 				initialParams={{ isFirstTime: true }}
 				options={{
-					drawerLabel: "Welcome",
-					title: "Welcome",
+					drawerLabel: "Home",
+					title: "Home",
 				}}
 			/>
 			<Drawer.Screen
