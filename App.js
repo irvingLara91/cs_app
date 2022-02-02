@@ -5,12 +5,12 @@ import { NativeBaseProvider } from "native-base";
 
 import Register from "~/components/Register";
 import LoginScreen from "~/components/Login";
-import HomeScreen from "~/components/Home";
 import PasswordRecovery from "~/components/Login/PasswordRecovery";
 import PostSplash from "~/components/PostSplash";
 import PendingRegisterValidation from "~/components/Register/PendingRegisterValidation";
 import NewOrder from "~/components/NewOrder";
 import OrderDetails from "./components/OrderDetails";
+import DrawerNavigator from "./components/Navigation/DrawerNavigator";
 
 import screens from "~/constants/screens";
 
@@ -48,8 +48,8 @@ export default function App() {
 					/>
 					<Screen
 						name={screens.HOME}
-						component={HomeScreen}
-						options={{ headerShown: false }}
+						component={DrawerNavigator}
+						options={{ headerShown: false }}						
 					/>
 					<Screen
 						name={screens.NEW_ORDER}
