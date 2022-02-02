@@ -45,7 +45,7 @@ const PostSplash = ({ navigation }) => {
 
 	return (
 		<Center>
-			<Stack mt={50}>
+			<Stack mt={10}>
 				<Box>
 					<Image alt="image" source={require("~/assets/cornerstone-logo-300px.png")} />
 				</Box>
