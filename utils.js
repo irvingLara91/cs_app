@@ -24,3 +24,13 @@ export const FAKE_ORDER_DETAIL = {
 	additionalInstructions: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
 	status: {code: 1, msg: "Order received"}
 };
+
+export const FAKE_USER_DETAILS = {
+	fullName: "Oscar Fuentes",
+	phone: "5554095303",
+	email: "me@cornernstone.com",
+	city: "chi",
+	zipCode: "60446",
+	password: "enctrypted password",
+	address: "724 Echo ave,"
+};
