@@ -17,6 +17,7 @@ import {
 
 import Home from "~/components/Home";
 import OrderDetails from "~/components/OrderDetails";
+import Profile from "~/components/Profile";
 
 const Drawer = createDrawerNavigator();
 
@@ -62,7 +63,7 @@ function CustomDrawerContent(props) {
 										? "rgba(6, 182, 212, 0.1)"
 										: "transparent"
 								}
-								onPress={(event) => {
+								onPress={() => {
 									props.navigation.navigate(name);
 								}}
 							>
@@ -100,7 +101,7 @@ const DrawerNavigator = () => {
 			<Drawer.Screen
 				name="Home"
 				component={Home}
-				initialParams={{ isFirstTime: true }}
+				initialParams={{ isFirstTime: false }}
 				options={{
 					drawerLabel: "Home",
 					title: "Home",
@@ -108,8 +109,8 @@ const DrawerNavigator = () => {
 			/>
 			<Drawer.Screen
 				name="Orders"
-				component={OrderDetails}
-				initialParams={{ isFirstTime: true }}
+				initialParams={{ isFirstTime: false }}
+				component={Home}
 				options={{
 					drawerLabel: "My Orders",
 					title: "My Orders",
@@ -117,8 +118,7 @@ const DrawerNavigator = () => {
 			/>
 			<Drawer.Screen
 				name="Profile"
-				component={Home}
-				initialParams={{ isFirstTime: true }}
+				component={Profile}
 				options={{
 					drawerLabel: "My Profile",
 					title: "My Profile",
@@ -127,7 +127,7 @@ const DrawerNavigator = () => {
 			<Drawer.Screen
 				name="Help"
 				component={Home}
-				initialParams={{ isFirstTime: true }}
+				initialParams={{ isFirstTime: false }}
 				options={{
 					drawerLabel: "Help",
 					title: "Help",

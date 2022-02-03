@@ -11,6 +11,7 @@ import PendingRegisterValidation from "~/components/Register/PendingRegisterVali
 import NewOrder from "~/components/NewOrder";
 import OrderDetails from "./components/OrderDetails";
 import DrawerNavigator from "./components/Navigation/DrawerNavigator";
+import PasswordUpdate from "./components/Profile/PasswordUpdate";
 
 import screens from "~/constants/screens";
 
@@ -44,7 +45,7 @@ export default function App() {
 					<Screen
 						name={screens.PENDING_REGISTER_VALIDATION}
 						component={PendingRegisterValidation}
-						options={{detachPreviousScreen: true, headerShown: false}}
+						options={{ headerShown: false }}
 					/>
 					<Screen
 						name={screens.HOME}
@@ -59,6 +60,10 @@ export default function App() {
 						name={screens.ORDER_DETAILS}
 						component={OrderDetails}
 						getId={({ params }) => params.orderId}
+					/>
+					<Screen
+						name={screens.PASSWORD_UPDATE}
+						component={PasswordUpdate}
 					/>
 				</Navigator>
 			</NavigationContainer>
