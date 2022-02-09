@@ -1,8 +1,17 @@
-import React from "react";
-import { Text } from "native-base";
+import React, { useEffect, useState } from "react";
+import Tutorial from "./Tutorial";
 
-export default function NewOrder() {
-	return (
-		<Text>New Order Component </Text>
-	);
+import screens from "~/constants/screens";
+
+export default function NewOrder({ navigation }) {
+	const { navigate } = navigation;
+	const [skipTutorial, setSkipTutorial] = useState(false);
+
+	useEffect(() => {
+		if (skipTutorial) {
+			navigate(screens.NEW_ORDER_STEP_1);
+		}
+	}, [skipTutorial]);
+	
+	if (!skipTutorial) return <Tutorial onSkip={(status) => setSkipTutorial(status)} />;
 }
