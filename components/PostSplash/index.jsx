@@ -1,73 +1,39 @@
-import React, { useRef, useState } from "react";
-import { Dimensions } from "react-native";
-import { Center, Stack, Text, Box, Button, Image } from "native-base";
+import React from "react";
+import { Center, Stack, Box, Button, Image } from "native-base";
 import screens from "~/constants/screens";
-import Carousel, { Pagination } from "react-native-snap-carousel";
-import styles from "./styles";
-
-const SLIDER_WIDTH = Dimensions.get("window").width;
-const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
+import Carousel from "~/components/common/Carousel";
+import CSLogo from "~/assets/cornerstone-logo-300px.png";
 
 const PostSplash = ({ navigation }) => {
-	const _carousel = useRef(null);
-	const [slide, setSlide] = useState(0);
-
-	const carouselItems = [
+	const data = [
 		{
+      
 			img: <Image alt="image" source={require("~/assets/image.png")} />,
-			title: "How Does it Work?",
+			title: "How does it work 1",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
 		{
 			img: <Image alt="image" source={require("~/assets/image.png")} />,
-			title: "How Does it Work?",
+			title: "How does it work 2",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
 		{
 			img: <Image alt="image" source={require("~/assets/image.png")} />,
-			title: "How Does it Work?",
+			title: "How does it work 3",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
 	];
-
-	const _renderItem = ({ item, index }) => {
-		return (
-			<Box style={styles.itemContainer}>
-				<Text>{item.img}</Text>
-				<Text fontSize="2xl" fontWeight="black" textAlign={"center"}>
-					{item.title}
-				</Text>
-				<Text>{item.msg}</Text>
-			</Box>
-		);
-	};
-
 
 	return (
 		<Center>
 			<Stack mt={10}>
 				<Box>
-					<Image alt="image" source={require("~/assets/cornerstone-logo-300px.png")} />
+					<Image alt="image" source={CSLogo} />
 				</Box>
 			</Stack>
-			<Stack mt={100} space={4} w="75%" maxW="300px">
+			<Stack mt={60} space={4} w="75%" maxW="300px">
 				<Carousel
-					layout={"stack"}
-					layoutCardOffset={3}
-					ref={_carousel}
-					data={carouselItems}
-					renderItem={_renderItem}
-					sliderWidth={SLIDER_WIDTH}
-					itemWidth={ITEM_WIDTH}
-					onSnapToItem={(i) => setSlide(i)}
-				/>
-				<Pagination
-					containerStyle={{}}
-					dotStyle={styles.do}
-					inactiveDotOpacity={0.4}
-					inactiveDotScale={0.6}
-					activeDotIndex={slide}
-					dotsLength={carouselItems.length}
+					data={data}
 				/>
 				<Box>
 					<Button onPress={() => navigation.navigate(screens.LOGIN)}>
