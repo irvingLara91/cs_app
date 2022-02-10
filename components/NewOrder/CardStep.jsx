@@ -1,17 +1,17 @@
 import React from "react";
-import { Text, Box, Center, Button } from "native-base";
+import { Box, Center } from "native-base";
 import Steps from "./Steps";
 
 import screens from "~/constants/screens";
+import Camera from "~/components/common/Camera";
 
 const CardStep = ({navigation}) => {
 	const { navigate } = navigation;
 	return (
-		<Center>
+		<Center bg="black">
 			<Box alignItems="center">
 				<Steps />
-				<Text>Card Step</Text>
-				<Button onPress={() => navigate(screens.NEW_ORDER_STEP_2)}>Next</Button>
+				<Camera onConfirm={() => navigate(screens.NEW_ORDER_STEP_2)}/>
 			</Box>
 		</Center>
 	);
