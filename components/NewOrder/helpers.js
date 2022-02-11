@@ -13,7 +13,7 @@ export const getStepData = (route) => {
 	if (step > 2) {
 		stepData.color = "black";
 	}
-
+ 
 	switch (step) {
 	case 1: {
 		stepData.data = {
@@ -27,7 +27,7 @@ export const getStepData = (route) => {
 		stepData.data = {
 			title: "Gravestone picture",
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
-			help: () => screens.HOME
+			help: screens.HOME
 		};
 		break;
 	}
@@ -35,7 +35,7 @@ export const getStepData = (route) => {
 		stepData.data = {
 			title: "Order details",
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
-			help: () => screens.HOME
+			help: null
 		};
 		break; 
 	}
@@ -43,7 +43,7 @@ export const getStepData = (route) => {
 		stepData.data = {
 			title: "Confirm order",
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
-			help: () => screens.HOME
+			help: null
 		};
 		break; 
 	}

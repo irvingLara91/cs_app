@@ -16,16 +16,19 @@ const Steps = () => {
 		setCurrentStep(getStepData(name));
 	}, [name]);
 
-
 	return (
 		<Center pt="10">
 			<Center maxW="250">
-				<Text color={currentStep.color} fontSize="20" >{currentStep.step} / {totalSteps}</Text>
+				<Text color={currentStep.color} fontSize="20" >{currentStep.step}/{totalSteps}</Text>
 				<Heading color={currentStep.color} fontWeight="bold" fontSize="18" >{currentStep.data.title}</Heading>
 				<Text color={currentStep.color} fontSize="10">{currentStep.data.description}</Text>
-				<TouchableHighlight onPress={() => console.log("navigate(currentStep.data.help)")}>
-					<Text mt="3" fontSize="11" color={currentStep.color} underline>Need help?</Text>
-				</TouchableHighlight>
+				{
+					currentStep.data.help !== null && (
+						<TouchableHighlight onPress={() => console.log("navigate(currentStep.data.help)")}>
+							<Text mt="3" fontSize="11" color={currentStep.color} underline>Need help?</Text>
+						</TouchableHighlight>
+					)
+				}
 			</Center>
 		</Center>
 	);
