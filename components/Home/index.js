@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Center, Divider, Image, Heading } from "native-base";
+import { Box, Button, Center, Image, Heading, Stack } from "native-base";
 
 import Welcome from "./Welcome";
-import Banners from "./Banners";
+import Carousel from "~/components/common/Carousel";
 import Orders from "~/components/Orders";
 
 import disabledImage from "~/assets/disabled-image.png";
@@ -28,10 +28,32 @@ export default function Home({navigation, route}) {
 
 	if (isFirstTime) return <Welcome />;
 	
+	const data = [
+		{
+      
+			img: <Image alt="image" source={require("~/assets/image.png")} />,
+			title: "How does it work 1",
+			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
+		},
+		{
+			img: <Image alt="image" source={require("~/assets/image.png")} />,
+			title: "How does it work 2",
+			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
+		},
+		{
+			img: <Image alt="image" source={require("~/assets/image.png")} />,
+			title: "How does it work 3",
+			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
+		},
+	];
+
 	return (
 		<Center>
-			<Banners />
-			<Divider my={2} />
+			<Stack mt={0} space={4} w="75%" maxW="300px">
+				<Carousel
+					data={data}
+				/>
+			</Stack>
 			<Heading>Your orders</Heading>
 			{
 				(Array.isArray(orders) && orders.length > 0) ? <Orders orders={orders} /> : <NoOrders />
