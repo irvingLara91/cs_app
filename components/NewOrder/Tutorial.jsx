@@ -1,9 +1,11 @@
 import React from "react";
-import { Image } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Center, Box, Stack, Button, View } from "native-base";
+import { Center, Box, Stack, Button, Image, View, Flex  } from "native-base";
 import Carousel from "~/components/common/Carousel";
 import screens from "~/constants/screens";
+
+
 
 const Tutorial = () => {
 	const navigation = useNavigation();
@@ -29,17 +31,12 @@ const Tutorial = () => {
 
 
 	return (
-		<Center>
-			<Stack mt="10" space={4} w="full" maxW="300px">
-				<Carousel data={data} />
-			</Stack>
-			<Stack>
-				<Box>
-					<Button w="full" bgColor="dark.50" borderRadius="none" onPress={() => navigate({name: screens.NEW_ORDER_STEP_1})}>Continue</Button>
-				</Box>
-			</Stack>
-		</Center>
-	
+		<Flex maxW="85%" direction="column" justify="flex-start">
+			<Carousel data={data} />
+			<Center>
+				<Button w="full" bgColor="dark.50" borderRadius="none" onPress={() => navigate({name: screens.NEW_ORDER_STEP_1})}>Continue</Button>
+			</Center>
+		</Flex>	
 	);
 };
 

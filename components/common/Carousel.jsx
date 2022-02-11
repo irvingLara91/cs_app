@@ -1,15 +1,36 @@
 import React, { useRef, useState } from "react";
-import { Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
-import { Box, Text } from "native-base";
+import { Box, Text, View } from "native-base";
 import RNCarousel, { Pagination } from "react-native-snap-carousel";
-import styles from "./styles";
+
+const SLIDER_WIDTH = Dimensions.get("window").width;
+const ITEM_WIDTH = Math.round(SLIDER_WIDTH  / 1.3);
+const ITEM_HEIGHT = Math.round(ITEM_WIDTH);
+
+const styles = StyleSheet.create({
+	dots: {
+		width: 5,
+		height: 5,
+		borderRadius: 5,
+		marginHorizontal: 8,
+		backgroundColor: "#cccccc",
+	},
+	itemContainer: {  
+		width: ITEM_WIDTH,
+		height: ITEM_HEIGHT,
+		alignItems: "center",
+		justifyContent: "center",
+		backgroundColor: "#C4C4C4",
+		padding: 10,
+	},
+});
 
 
 const Carousel = ({data, containerStyle = {}, }) => {
 	const carouselRef = useRef();
 	const SLIDER_WIDTH = Dimensions.get("window").width;
-	const ITEM_WIDTH = Math.round(SLIDER_WIDTH);
+	const ITEM_WIDTH = Math.round(SLIDER_WIDTH / 1.3);
 	const length = data.length;
 
 	const [slide, setSlide] = useState(0);
@@ -28,7 +49,7 @@ const Carousel = ({data, containerStyle = {}, }) => {
 	};
 
 	return ( 
-		<Box>
+		<View mt="10">
 			<RNCarousel
 				layout={"stack"}
 				layoutCardOffset={3}
@@ -47,7 +68,7 @@ const Carousel = ({data, containerStyle = {}, }) => {
 				activeDotIndex={slide}
 				dotsLength={length}
 			/>
-		</Box>
+		</View>
 	);
 };
 
