@@ -6,15 +6,12 @@ import RNCarousel, { Pagination } from "react-native-snap-carousel";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH  / 1.3);
-const ITEM_HEIGHT = Math.round(ITEM_WIDTH);
+const ITEM_HEIGHT = Math.round(ITEM_WIDTH /1.2);
 
 const styles = StyleSheet.create({
 	dots: {
-		width: 5,
-		height: 5,
-		borderRadius: 5,
 		marginHorizontal: 8,
-		backgroundColor: "#cccccc",
+		backgroundColor: "red",
 	},
 	itemContainer: {  
 		width: ITEM_WIDTH,
@@ -30,7 +27,7 @@ const styles = StyleSheet.create({
 const Carousel = ({data, containerStyle = {}, }) => {
 	const carouselRef = useRef();
 	const SLIDER_WIDTH = Dimensions.get("window").width;
-	const ITEM_WIDTH = Math.round(SLIDER_WIDTH / 1.3);
+	const ITEM_WIDTH = SLIDER_WIDTH;
 	const length = data.length;
 
 	const [slide, setSlide] = useState(0);

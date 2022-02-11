@@ -18,7 +18,6 @@ import {
 } from "native-base";
 
 import Home from "~/components/Home";
-import OrderDetails from "~/components/OrderDetails";
 import Profile from "~/components/Profile";
 
 const Drawer = createDrawerNavigator();
@@ -152,7 +151,6 @@ const DrawerNavigator = () => {
 			/>
 			<Drawer.Screen
 				name="Orders"
-				initialParams={{ isFirstTime: false }}
 				component={Home}
 				options={{
 					drawerLabel: "My Orders",
@@ -170,7 +168,6 @@ const DrawerNavigator = () => {
 			<Drawer.Screen
 				name="Help"
 				component={Home}
-				initialParams={{ isFirstTime: false }}
 				options={{
 					drawerLabel: "Help",
 					title: "Help",
