@@ -26,8 +26,9 @@ const DetailsStep = () => {
 
 
 const Location = () => {
+	const { navigate } = useNavigation();
 	return (
-		<TouchableOpacity onPress={() => console.log("navigate(mAP)")}>
+		<TouchableOpacity onPress={() => navigate(screens.NEW_ORDER_STEP_3_MAP)}>
 			<Text mr="2" fontSize="11" underline>Locate in the map</Text>
 		</TouchableOpacity>
 	);
