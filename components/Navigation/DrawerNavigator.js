@@ -141,17 +141,9 @@ const DrawerNavigator = () => {
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
 			<Drawer.Screen
-				name="Home"
-				component={Home}
-				initialParams={{ isFirstTime: false }}
-				options={{
-					drawerLabel: "Home",
-					title: "Home",
-				}}
-			/>
-			<Drawer.Screen
 				name="Orders"
 				component={Home}
+				initialParams={{ isFirstTime: false }}
 				options={{
 					drawerLabel: "My Orders",
 					title: "My Orders",
@@ -167,7 +159,7 @@ const DrawerNavigator = () => {
 			/>
 			<Drawer.Screen
 				name="Help"
-				component={Home}
+				component={Profile}
 				options={{
 					drawerLabel: "Help",
 					title: "Help",
@@ -175,7 +167,7 @@ const DrawerNavigator = () => {
 			/>
 			<Drawer.Screen
 				name="LogOut"
-				component={Home}
+				component={Profile}
 				options={{ drawerLabel: "Log Out" }}
 			/>
 		</Drawer.Navigator>
