@@ -19,6 +19,8 @@ import {
 
 import Home from "~/components/Home";
 import Profile from "~/components/Profile";
+import Help from "~/components/Help";
+
 
 const Drawer = createDrawerNavigator();
 
@@ -159,12 +161,12 @@ const DrawerNavigator = () => {
 			/>
 			<Drawer.Screen
 				name="Help"
-				component={Profile}
+				component={Help}
 				options={{
 					drawerLabel: "Help",
-					title: "Help",
+					title: "Help",					
 				}}
-			/>
+			/>		
 			<Drawer.Screen
 				name="LogOut"
 				component={Profile}

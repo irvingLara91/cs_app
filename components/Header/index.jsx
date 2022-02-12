@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
-import { Stack, Center, Image, Flex } from "native-base";
+import { Stack, Center, Image, Flex, Icon } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
@@ -13,7 +13,7 @@ const Header = (screen) => {
 					<TouchableOpacity
 						onPress={() => navigation.navigate({name: screen.screenName})}
 					>
-						<MaterialIcons name="arrow-back-ios" size={32} color="black" />
+						<Icon as={MaterialIcons} name="arrow-back-ios" size={26} />
 					</TouchableOpacity>
 				</Center>
 				<Center>
