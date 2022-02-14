@@ -9,7 +9,7 @@ import PendingRegisterValidation from "~/components/Register/PendingRegisterVali
 import NewOrder from "~/components/NewOrder";
 import OrderDetails from "~/components/OrderDetails";
 import DrawerNavigator from "~/components/Navigation/DrawerNavigator";
-import HowCardPhoto from "./components/Help/HowCardPhoto";
+import Faq from "./components/Help/Faq";
 import PasswordUpdate from "~/components/Profile/PasswordUpdate";
 import CardStep from "~/components/NewOrder/CardStep";
 import GravestoneStep from "~/components/NewOrder/GravestoneStep";
@@ -57,8 +57,8 @@ const Navigation = () => {
 					options={{ headerShown: false }}						
 				/>
 				<Screen
-					name={screens.HOW_CARD_PHOTO}
-					component={HowCardPhoto}
+					name={screens.FAQ}
+					component={Faq}
 					options={{ headerShown: false }}
 				/>
 				<Screen

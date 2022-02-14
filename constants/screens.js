@@ -15,7 +15,7 @@ const screens = {
 	NEW_ORDER_STEP_3_MAP: "NEW_ORDER_STEP_3_MAP",
 	NEW_ORDER_STEP_4: "NEW_ORDER_STEP_4",
 	NEW_ORDER_PLACED: "NEW_ORDER_PLACED",
-	HOW_CARD_PHOTO: "HOW_CARD_PHOTO",
+	FAQ: "FAQ",
 };
 
 export default screens;

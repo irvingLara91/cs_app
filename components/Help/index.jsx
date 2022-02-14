@@ -23,7 +23,7 @@ const Help = () => {
 		<Stack w="full" h={"full"} backgroundColor={"#FFFFFF"}>
 			<VStack space={0} alignItems="center">
 				<Pressable
-					onPress={() => navigation.navigate({ name: screens.HOW_CARD_PHOTO })}
+					onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "HowCardPhoto" }, })}
 				>
 					{({ isHovered, isFocused, isPressed }) => {
 						return (
@@ -62,7 +62,9 @@ const Help = () => {
 						);
 					}}
 				</Pressable>
-				<Pressable>
+				<Pressable
+					onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "HowGravestonePhoto"}, })}
+				>
 					{({ isHovered, isFocused, isPressed }) => {
 						return (
 							<Box
@@ -100,6 +102,46 @@ const Help = () => {
 						);
 					}}
 				</Pressable>
+				<Pressable
+					onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "StatusOrden"}, })}
+				>
+					{({ isHovered, isFocused, isPressed }) => {
+						return (
+							<Box
+								width={width}
+								borderTopWidth={1}
+								borderColor="coolGray.300"
+								bg={
+									isPressed
+										? "coolGray.200"
+										: isHovered
+											? "coolGray.200"
+											: "coolGray.100"
+								}
+								p="5"
+								style={{
+									transform: [
+										{
+											scale: isPressed ? 0.99 : 1,
+										},
+									],
+								}}
+							>
+								<HStack alignItems="center">
+									<Text fontSize={16}>See status of my order ?</Text>
+									<Spacer />
+									<Text fontSize={14} color="coolGray.800">
+										<Icon
+											as={MaterialIcons}
+											name="arrow-forward-ios"
+											size={26}
+										/>
+									</Text>
+								</HStack>
+							</Box>
+						);
+					}}
+				</Pressable>				
 				<Pressable>
 					{({ isHovered, isFocused, isPressed }) => {
 						return (

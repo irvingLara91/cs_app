@@ -6,7 +6,7 @@ import Header from "../Header";
 import styles from "./styles";
 import ReferenceImage from "~/assets/image.png";
 
-const HowCardPhoto = () => {
+const HowGravestonePhoto = () => {
 	const video = React.useRef(null);
 	const [status, setStatus] = React.useState({});
 	return (
@@ -14,7 +14,7 @@ const HowCardPhoto = () => {
 			<Center>
 				<Header screenName={"Help"} />
 				<Heading pt={2} fontFamily={"Roboto_700Bold"} size="xl" textAlign={"center"}>
-          How to take a credit card photo?
+				How to take a photo the gravestone?
 				</Heading>
 				<Text pt={2} textAlign={"center"}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum
@@ -48,4 +48,4 @@ const HowCardPhoto = () => {
 	);
 };
 
-export default HowCardPhoto;
+export default HowGravestonePhoto;
