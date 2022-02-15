@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Center, Image, Heading, Stack } from "native-base";
+import { Box, Button, Center, Image, Heading, Stack, ScrollView } from "native-base";
 
 import Welcome from "./Welcome";
 import Carousel from "~/components/common/Carousel";
-import Orders from "~/components/Orders";
+import OrdersCommon from "~/components/common/Orders";
+import NoOrders from "~/components/common/NoOrders";
 
-import disabledImage from "~/assets/disabled-image.png";
 
 import ordersService from "~/services/orders";
 import screens from "~/constants/screens";
@@ -48,27 +48,19 @@ export default function Home({navigation, route}) {
 	];
 
 	return (
-		<Center>
-			<Stack mt={0} space={4} w="75%" maxW="300px">
-				<Carousel
-					data={data}
-				/>
-			</Stack>
-			<Heading>Your orders</Heading>
-			{
-				(Array.isArray(orders) && orders.length > 0) ? <Orders orders={orders} /> : <NoOrders />
-			} 
-			<Box w="full" maxW="300" ><Button bgColor="dark.50" borderRadius="none" onPress={() => navigation.navigate({name: screens.NEW_ORDER})}>New Order</Button></Box>
-		</Center>
+		<ScrollView>
+			<Center>
+				<Stack mt={0} space={4} w="75%" maxW="300px">
+					<Carousel
+						data={data}
+					/>
+				</Stack>
+				<Heading>Your orders</Heading>
+				{
+					(Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders} /> : <NoOrders />
+				} 
+				<Box w="full" maxW="300" ><Button bgColor="dark.50" borderRadius="none" onPress={() => navigation.navigate({name: screens.NEW_ORDER})}>New Order</Button></Box>
+			</Center>
+		</ScrollView>
 	);
 }
-
-
-const NoOrders = () => {
-	return (
-		<Center mb="4">
-			<Image source={disabledImage} alt="no orders" />
-			<Heading w="200" textAlign="center" fontSize="28">You currently have no orders</Heading>
-		</Center>
-	);
-};

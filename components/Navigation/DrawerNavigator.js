@@ -18,8 +18,9 @@ import {
 	View
 } from "native-base";
 
-import Home from "~/components/Home";
+import Orders from "~/components/Orders";
 import Profile from "~/components/Profile";
+import Home from "../Home";
 
 const Drawer = createDrawerNavigator();
 
@@ -136,20 +137,25 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerNavigator = () => {
+	const { Navigator, Screen } = Drawer;
 	return (
-		<Drawer.Navigator
+		<Navigator
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
-			<Drawer.Screen
-				name="Orders"
+			<Screen 
+				name="Home"
 				component={Home}
 				initialParams={{ isFirstTime: false }}
+			/>
+			<Screen
+				name="Orders"
+				component={Orders}
 				options={{
 					drawerLabel: "My Orders",
 					title: "My Orders",
 				}}
 			/>
-			<Drawer.Screen
+			<Screen
 				name="Profile"
 				component={Profile}
 				options={{
@@ -157,7 +163,7 @@ const DrawerNavigator = () => {
 					title: "My Profile",
 				}}
 			/>
-			<Drawer.Screen
+			<Screen
 				name="Help"
 				component={Profile}
 				options={{
@@ -165,12 +171,12 @@ const DrawerNavigator = () => {
 					title: "Help",
 				}}
 			/>
-			<Drawer.Screen
+			<Screen
 				name="LogOut"
 				component={Profile}
 				options={{ drawerLabel: "Log Out" }}
 			/>
-		</Drawer.Navigator>
+		</Navigator>
 	);
 };
 
