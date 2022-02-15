@@ -11,6 +11,7 @@ import ordersService from "~/services/orders";
 import screens from "~/constants/screens";
 
 export default function Home({navigation, route}) {
+	const { navigate } = navigation;
 	const { params } = route;
 	const { isFirstTime } = params;
 	const [orders, setOrders] = useState([]);
@@ -49,7 +50,7 @@ export default function Home({navigation, route}) {
 
 	return (
 		<ScrollView>
-			<Center>
+			<Center pb="5">
 				<Stack mt={0} space={4} w="75%" maxW="300px">
 					<Carousel
 						data={data}
@@ -59,7 +60,7 @@ export default function Home({navigation, route}) {
 				{
 					(Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders} /> : <NoOrders />
 				} 
-				<Box w="full" maxW="300" ><Button bgColor="dark.50" borderRadius="none" onPress={() => navigation.navigate({name: screens.NEW_ORDER})}>New Order</Button></Box>
+				<Box w="full" maxW="300" ><Button bgColor="dark.50" borderRadius="none" onPress={() => navigate({name: screens.NEW_ORDER})}>New Order</Button></Box>
 			</Center>
 		</ScrollView>
 	);
