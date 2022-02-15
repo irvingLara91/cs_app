@@ -20,7 +20,8 @@ import {
 
 import Orders from "~/components/Orders";
 import Profile from "~/components/Profile";
-import Home from "../Home";
+import Home from "~/components/Home";
+import Help from "~/components/Help";
 
 const Drawer = createDrawerNavigator();
 
@@ -165,17 +166,17 @@ const DrawerNavigator = () => {
 			/>
 			<Screen
 				name="Help"
-				component={Profile}
+				component={Help}
 				options={{
 					drawerLabel: "Help",
-					title: "Help",
+					title: "Help",					
 				}}
 			/>
 			<Screen
-				name="LogOut"
+        name="LogOut"
 				component={Profile}
 				options={{ drawerLabel: "Log Out" }}
-			/>
+			/>		
 		</Navigator>
 	);
 };

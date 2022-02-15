@@ -39,14 +39,14 @@ const theme = extendTheme({
 				italic: "Roboto_400Regular_Italic",
 			},
 			500: {
-				normal: "Roboto_500Medium",
+				bold: "Roboto_500Medium",
 			},
 			700: {
-				normal: "Roboto_700Bold",
+				bold: "Roboto_700Bold",
 				italic: "Roboto_700Bold_Italic",
 			},
 			900: {
-				normal: "Roboto_900Black",
+				bold: "Roboto_900Black",
 				italic: "Roboto_900Black_Italic",
 			},
 		},
@@ -56,7 +56,7 @@ const theme = extendTheme({
 	fonts: {
 		heading: "Roboto_400Regular",
 		body: "Roboto_400Regular",
-		mono: "Roboto_500Regular",
+		mono: "Roboto_400Regular",
 	},
 
 	config: {

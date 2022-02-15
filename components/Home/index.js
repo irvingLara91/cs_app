@@ -9,9 +9,11 @@ import NoOrders from "~/components/common/NoOrders";
 
 import ordersService from "~/services/orders";
 import screens from "~/constants/screens";
+import { Dimensions } from "react-native";
 
 export default function Home({navigation, route}) {
-	const { navigate } = navigation;
+  const { navigate } = navigation;
+  const { height, width } = Dimensions.get("window");
 	const { params } = route;
 	const { isFirstTime } = params;
 	const [orders, setOrders] = useState([]);
@@ -22,27 +24,31 @@ export default function Home({navigation, route}) {
 			const data = await ordersService.getOrders(1);
 			setOrders(data);
 		};
-		
+
 		getOrders();
-		
 	}, []);
 
 	if (isFirstTime) return <Welcome />;
-	
+
 	const data = [
 		{
-      
-			img: <Image alt="image" source={require("~/assets/image.png")} />,
+			img: (
+				<Image
+					alt="image"
+					source={require("~/assets/image.png")}
+					height={40}				
+				/>
+			),
 			title: "How does it work 1",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
 		{
-			img: <Image alt="image" source={require("~/assets/image.png")} />,
+			img: <Image alt="image" source={require("~/assets/image.png")} height={40} />,
 			title: "How does it work 2",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
 		{
-			img: <Image alt="image" source={require("~/assets/image.png")} />,
+			img: <Image alt="image" source={require("~/assets/image.png")} height={40} />,
 			title: "How does it work 3",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},

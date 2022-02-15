@@ -36,7 +36,7 @@ const Carousel = ({data, containerStyle = {}, }) => {
 	const renderItem = ({ item }) => {
 		return (
 			<Box style={styles.itemContainer}>
-				<Text>{item.img}</Text>
+				{item.img}
 				<Text fontSize="2xl" fontWeight="black" textAlign={"center"}>
 					{item.title}
 				</Text>
