@@ -147,7 +147,6 @@ const DrawerNavigator = () => {
 			screenOptions={({navigation}) => ({
 				headerTitleAlign: "center",
 				headerStyle: {
-					margin: 2,
 					shadowColor: "#000",
 					shadowOffset: {
 						width: 0,
@@ -157,7 +156,6 @@ const DrawerNavigator = () => {
 					shadowRadius: .1,
 					elevation: 3,
 					backgroundColor: "white",
-					width:Dimensions.get("window").width,
 					height: Platform.OS === "android" ? SCREEN_WIDTH * .19 : SCREEN_WIDTH * .24,
 				},
 				headerLeft: () => (
