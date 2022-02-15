@@ -9,6 +9,7 @@ import PendingRegisterValidation from "~/components/Register/PendingRegisterVali
 import NewOrder from "~/components/NewOrder";
 import OrderDetails from "~/components/OrderDetails";
 import DrawerNavigator from "~/components/Navigation/DrawerNavigator";
+import Faq from "./components/Help/Faq";
 import PasswordUpdate from "~/components/Profile/PasswordUpdate";
 import CardStep from "~/components/NewOrder/CardStep";
 import GravestoneStep from "~/components/NewOrder/GravestoneStep";
@@ -56,6 +57,11 @@ const Navigation = () => {
 					options={{ headerShown: false }}						
 				/>
 				<Screen
+					name={screens.FAQ}
+					component={Faq}
+					options={{ headerShown: false }}
+				/>
+				<Screen
 					name={screens.NEW_ORDER}
 					component={NewOrder}
 				/>
@@ -68,30 +74,30 @@ const Navigation = () => {
 					name={screens.PASSWORD_UPDATE}
 					component={PasswordUpdate}
 				/>
-        <Screen
-          name={screens.NEW_ORDER_STEP_1}
-          component={CardStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_2}
-          component={GravestoneStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_3}
-          component={DetailsStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_3_MAP}
-          component={MapLocation}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_4}
-          component={ConfirmStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_PLACED}
-          component={OrderPlaced}
-        />
+				<Screen
+					name={screens.NEW_ORDER_STEP_1}
+					component={CardStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_2}
+					component={GravestoneStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_3}
+					component={DetailsStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_3_MAP}
+					component={MapLocation}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_4}
+					component={ConfirmStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_PLACED}
+					component={OrderPlaced}
+				/>
 			</Navigator>
 		</NavigationContainer>
 	);
