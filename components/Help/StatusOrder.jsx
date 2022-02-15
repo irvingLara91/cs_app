@@ -3,9 +3,7 @@ import { Dimensions } from "react-native";
 import { Stack, Center, Text, Heading, Button, Box } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 
-import screens from "~/constants/screens";
-
-const { height, width } = Dimensions.get("window");
+const { width } = Dimensions.get("window");
 
 import Header from "../Header";
 

@@ -25,7 +25,7 @@ const Help = () => {
 				<Pressable
 					onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "HowCardPhoto" }, })}
 				>
-					{({ isHovered, isFocused, isPressed }) => {
+					{({ isHovered, isPressed }) => {
 						return (
 							<Box
 								width={width}
@@ -54,7 +54,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={26}
+											size={24}
 										/>
 									</Text>
 								</HStack>
@@ -65,7 +65,7 @@ const Help = () => {
 				<Pressable
 					onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "HowGravestonePhoto"}, })}
 				>
-					{({ isHovered, isFocused, isPressed }) => {
+					{({ isHovered, isPressed }) => {
 						return (
 							<Box
 								width={width}
@@ -94,7 +94,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={26}
+											size={24}
 										/>
 									</Text>
 								</HStack>
@@ -105,7 +105,7 @@ const Help = () => {
 				<Pressable
 					onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "StatusOrden"}, })}
 				>
-					{({ isHovered, isFocused, isPressed }) => {
+					{({ isHovered, isPressed }) => {
 						return (
 							<Box
 								width={width}
@@ -134,7 +134,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={26}
+											size={24}
 										/>
 									</Text>
 								</HStack>
@@ -143,7 +143,7 @@ const Help = () => {
 					}}
 				</Pressable>				
 				<Pressable onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "PaymentMethods" }, })}>
-					{({ isHovered, isFocused, isPressed }) => {
+					{({ isHovered, isPressed }) => {
 						return (
 							<Box
 								width={width}
@@ -172,7 +172,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={26}
+											size={24}
 										/>
 									</Text>
 								</HStack>
@@ -181,7 +181,7 @@ const Help = () => {
 					}}
 				</Pressable>
 				<Pressable onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "ContactMeans" }, })}>
-					{({ isHovered, isFocused, isPressed }) => {
+					{({ isHovered, isPressed }) => {
 						return (
 							<Box
 								width={width}
@@ -211,7 +211,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={26}
+											size={24}
 										/>
 									</Text>
 								</HStack>
