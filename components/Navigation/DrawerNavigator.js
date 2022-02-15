@@ -4,7 +4,8 @@ import {
 	createDrawerNavigator,
 	DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import {Feather} from "@expo/vector-icons";
+import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {
 	Box,
 	Pressable,
@@ -20,6 +21,8 @@ import {
 
 import Orders from "~/components/Orders";
 import Profile from "~/components/Profile";
+import {Dimensions,Platform,TouchableOpacity} from "react-native";
+const SCREEN_WIDTH = Dimensions.get("window").width;
 import Home from "~/components/Home";
 import Help from "~/components/Help";
 
@@ -53,13 +56,13 @@ function CustomDrawerContent(props) {
 						source={{
 							uri: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
 						}}
-					></Avatar>
+					/>
 					<IconButton
 						w={"40px"}
 						top={"60px"}
 						left={"70px"}
 						position={"absolute"}
-						icon={<Icon as={MaterialCommunityIcons} name="pencil" />}
+						icon={<Icon as={MaterialCommunityIcons} name="pencil"/>}
 						borderRadius="full"
 						onPress={() => props.navigation.navigate("Profile")}
 						_icon={{
@@ -88,11 +91,11 @@ function CustomDrawerContent(props) {
 					/>
 
 					<Text bold color="primary.700" pt={5}>
-            Jonh Appleseed
+						Jonh Appleseed
 					</Text>
 				</Box>
-				<Divider />
-				<VStack divider={<Divider />} space="4">
+				<Divider/>
+				<VStack divider={<Divider/>} space="4">
 					<VStack space="3">
 						{props.state.routeNames.map((name, index) => (
 							<View key={index}>
@@ -115,7 +118,7 @@ function CustomDrawerContent(props) {
 												index === props.state.index ? "primary.500" : "gray.500"
 											}
 											size="7"
-											as={<MaterialCommunityIcons name={getIcon(name)} />}
+											as={<MaterialCommunityIcons name={getIcon(name)}/>}
 										/>
 										<Text
 											fontWeight="500"
@@ -141,9 +144,31 @@ const DrawerNavigator = () => {
 	const { Navigator, Screen } = Drawer;
 	return (
 		<Navigator
+			screenOptions={({navigation}) => ({
+				headerTitleAlign: "center",
+				headerStyle: {
+					shadowColor: "#000",
+					shadowOffset: {
+						width: 0,
+						height: .6
+					},
+					shadowOpacity: 0.2,
+					shadowRadius: .1,
+					elevation: 3,
+					backgroundColor: "white",
+					height: Platform.OS === "android" ? SCREEN_WIDTH * .19 : SCREEN_WIDTH * .24,
+				},
+				headerLeft: () => (
+					<TouchableOpacity onPress={() => navigation.toggleDrawer()} style={{
+						marginLeft: 15,
+					}}>
+						<Feather name="menu" size={(SCREEN_WIDTH * .07)} color="black"/>
+					</TouchableOpacity>
+				),
+			})}
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
-			<Screen 
+			<Screen
 				name="Home"
 				component={Home}
 				initialParams={{ isFirstTime: false }}
@@ -169,14 +194,14 @@ const DrawerNavigator = () => {
 				component={Help}
 				options={{
 					drawerLabel: "Help",
-					title: "Help",					
+					title: "Help",
 				}}
 			/>
 			<Screen
-        name="LogOut"
+				name="LogOut"
 				component={Profile}
 				options={{ drawerLabel: "Log Out" }}
-			/>		
+			/>
 		</Navigator>
 	);
 };

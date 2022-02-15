@@ -19,10 +19,28 @@ import ConfirmStep from "~/components/NewOrder/ConfirmStep";
 import OrderPlaced from "~/components/NewOrder/OrderPlaced";
 
 import screens from "~/constants/screens";
+import {Dimensions, Platform, TouchableOpacity} from "react-native";
+import {MaterialIcons} from "@expo/vector-icons";
+
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
+
+export const backButton = (props) => {
+	return {
+		headerTitleAlign: "center",
+		headerLeft: () => (
+			<TouchableOpacity onPress={() => props.navigation.goBack()} style={{
+				marginLeft: 15,
+			}}>
+				<MaterialIcons name="arrow-back-ios" size={SCREEN_WIDTH * .07} color="black"/>
+			</TouchableOpacity>
+		),
+	};
+};
 
 const Navigation = () => {
 	const Stack = createNativeStackNavigator();
-	const { Navigator, Screen } = Stack;
+	const {Navigator, Screen} = Stack;
 	return (
 		<NavigationContainer>
 			<Navigator>
@@ -55,7 +73,7 @@ const Navigation = () => {
 					name={screens.HOME}
 					component={DrawerNavigator}
 					options={{ headerShown: false }}
-					initialParams={{ isFirstTime: false }}					
+					initialParams={{ isFirstTime: false }}
 				/>
 				<Screen
 					name={screens.FAQ}
@@ -65,11 +83,14 @@ const Navigation = () => {
 				<Screen
 					name={screens.NEW_ORDER}
 					component={NewOrder}
+					options={backButton}
+
 				/>
 				<Screen
 					name={screens.ORDER_DETAILS}
 					component={OrderDetails}
-					getId={({ params }) => params.orderId}
+					options={backButton}
+					getId={({params}) => params.orderId}
 				/>
 				<Screen
 					name={screens.PASSWORD_UPDATE}
@@ -78,26 +99,35 @@ const Navigation = () => {
 				<Screen
 					name={screens.NEW_ORDER_STEP_1}
 					component={CardStep}
+					options={backButton}
+
 				/>
 				<Screen
 					name={screens.NEW_ORDER_STEP_2}
 					component={GravestoneStep}
+					options={backButton}
 				/>
 				<Screen
 					name={screens.NEW_ORDER_STEP_3}
 					component={DetailsStep}
+					options={backButton}
 				/>
 				<Screen
 					name={screens.NEW_ORDER_STEP_3_MAP}
 					component={MapLocation}
+					options={backButton}
+
 				/>
 				<Screen
 					name={screens.NEW_ORDER_STEP_4}
 					component={ConfirmStep}
+					options={backButton}
 				/>
 				<Screen
 					name={screens.NEW_ORDER_PLACED}
 					component={OrderPlaced}
+					options={backButton}
+
 				/>
 			</Navigator>
 		</NavigationContainer>

@@ -9,24 +9,21 @@ import {
 	Button,
 	KeyboardAvoidingView,
 } from "native-base";
-import { Platform } from "react-native";
-import { useForm, Controller } from "react-hook-form";
+import {Platform} from "react-native";
+import {useForm, Controller} from "react-hook-form";
 import Header from "../Header";
+import ContainerBase from "~/components/common/ContainerBase";
 
 const PasswordRecovery = () => {
 	return (
-		<KeyboardAvoidingView h={{
-			base: "700px",
-			lg: "auto"
-		  }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
+		<ContainerBase screenName={"LOGIN"} >
 			<Center>
-				<Header screenName={ "LOGIN"} />
 				<Stack mt={20} space={4} w="75%" maxW="300px">
 					<Heading>Help with password</Heading>
-					<PasswordRecoveryForm />
+					<PasswordRecoveryForm/>
 				</Stack>
 			</Center>
-		</KeyboardAvoidingView>
+		</ContainerBase>
 	);
 };
 
@@ -34,11 +31,11 @@ const PasswordRecoveryForm = () => {
 	const {
 		control,
 		handleSubmit,
-		formState: { errors },
+		formState: {errors},
 	} = useForm();
 
 	const onSubmit = (values) => {
-		console.log({ values });
+		console.log({values});
 	};
 
 	return (
@@ -47,7 +44,7 @@ const PasswordRecoveryForm = () => {
 				<FormControl.Label>Email address</FormControl.Label>
 				<Controller
 					control={control}
-					render={({ field: { onChange, onBlur, value } }) => (
+					render={({field: {onChange, onBlur, value}}) => (
 						<Input
 							variant="outline"
 							onBlur={onBlur}
@@ -56,7 +53,7 @@ const PasswordRecoveryForm = () => {
 						/>
 					)}
 					name="email"
-					rules={{ required: "Field is required", minLength: 3 }}
+					rules={{required: "Field is required", minLength: 3}}
 					defaultValue=""
 				/>
 				<FormControl.ErrorMessage>
@@ -66,9 +63,9 @@ const PasswordRecoveryForm = () => {
 			<Button
 				onPress={handleSubmit(onSubmit)}
 				size="lg"
-				style={{ width: "100%" }}
+				style={{width: "100%"}}
 			>
-        Recover password
+				Recover password
 			</Button>
 		</VStack>
 	);

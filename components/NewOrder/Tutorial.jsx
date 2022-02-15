@@ -1,6 +1,7 @@
 import React from "react";
+import { StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Center, Button, Image, Flex  } from "native-base";
+import { Center, Box, Stack, Button, Image, View, Flex  } from "native-base";
 import Carousel from "~/components/common/Carousel";
 import screens from "~/constants/screens";
 
@@ -30,12 +31,14 @@ const Tutorial = () => {
 
 
 	return (
-		<Flex maxW="85%" direction="column" justify="flex-start">
-			<Carousel data={data} />
-			<Center>
-				<Button w="full" bgColor="dark.50" borderRadius="none" onPress={() => navigate({name: screens.NEW_ORDER_STEP_1})}>Continue</Button>
-			</Center>
-		</Flex>	
+		<Center>
+			<Stack mt={0} space={4} w="75%" maxW="300px">
+				<Carousel
+					data={data}
+				/>
+			</Stack>
+			<Button w="full" maxW="300" bgColor="dark.50" borderRadius="none" onPress={() => navigate({name: screens.NEW_ORDER_STEP_1})}>Continue</Button>
+		</Center>
 	);
 };
 

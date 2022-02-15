@@ -21,7 +21,9 @@ import { NewOrderProvider } from "./context/newOrder";
 
 import theme from "~/theme";
 import Navigation from "~/Navigation";
+import {LogBox} from "react-native";
 
+LogBox.ignoreAllLogs(true);
 export default function App() {
 	const [fontsLoaded] = useFonts({
 		Roboto_100Thin,
