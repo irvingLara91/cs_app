@@ -53,7 +53,8 @@ const Navigation = () => {
 				<Screen
 					name={screens.HOME}
 					component={DrawerNavigator}
-					options={{ headerShown: false }}						
+					options={{ headerShown: false }}
+					initialParams={{ isFirstTime: false }}					
 				/>
 				<Screen
 					name={screens.NEW_ORDER}
@@ -68,30 +69,30 @@ const Navigation = () => {
 					name={screens.PASSWORD_UPDATE}
 					component={PasswordUpdate}
 				/>
-        <Screen
-          name={screens.NEW_ORDER_STEP_1}
-          component={CardStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_2}
-          component={GravestoneStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_3}
-          component={DetailsStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_3_MAP}
-          component={MapLocation}
-        />
-        <Screen
-          name={screens.NEW_ORDER_STEP_4}
-          component={ConfirmStep}
-        />
-        <Screen
-          name={screens.NEW_ORDER_PLACED}
-          component={OrderPlaced}
-        />
+				<Screen
+					name={screens.NEW_ORDER_STEP_1}
+					component={CardStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_2}
+					component={GravestoneStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_3}
+					component={DetailsStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_3_MAP}
+					component={MapLocation}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_STEP_4}
+					component={ConfirmStep}
+				/>
+				<Screen
+					name={screens.NEW_ORDER_PLACED}
+					component={OrderPlaced}
+				/>
 			</Navigator>
 		</NavigationContainer>
 	);
