@@ -1,11 +1,16 @@
 import React from "react";
 import { Dimensions } from "react-native";
 import { Stack, Center, Text, Heading, Button, Box } from "native-base";
+import { useNavigation } from "@react-navigation/native";
+
+import screens from "~/constants/screens";
+
 const { height, width } = Dimensions.get("window");
 
 import Header from "../Header";
 
 const StatusOrden = () => {
+	const navigation = useNavigation();
 	return (
 		<Stack w="full" h={"full"} backgroundColor={"#FFFFFF"}>
 			<Center>
@@ -23,7 +28,7 @@ const StatusOrden = () => {
           consectetur amet tellus lobortis diam sed.
 				</Text>
 				<Box pt={10}>
-					<Button onPress={() => console.log("Push")} w={width / 1.5}>
+					<Button onPress={() => navigation.navigate({ name: "Orders" })} w={width / 1.5}>
             View Orders
 					</Button>
 				</Box>

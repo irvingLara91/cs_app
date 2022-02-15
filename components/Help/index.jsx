@@ -142,7 +142,7 @@ const Help = () => {
 						);
 					}}
 				</Pressable>				
-				<Pressable>
+				<Pressable onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "PaymentMethods" }, })}>
 					{({ isHovered, isFocused, isPressed }) => {
 						return (
 							<Box
@@ -180,7 +180,7 @@ const Help = () => {
 						);
 					}}
 				</Pressable>
-				<Pressable>
+				<Pressable onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "ContactMeans" }, })}>
 					{({ isHovered, isFocused, isPressed }) => {
 						return (
 							<Box
