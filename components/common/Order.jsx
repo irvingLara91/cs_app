@@ -1,11 +1,21 @@
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, StyleSheet } from "react-native";
 import { Image, View, Box, Text } from "native-base";
 import { useNavigation } from "@react-navigation/native";
 
 import screens from "~/constants/screens";
 import orderThumbnail from "~/assets/order_thumbnail.png";
-import styles from "./styles";
+
+
+const styles = StyleSheet.create({
+	orderContainer: {
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "space-between",
+		width: "100%",
+		alignItems: "center"
+	},
+});
 
 const Order = ({status, date, orderId}) => {
 	const navigation = useNavigation();

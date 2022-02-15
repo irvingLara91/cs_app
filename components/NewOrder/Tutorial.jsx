@@ -1,29 +1,29 @@
 import React from "react";
-import {StyleSheet, Dimensions} from "react-native";
-import {useNavigation} from "@react-navigation/native";
-import {Center, Box, Stack, Button, Image, View, Flex, Heading} from "native-base";
+import { StyleSheet, Dimensions } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { Center, Box, Stack, Button, Image, View, Flex  } from "native-base";
 import Carousel from "~/components/common/Carousel";
 import screens from "~/constants/screens";
-import Orders from "~/components/Orders";
+
 
 
 const Tutorial = () => {
 	const navigation = useNavigation();
-	const {navigate} = navigation;
+	const { navigate } = navigation;
 
 	const data = [
 		{
-			img: <Image alt="image" source={require("~/assets/image.png")}/>,
+			img: <Image alt="image" source={require("~/assets/image.png")} />,
 			title: "How does it work 1",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
 		{
-			img: <Image alt="image" source={require("~/assets/image.png")}/>,
+			img: <Image alt="image" source={require("~/assets/image.png")} />,
 			title: "How does it work 2",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
 		{
-			img: <Image alt="image" source={require("~/assets/image.png")}/>,
+			img: <Image alt="image" source={require("~/assets/image.png")} />,
 			title: "How does it work 3",
 			msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 		},
