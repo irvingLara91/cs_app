@@ -2,7 +2,7 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { 
+import {
 	Box,
 	VStack,
 	Input,
@@ -13,14 +13,17 @@ import {
 } from "native-base";
 import  Steps from "./Steps";
 import screens from "~/constants/screens";
+import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 
 
 const DetailsStep = () => {
 	return (
+		<ContainerBaseV2>
 		<Box alignItems="center">
 			<Steps />
 			<Form />
 		</Box>
+		</ContainerBaseV2>
 	);
 };
 
@@ -43,7 +46,7 @@ const Form = () => {
 		navigate(screens.NEW_ORDER_STEP_4);
 	};
 	return (
-		<VStack w="full" maxW={280} mt="30" space={3} alignItems="center">
+		<VStack w="full" maxW={280} mt="30" mb={30} space={3} alignItems="center">
 			<FormControl isRequired isInvalid={"gravestoneText" in errors}>
 				<FormControl.Label>Gravestone text</FormControl.Label>
 				<Controller
@@ -94,7 +97,7 @@ const Form = () => {
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
-							value={value} 
+							value={value}
 						/>
 					)}
 					name="address"
@@ -108,7 +111,7 @@ const Form = () => {
 			<Button borderRadius="none" bgColor="dark.50" onPress={handleSubmit(onSubmit)} size="lg" style={{width: "100%"}}>
           Continue
 			</Button>
-		</VStack> 
+		</VStack>
 	);
 };
 

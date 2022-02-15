@@ -2,7 +2,7 @@ import React from "react";
 import { Center, Stack, Heading, KeyboardAvoidingView } from "native-base";
 import { Platform } from "react-native";
 import Form from "./Form";
-import ContainerBase from "../ContainerBase/ContainerBase";
+import ContainerBase from "../common/ContainerBase";
 import Header from "~/components/Header";
 
 const Register = ({ navigation }) => {

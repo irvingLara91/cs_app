@@ -27,7 +27,7 @@ export default function Camera({ onConfirm }) {
 			backgroundColor:"#000"
 		},
 		cameraView: {
-			flex: 1,
+			flex: Platform.OS==="ios"? .9 : 1,
 			width,
 			height
 		},

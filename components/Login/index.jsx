@@ -7,7 +7,7 @@ import Header from "../Header";
 import ReferenceImage from "~/assets/image.png";
 import screens from "~/constants/screens";
 import styles from "./styles";
-import ContainerBase from "~/components/ContainerBase/ContainerBase";
+import ContainerBase from "~/components/common/ContainerBase";
 
 export default function Login() {
 	const {passwordRecoveryLink} = styles;
