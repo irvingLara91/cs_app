@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { Center, Box, Stack, Button, Image, View, Flex  } from "native-base";
+import { Center, Button, Image, Flex  } from "native-base";
 import Carousel from "~/components/common/Carousel";
 import screens from "~/constants/screens";
 

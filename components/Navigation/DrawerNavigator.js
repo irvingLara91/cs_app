@@ -14,13 +14,14 @@ import {
 	Divider,
 	Icon,
 	Avatar,
-	IconButton
+	IconButton,
+	View
 } from "native-base";
 
-import Home from "~/components/Home";
+import Orders from "~/components/Orders";
 import Profile from "~/components/Profile";
+import Home from "~/components/Home";
 import Help from "~/components/Help";
-
 
 const Drawer = createDrawerNavigator();
 
@@ -94,12 +95,11 @@ function CustomDrawerContent(props) {
 				<VStack divider={<Divider />} space="4">
 					<VStack space="3">
 						{props.state.routeNames.map((name, index) => (
-							<>
+							<View key={index}>
 								<Pressable
 									px="5"
 									py="3"
 									rounded="md"
-									key={index}
 									bg={
 										index === props.state.index
 											? "rgba(6, 182, 212, 0.1)"
@@ -128,7 +128,7 @@ function CustomDrawerContent(props) {
 									</HStack>
 								</Pressable>
 								{name === "Help" && <Divider />}
-							</>
+							</View>
 						))}
 					</VStack>
 				</VStack>
@@ -138,20 +138,25 @@ function CustomDrawerContent(props) {
 }
 
 const DrawerNavigator = () => {
+	const { Navigator, Screen } = Drawer;
 	return (
-		<Drawer.Navigator
+		<Navigator
 			drawerContent={(props) => <CustomDrawerContent {...props} />}
 		>
-			<Drawer.Screen
-				name="Orders"
+			<Screen 
+				name="Home"
 				component={Home}
 				initialParams={{ isFirstTime: false }}
+			/>
+			<Screen
+				name="Orders"
+				component={Orders}
 				options={{
 					drawerLabel: "My Orders",
 					title: "My Orders",
 				}}
 			/>
-			<Drawer.Screen
+			<Screen
 				name="Profile"
 				component={Profile}
 				options={{
@@ -159,20 +164,20 @@ const DrawerNavigator = () => {
 					title: "My Profile",
 				}}
 			/>
-			<Drawer.Screen
+			<Screen
 				name="Help"
 				component={Help}
 				options={{
 					drawerLabel: "Help",
 					title: "Help",					
 				}}
-			/>		
-			<Drawer.Screen
-				name="LogOut"
+			/>
+			<Screen
+        name="LogOut"
 				component={Profile}
 				options={{ drawerLabel: "Log Out" }}
-			/>
-		</Drawer.Navigator>
+			/>		
+		</Navigator>
 	);
 };
 

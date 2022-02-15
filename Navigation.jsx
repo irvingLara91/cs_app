@@ -54,7 +54,8 @@ const Navigation = () => {
 				<Screen
 					name={screens.HOME}
 					component={DrawerNavigator}
-					options={{ headerShown: false }}						
+					options={{ headerShown: false }}
+					initialParams={{ isFirstTime: false }}					
 				/>
 				<Screen
 					name={screens.FAQ}
