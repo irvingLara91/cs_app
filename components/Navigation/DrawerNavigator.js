@@ -200,7 +200,7 @@ const DrawerNavigator = () => {
 				}}
 			/>
 			<Screen
-        name="LogOut"
+				name="LogOut"
 				component={Profile}
 				options={{ drawerLabel: "Log Out" }}
 			/>
