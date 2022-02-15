@@ -14,7 +14,8 @@ import {
 	Divider,
 	Icon,
 	Avatar,
-	IconButton
+	IconButton,
+	View
 } from "native-base";
 
 import Home from "~/components/Home";
@@ -92,12 +93,11 @@ function CustomDrawerContent(props) {
 				<VStack divider={<Divider />} space="4">
 					<VStack space="3">
 						{props.state.routeNames.map((name, index) => (
-							<>
+							<View key={index}>
 								<Pressable
 									px="5"
 									py="3"
 									rounded="md"
-									key={index}
 									bg={
 										index === props.state.index
 											? "rgba(6, 182, 212, 0.1)"
@@ -126,7 +126,7 @@ function CustomDrawerContent(props) {
 									</HStack>
 								</Pressable>
 								{name === "Help" && <Divider />}
-							</>
+							</View>
 						))}
 					</VStack>
 				</VStack>
