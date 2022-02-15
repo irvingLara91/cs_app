@@ -54,7 +54,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={24}
+											size={"16px"}
 										/>
 									</Text>
 								</HStack>
@@ -94,7 +94,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={24}
+											size={"16px"}
 										/>
 									</Text>
 								</HStack>
@@ -134,7 +134,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={24}
+											size={"16px"}
 										/>
 									</Text>
 								</HStack>
@@ -172,7 +172,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={24}
+											size={"16px"}
 										/>
 									</Text>
 								</HStack>
@@ -211,7 +211,7 @@ const Help = () => {
 										<Icon
 											as={MaterialIcons}
 											name="arrow-forward-ios"
-											size={24}
+											size={"16px"}
 										/>
 									</Text>
 								</HStack>

@@ -13,7 +13,7 @@ const Header = (screen) => {
 					<TouchableOpacity
 						onPress={() => navigation.navigate({name: screen.screenName})}
 					>
-						<Icon as={MaterialIcons} name="arrow-back-ios" size={26} />
+						<Icon as={MaterialIcons} name="arrow-back-ios" size={"24px"} />
 					</TouchableOpacity>
 				</Center>
 				<Center>
