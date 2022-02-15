@@ -143,7 +143,7 @@ function CustomDrawerContent(props) {
 const DrawerNavigator = () => {
 	const { Navigator, Screen } = Drawer;
 	return (
-		<Drawer.Navigator
+		<Navigator
 			screenOptions={({navigation}) => ({
 				headerTitleAlign: "center",
 				headerStyle: {
