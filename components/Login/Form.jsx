@@ -31,6 +31,8 @@ const Form = () => {
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
 							value={value}
+							keyboardType="email-address"
+							autoCapitalize="none"
 						/>
 					)}
 					name="username"

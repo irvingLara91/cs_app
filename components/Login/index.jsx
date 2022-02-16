@@ -1,9 +1,7 @@
 import React from "react";
-import {Dimensions, Platform} from "react-native";
 import {Link} from "@react-navigation/native";
-import {Stack, Box, Center, Image, KeyboardAvoidingView} from "native-base";
+import {Stack, Box, Center, Image} from "native-base";
 import Form from "./Form";
-import Header from "../Header";
 import ReferenceImage from "~/assets/image.png";
 import screens from "~/constants/screens";
 import styles from "./styles";

@@ -55,6 +55,8 @@ const Form = ({navigation}) => {
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
 							value={value}
+							keyboardType="email-address"
+							autoCapitalize="none"
 						/>
 					)}
 					name="email"
