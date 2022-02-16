@@ -21,6 +21,7 @@ import OrderPlaced from "~/components/NewOrder/OrderPlaced";
 import screens from "~/constants/screens";
 import {Dimensions, Platform, TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
+import {View} from "native-base";
 
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -115,8 +116,15 @@ const Navigation = () => {
 				<Screen
 					name={screens.NEW_ORDER_STEP_3_MAP}
 					component={MapLocation}
-					options={backButton}
-
+					options={({ navigation }) => ({
+						headerTitleAlign: "center",
+						headerLeft: () => (
+							<View  style={{
+								marginLeft: 15,
+							}}>
+							</View>
+						),
+					})}
 				/>
 				<Screen
 					name={screens.NEW_ORDER_STEP_4}
