@@ -28,22 +28,15 @@ const MapLocation = (props) => {
 	useEffect(() => {
 		let screen = props.route.params.screen;
 		setScreen(screen);
-		///alert(screen)
 	}, [hasPermission]);
 
 
 	const _saveLocationAddress = async () => {
 		props.navigation.navigate(screen, {
 			location: {points: location, address: address},
-			froceUpdate: !props.route.params.forceUpdate
+			forceUpdate: !props.route.params.forceUpdate
 		});
 	};
-
-	/*useEffect(async () => {
-		if (location) {
-			await getAddressPoint(location);
-		}
-	}, [location]);*/
 
 
 	const valData = (data, type = null) => {
@@ -53,7 +46,6 @@ const MapLocation = (props) => {
 		} else {
 			res = data + ",";
 		}
-		//console.log(res)
 		return res;
 	};
 
@@ -62,14 +54,10 @@ const MapLocation = (props) => {
 			latitude: location.latitude,
 			longitude: location.longitude
 		});
-		console.log(place);
-
-		console.log(place);
 		let address_struct = "";
 		if (place && place.length > 0) {
 			address_struct = `${valData(place[0].district)} ${valData(place[0].street)} ${valData(place[0].streetNumber)} ${valData(place[0].city)} ${valData(place[0].region)} ${valData(place[0].country, "end")}`;
 		}
-
 		ref.current?.setAddressText(address_struct);
 		await setAddress(address_struct);
 	};
@@ -137,7 +125,6 @@ const MapLocation = (props) => {
 						placeholder="Search"
 						onPress={(data, details = null) => {
 							Location.setGoogleApiKey("AIzaSyA1ERydeka8BDf6f-Gz6P1hQxdN095LiXo");
-							console.log(details)
 							Location.geocodeAsync(data.description, {useGoogleMaps: true}).then(response => {
 									setLocation(response[0]);
 									setAddress(data.description);
