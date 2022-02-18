@@ -22,7 +22,7 @@ import {MaterialCommunityIcons} from "@expo/vector-icons";
 const DetailsStep = () => {
 	return (
 		<ContainerBaseV2>
-			<Box alignItems="center">
+			<Box alignItems="center" mb={20}>
 				<Steps/>
 				<Form/>
 			</Box>
@@ -117,9 +117,10 @@ const Form = () => {
 								latitudeDelta: 0.023,
 								longitudeDelta: 0.023,
 							}}
-							scrollEnabled={true}
-							rotateEnabled={true}
-							zoomEnabled={true}
+							scrollEnabled={false}
+							rotateEnabled={false}
+							zoomEnabled={false}
+
 						>
 							<MapView.Marker
 								coordinate={{
