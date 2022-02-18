@@ -43,7 +43,7 @@ const MapLocation = (props) => {
 		let res = "";
 		if (data && type) {
 			res = data + "";
-		} else {
+		} else if (data) {
 			res = data + ",";
 		}
 		return res;
