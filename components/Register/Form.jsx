@@ -18,8 +18,8 @@ const Form = ({navigation}) => {
 	const { flexSpaceBetween } = styles;
 	const { control, handleSubmit, formState: { errors } } = useForm();
 	const onSubmit = (data) => {
-		console.log("submiting with ", data);
-		navigation.navigate(screens.PENDING_REGISTER_VALIDATION);
+		///console.log("submiting with ", data);
+		navigation.navigate(screens.PENDING_REGISTER_VALIDATION,{register:data});
 	};
 
 
