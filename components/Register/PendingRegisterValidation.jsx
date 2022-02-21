@@ -12,8 +12,25 @@ import {
 import screens from "~/constants/screens";
 import pendingValidationImage from "~/assets/pending-register.png";
 import Header from "../Header";
+import {useAuthUserContext} from "~/context/authUser";
 
-const PendingRegisterValidation = ({ navigation }) => {
+const PendingRegisterValidation = ({ navigation,route}) => {
+	const {params} = route;
+	const {RegisterUser} = useAuthUserContext()
+
+	const registerUserData = async (params) => {
+		let data ={};
+		data.fullName= params.fullName;
+		data.email= params.email;
+		data.phone= params.phone;
+		data.address= params.address;
+		data.city= params.city;
+		data.zipCode= params.zipCode;
+		data.LoggedIn = true;
+		data.isFirstTime = true;
+		await RegisterUser(data)
+
+	}
 	return (
 		<Center>
 			<Header screenName={ "POST_SPLASH"} />
@@ -30,10 +47,13 @@ const PendingRegisterValidation = ({ navigation }) => {
 				<Box mt={3}>
 					<Button
 						onPress={() =>
-							navigation.navigate({
+						{
+							registerUserData(params)
+						}
+							/*navigation.navigate({
 								name: screens.HOME,
 								params: { isFirstTime: true },
-							})
+							})*/
 						}
 					>
             Continue

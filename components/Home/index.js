@@ -10,12 +10,15 @@ import NoOrders from "~/components/common/NoOrders";
 import ordersService from "~/services/orders";
 import screens from "~/constants/screens";
 import { Dimensions } from "react-native";
+import {useAuthUserContext} from "~/context/authUser";
 
 export default function Home({navigation, route}) {
+	const {user} = useAuthUserContext()
+
   const { navigate } = navigation;
   const { height, width } = Dimensions.get("window");
 	const { params } = route;
-	const { isFirstTime } = params;
+	//const { isFirstTime } = params;
 	const [orders, setOrders] = useState([]);
 
 	useEffect(() => {
@@ -28,7 +31,8 @@ export default function Home({navigation, route}) {
 		getOrders();
 	}, []);
 
-	if (isFirstTime) return <Welcome />;
+
+	if (user && user.isFirstTime) return <Welcome />;
 
 	const data = [
 		{
@@ -36,7 +40,7 @@ export default function Home({navigation, route}) {
 				<Image
 					alt="image"
 					source={require("~/assets/image.png")}
-					height={40}				
+					height={40}
 				/>
 			),
 			title: "How does it work 1",
@@ -65,7 +69,7 @@ export default function Home({navigation, route}) {
 				<Heading>Your orders</Heading>
 				{
 					(Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders} /> : <NoOrders />
-				} 
+				}
 				<Box w="full" maxW="300" ><Button bgColor="dark.50" borderRadius="none" onPress={() => navigate({name: screens.NEW_ORDER})}>New Order</Button></Box>
 			</Center>
 		</ScrollView>

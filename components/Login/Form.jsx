@@ -9,14 +9,26 @@ import { useForm, Controller } from "react-hook-form";
 import { useNavigation } from "@react-navigation/native";
 import screens from "~/constants/screens";
 
+import {useAuthUserContext} from "~/context/authUser";
 
 
 const Form = () => {
+	const {LoginUser} = useAuthUserContext()
 	const { control, handleSubmit, formState: { errors } } = useForm();
 	const navigation = useNavigation();
-	const onSubmit = (data) => {
-		navigation.navigate({ name: screens.HOME, params: { isFirsTime: false } });
+	const onSubmit = async (response) => {
+		let data ={}
+		data.email= response.email;
+		data.password= response.password;
+		data.LoggedIn = true;
+		data.isFirstTime = false;
+		await saveUser(data)
+		///navigation.navigate({ name: screens.HOME, params: { isFirsTime: false } });
 	};
+
+	const saveUser=async (data)=>{
+			await LoginUser(data)
+	}
 
 
 	return (
