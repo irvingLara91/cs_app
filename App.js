@@ -1,6 +1,5 @@
 import React from "react";
 import {NativeBaseProvider} from "native-base";
-import AppLoading from "expo-app-loading";
 import {
     useFonts,
     Roboto_100Thin,
@@ -20,7 +19,7 @@ import {NewOrderProvider} from "./context/newOrder";
 import theme from "~/theme";
 import {LogBox} from "react-native";
 import {AuthUserProvider} from "~/context/authUser";
-import Layout from "~/components/conatiners/Layout";
+import Layout from "~/components/container/Layout";
 
 LogBox.ignoreAllLogs(true);
 export default function App() {
