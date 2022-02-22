@@ -9,11 +9,14 @@ export const AuthUserContext = createContext();
 
 export function AuthUserProvider(props) {
     const {children} = props;
+    const [fetching, setFetching] = useState(false);
     const [user, setUser] = useState(null);
 
     const LoginUser = async (params) => {
+        await setFetching(true)
         await setUser(params)
         await setData("user", params)
+        await setFetching(false)
     }
 
     const RegisterUser = async (params) => {
@@ -33,8 +36,12 @@ export function AuthUserProvider(props) {
     }
 
     const getUser = () => {
+        setFetching(true)
         getData("user").then(response => {
             setUser(response)
+            setFetching(false)
+        }).catch(e=>{
+            setFetching(false)
         });
     }
     useEffect(() => {
@@ -47,7 +54,9 @@ export function AuthUserProvider(props) {
         LogOut,
         FirstTime,
         user,
-        setUser
+        setUser,
+        fetching,
+        setFetching
     };
     return (
         <AuthUserContext.Provider value={defaultContext}>

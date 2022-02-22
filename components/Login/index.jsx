@@ -6,9 +6,12 @@ import ReferenceImage from "~/assets/image.png";
 import screens from "~/constants/screens";
 import styles from "./styles";
 import ContainerBase from "~/components/common/ContainerBase";
+import Loading from "~/components/Loading/Loading";
+import {useAuthUserContext} from "~/context/authUser";
 
 export default function Login() {
 	const {passwordRecoveryLink} = styles;
+	const {fetching} = useAuthUserContext()
 	return (
 		<ContainerBase>
 			<Center>
@@ -27,6 +30,10 @@ export default function Login() {
 					</Box>
 				</Stack>
 			</Center>
+			{
+				fetching &&
+				<Loading loading={fetching} color={"black"} text={"loading..."}/>
+			}
 		</ContainerBase>
 	);
 }
