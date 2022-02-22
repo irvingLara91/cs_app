@@ -9,9 +9,7 @@ import {
 	Button,
 	KeyboardAvoidingView,
 } from "native-base";
-import {Platform} from "react-native";
 import {useForm, Controller} from "react-hook-form";
-import Header from "../Header";
 import ContainerBase from "~/components/common/ContainerBase";
 
 const PasswordRecovery = () => {

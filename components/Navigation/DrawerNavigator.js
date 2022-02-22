@@ -24,7 +24,6 @@ import Profile from "~/components/Profile";
 import {Dimensions, Platform, TouchableOpacity} from "react-native";
 import Home from "~/components/Home";
 import Help from "~/components/Help";
-import Login from "../Login";
 import {useAuthUserContext} from "~/context/authUser";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -230,11 +229,6 @@ const DrawerNavigator = () => {
                     title: "Help",
                 }}
             />
-            {/*<Screen
-                name="LogOut"
-                component={Login}
-                options={{drawerLabel: "Log Out"}}
-            />*/}
         </Navigator>
     );
 };

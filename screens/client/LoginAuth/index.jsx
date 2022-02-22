@@ -1,7 +1,7 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "@react-navigation/native";
 import {Stack, Box, Center, Image} from "native-base";
-import Form from "./Form";
+import Form from "../../../components/Login/Form";
 import ReferenceImage from "~/assets/image.png";
 import screens from "~/constants/screens";
 import styles from "./styles";
@@ -11,7 +11,18 @@ import {useAuthUserContext} from "~/context/authUser";
 
 export default function Login() {
 	const {passwordRecoveryLink} = styles;
-	const {fetching} = useAuthUserContext()
+	const {LoginUser,fetching} = useAuthUserContext()
+
+	const LoginParams= async (params)=>{
+		let data ={}
+		data.username = params.username;
+		data.password = params.password;
+		data.LoggedIn = true;
+		data.userType = 1;
+		data.isFirstTime = false;
+		await LoginUser(data)
+	}
+
 	return (
 		<ContainerBase>
 			<Center>
@@ -19,13 +30,13 @@ export default function Login() {
 					<Center mt={20} mb={20}>
 						<Image source={ReferenceImage} alt="reference login image"/>
 					</Center>
-					<Form/>
+					<Form LoginParams={LoginParams}/>
 					<Box>
 						<Link
 							to={{screen: screens.PASSWORD_RECOVERY}}
 							style={passwordRecoveryLink}
 						>
-							Did you forget your password?
+							Did you forget your password? client
 						</Link>
 					</Box>
 				</Stack>
