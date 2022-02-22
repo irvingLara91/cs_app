@@ -157,10 +157,12 @@ const Navigation = () => {
     const {user} = useAuthUserContext()
     if (user && user.LoggedIn) {
         return (
-            Navigation_())
+            <Navigation_/>
+        )
     } else {
         return (
-            NavigationAuth())
+            <NavigationAuth/>
+        )
     }
 }
 

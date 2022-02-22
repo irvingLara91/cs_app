@@ -1,6 +1,5 @@
 import React from "react";
 import {NativeBaseProvider} from "native-base";
-import AppLoading from "expo-app-loading";
 import {
     useFonts,
     Roboto_100Thin,
@@ -18,9 +17,9 @@ import {
 } from "@expo-google-fonts/roboto";
 import {NewOrderProvider} from "./context/newOrder";
 import theme from "~/theme";
-import Navigation from "./Navigation";
 import {LogBox} from "react-native";
 import {AuthUserProvider} from "~/context/authUser";
+import Layout from "~/components/container/Layout";
 
 LogBox.ignoreAllLogs(true);
 export default function App() {
@@ -39,16 +38,11 @@ export default function App() {
         Roboto_900Black_Italic,
     });
 
-    if (!fontsLoaded) {
-        return <AppLoading/>;
-    }
-
     return (
         <NativeBaseProvider theme={theme}>
             <AuthUserProvider>
                 <NewOrderProvider>
-
-                    <Navigation/>
+                   <Layout fontsLoaded={fontsLoaded}/>
                 </NewOrderProvider>
             </AuthUserProvider>
         </NativeBaseProvider>
