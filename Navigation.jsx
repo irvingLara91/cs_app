@@ -2,8 +2,6 @@ import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Register from "~/components/Register";
-import LoginScreen from "~/components/Login";
-import PasswordRecovery from "~/components/Login/PasswordRecovery";
 import PostSplash from "~/components/PostSplash";
 import PendingRegisterValidation from "~/components/Register/PendingRegisterValidation";
 import NewOrder from "~/components/NewOrder";
@@ -23,23 +21,29 @@ import {Dimensions, Platform, TouchableOpacity} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import {View} from "native-base";
 import {useAuthUserContext} from "~/context/authUser";
+import LoginClientScreen from "./screens/client/LoginAuth/index"
+import PasswordRecoveryClient from "./screens/client/LoginAuth/PasswordRecovery";
+import LoginAdminScreen from "~/screens/admin/LoginAuth";
+import PasswordRecoveryAdmin from "./screens/admin/LoginAuth/PasswordRecovery";
+import DrawerNavigationAdmin from "~/components/Navigation/DrawerNavigationAdmin";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const Stack = createNativeStackNavigator();
 const {Navigator, Screen} = Stack;
 
 export const backButton = (props) => {
-	return {
-		headerTitleAlign: "center",
-		headerLeft: () => (
-			<TouchableOpacity onPress={() =>{
-                props.navigation.goBack()}} style={{
-				marginLeft: 15,
-			}}>
-				<MaterialIcons name="arrow-back-ios" size={SCREEN_WIDTH * .07} color="black"/>
-			</TouchableOpacity>
-		),
-	};
+    return {
+        headerTitleAlign: "center",
+        headerLeft: () => (
+            <TouchableOpacity onPress={() => {
+                props.navigation.goBack()
+            }} style={{
+                marginLeft: 15,
+            }}>
+                <MaterialIcons name="arrow-back-ios" size={SCREEN_WIDTH * .07} color="black"/>
+            </TouchableOpacity>
+        ),
+    };
 };
 
 
@@ -59,14 +63,25 @@ const NavigationAuth = () => {
                 />
                 <Screen
                     name={screens.LOGIN}
-                    component={LoginScreen}
+                    component={LoginClientScreen}
                     options={{headerShown: false}}
                 />
                 <Screen
                     name={screens.PASSWORD_RECOVERY}
-                    component={PasswordRecovery}
+                    component={PasswordRecoveryClient}
                     options={{headerShown: false}}
                 />
+                <Screen
+                    name={screens.LOGIN_ADMIN}
+                    component={LoginAdminScreen}
+                    options={{headerShown: false}}
+                />
+                <Screen
+                    name={screens.PASSWORD_RECOVERY_ADMIN}
+                    component={PasswordRecoveryAdmin}
+                    options={{headerShown: false}}
+                />
+
                 <Screen
                     name={screens.PENDING_REGISTER_VALIDATION}
                     component={PendingRegisterValidation}
@@ -153,11 +168,30 @@ const Navigation_ = () => {
 };
 
 
+const NavigationAdmin = () => {
+    return (
+        <NavigationContainer>
+            <Navigator>
+                <Screen
+                    name={screens.HOME_ADMIN}
+                    component={DrawerNavigationAdmin}
+                    options={{headerShown: false}}
+                    initialParams={{isFirstTime: false}}
+                /></Navigator>
+        </NavigationContainer>
+    )
+}
+
+
 const Navigation = () => {
     const {user} = useAuthUserContext()
-    if (user && user.LoggedIn) {
+    if (user && user.LoggedIn && user.userType === 1) {
         return (
             <Navigation_/>
+        )
+    } else if (user && user.LoggedIn && user.userType !== 1) {
+        return (
+            <NavigationAdmin/>
         )
     } else {
         return (

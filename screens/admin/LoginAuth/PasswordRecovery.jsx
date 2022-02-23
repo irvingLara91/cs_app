@@ -1,0 +1,73 @@
+import React from "react";
+import {
+	Center,
+	Heading,
+	FormControl,
+	Input,
+	Stack,
+	VStack,
+	Button,
+	KeyboardAvoidingView,
+} from "native-base";
+import {useForm, Controller} from "react-hook-form";
+import screens from "~/constants/screens";
+import ContainerBase from "~/components/common/ContainerBase";
+
+const PasswordRecovery = () => {
+	return (
+		<ContainerBase screenName={screens.LOGIN_ADMIN} >
+			<Center>
+				<Stack mt={20} space={4} w="75%" maxW="300px">
+					<Heading>Help with password</Heading>
+					<PasswordRecoveryForm/>
+				</Stack>
+			</Center>
+		</ContainerBase>
+	);
+};
+
+const PasswordRecoveryForm = () => {
+	const {
+		control,
+		handleSubmit,
+		formState: {errors},
+	} = useForm();
+
+	const onSubmit = (values) => {
+		console.log({values});
+	};
+
+	return (
+		<VStack space={2} alignItems="center">
+			<FormControl isRequired isInvalid={"email" in errors}>
+				<FormControl.Label>Email address</FormControl.Label>
+				<Controller
+					control={control}
+					render={({field: {onChange, onBlur, value}}) => (
+						<Input
+							variant="outline"
+							onBlur={onBlur}
+							onChangeText={(text) => onChange(text)}
+							value={value}
+						/>
+					)}
+					name="email"
+					rules={{required: "Field is required", minLength: 3}}
+					defaultValue=""
+				/>
+				<FormControl.ErrorMessage>
+					{errors?.email?.message}
+				</FormControl.ErrorMessage>
+			</FormControl>
+			<Button
+				onPress={handleSubmit(onSubmit)}
+				size="lg"
+				style={{width: "100%"}}
+			>
+				Recover password
+			</Button>
+		</VStack>
+	);
+};
+
+export default PasswordRecovery;

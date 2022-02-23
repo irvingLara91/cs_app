@@ -15,6 +15,18 @@ const theme = extendTheme({
 			800: "#005885",
 			900: "#003F5E",
 		},
+		primary_black: {
+			50: "#eeeeee",
+			100: "#a4a4a4",
+			200: "#939393",
+			300: "#838383",
+			400: "#626262",
+			500: "#5c5c5d",
+			600: "#646565",
+			700: "#424242",
+			800: "#171717",
+			900: "#000000",
+		},
 		// Redefinig only one shade, rest of the color will remain same.
 		amber: {
 			400: "#d97706",
