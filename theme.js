@@ -15,6 +15,9 @@ const theme = extendTheme({
 			800: "#005885",
 			900: "#003F5E",
 		},
+		primary_white: {
+			50: "#ffffff",
+		},
 		primary_black: {
 			50: "#eeeeee",
 			100: "#a4a4a4",

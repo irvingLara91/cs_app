@@ -18,7 +18,7 @@ export default function Login() {
         data.username = params.username;
         data.password = params.password;
         data.LoggedIn = true;
-        data.userType = 3;
+        data.userType = 2;
         await LoginUser(data)
     }
 
