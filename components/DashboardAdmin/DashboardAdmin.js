@@ -2,7 +2,8 @@ import React from "react";
 import {View, StyleSheet, TouchableOpacity} from "react-native";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import {Button, Divider, Text} from "native-base";
-import ContainerOrdersList from "~/components/ContainerList/ContainerOrdersList";
+import ContainerDashboardOrdersList from "~/components/ContainerList/ContainerDashboardOrdersList";
+import TotalOrdersComponent from "~/components/TotalOrdersComponent/TotalOrdersComponent";
 
 const DashboardAdmin = ({data=null,...pos}) => {
 
@@ -46,32 +47,10 @@ const DashboardAdmin = ({data=null,...pos}) => {
                     </TouchableOpacity>
                 </View>
             </View>
-            <View style={[styles.viewTitleFix,{
-                marginTop:15,
-                alignItems:"center",
-                backgroundColor:"#363636",
-                padding:20,
-                borderRadius: 5
-            }]}>
-                <Text  style={{flex: 1}}
-                       color={"white"}
-                       letterSpacing={"md"}
-                       lineHeight={'sm'}
-                       fontFamily={'Roboto_700Bold'}
-                       fontSize={textSizeRender(15)}
-                >180</Text>
-                <Text
-                    style={{flex: 1}}
-                    color={"white"}
-                    letterSpacing={"md"}
-                    lineHeight={'sm'}
-                    fontFamily={'Roboto_700Bold'}
-                    fontSize={textSizeRender(3.5)}
-                >Total orders</Text>
-            </View>
+            <TotalOrdersComponent total={80}/>
         </View>
         <View style={styles.ContainerOrderTotal}>
-            <ContainerOrdersList data={data}/>
+            <ContainerDashboardOrdersList data={data}/>
         </View>
 
 

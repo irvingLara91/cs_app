@@ -1,8 +1,8 @@
+import {Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
-import {TouchableOpacity, StyleSheet, Text, View, Platform} from "react-native";
-import {Divider, Image} from "native-base";
-import {AntDesign} from "@expo/vector-icons";
+import {AntDesign, Feather} from "@expo/vector-icons";
 import moment from "moment";
+import {Divider, Image} from "native-base";
 
 const ContainerOrdersList = ({data = null, ...props}) => {
     const renderItem = (item, index) => (<View key={index} style={styles.containerCard}>
@@ -21,30 +21,50 @@ const ContainerOrdersList = ({data = null, ...props}) => {
             </View>
         </View>
         <Divider/>
-        <View style={{alignItems: 'center'}}>
-            {
-                !item.img ?
-                    <Image
-                        size={100} resizeMode={"contain"}
-                        source={{
-                            uri: item.img
-                        }}/>
-                    :
-                    <Image
-                        size={100} resizeMode={"contain"}
-                        source={require("../../assets/image.png")}/>
-            }
+        <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 20}}>
+            <View style={{flex: .8}}>
+                <Text style={{fontSize: textSizeRender(4)}}>{item.firstName && item.firstName}</Text>
+                <Text style={{fontSize: textSizeRender(4)}}>{item.lastName && item.lastName}</Text>
+            </View>
 
-            <TouchableOpacity>
-                <Text style={{
-                    textDecorationLine: 'underline'
-                }}>View order</Text>
-            </TouchableOpacity>
+            <View style={{flex: 1, alignItems: 'center'}}>
+                <View style={{
+                    width: '60%',
+                    backgroundColor: 'black',
+                    alignItems: 'center',
+                    padding: 5,
+                    borderRadius: 10
+                }}>
+                    <Text style={{color: 'white', fontSize: textSizeRender(2.6)}}>{"Assigned"}</Text>
+                </View>
 
+            </View>
+
+            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flex: 1,alignItems:'center'}}>
+                    <View style={{width:50,justifyContent:'center',backgroundColor: "#C4C4C4", borderRadius: 100, padding: 10}}>
+                        {item.img ?
+                            <Image
+                                size={8} resizeMode={"contain"}
+                                source={{
+                                    uri: item.img
+                                }}/>
+                            :
+                            <Image
+                                size={8} resizeMode={"contain"}
+                                source={require("../../assets/image.png")}/>
+                        }
+                    </View>
+                </View>
+                <View style={{flex: 0}}>
+                    <TouchableOpacity>
+                        <Feather name="trash-2" size={24} color="black"/>
+                    </TouchableOpacity>
+                </View>
+            </View>
 
         </View>
     </View>);
-
 
     return (<View>
         <Text style={{
@@ -53,16 +73,17 @@ const ContainerOrdersList = ({data = null, ...props}) => {
         }}>Latest orders</Text>
         {data && data.length > 0 ? data.map((item, index) => renderItem(item, index)) :
             <View style={{flex: 1, alignItems: 'center'}}>
-                <Text style={styles.emptyMessageStyle}>Empty notification list
+                <Text style={styles.emptyMessageStyle}>Empty orders list
                 </Text>
             </View>}
 
-    </View>);
+    </View>)
 };
+
 const styles = StyleSheet.create({
     containerCard: {
         marginBottom: 20,
-        height: SCREEN_WIDTH / (Platform.OS == "ios" ? 2 : 2.5),
+        height: SCREEN_WIDTH / (Platform.OS === "ios" ? 3 : 3.5),
         borderRadius: 5,
         backgroundColor: 'white',
         shadowColor: "#000",
