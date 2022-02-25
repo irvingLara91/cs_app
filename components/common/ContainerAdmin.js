@@ -1,0 +1,57 @@
+import React from "react";
+import {Dimensions, View, Text} from "react-native";
+import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
+import Header from "~/components/Header";
+import {Center, Divider} from "native-base";
+import {SCREEN_HEIGHT, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+
+
+const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => {
+
+    return (
+        <View
+            style={{
+                flex: 1,
+                width: SCREEN_WIDTH
+            }}
+        >
+            <View
+                style={{
+                    width: "100%",
+                    height: Dimensions.get("window").height,
+                    zIndex: 20
+                }}
+            >
+                <Center style={{marginTop: 10, paddingHorizontal: SCREEN_WIDTH * .05}}>
+                    <View style={{width: '100%', flexDirection: 'row'}}>
+                        <View style={{flexDirection: 'row',flex:1}}>
+                            <View style={{justifyContent: 'center', marginLeft: 2}}>{icon}
+                            </View>
+                            <View style={{justifyContent: 'center', marginLeft: 5}}>
+                                <Text style={{
+                                    width: '100%',
+                                    fontFamily: 'Roboto_700Bold',
+                                    fontSize: textSizeRender(8)
+                                }}>{title}</Text>
+                            </View>
+                        </View>
+                        {
+                            actions &&
+                            actions
+                        }
+                    </View>
+                    <Divider mb={3} mt={2} bg={"primary_black.900"}/>
+                </Center>
+
+                <KeyboardAwareScrollView
+                    style={{paddingHorizontal: SCREEN_WIDTH * .05}}
+                    extraScrollHeight={80}
+                    enableOnAndroid={true}
+                    keyboardShouldPersistTaps="handled">
+                    {props.children}
+                </KeyboardAwareScrollView>
+            </View>
+        </View>
+    );
+};
+export default ContainerAdmin;

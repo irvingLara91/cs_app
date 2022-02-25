@@ -41,7 +41,7 @@ const getIcon = (screenName) => {
         case "Profile":
             return "face-profile";
         case "Orders":
-            return "clipboard-check-outline";
+            return "clipboard-text-multiple";
         case "Users":
             return "users";
         case "Notifications":
@@ -227,7 +227,6 @@ const DrawerNavigator = () => {
             screenOptions={({navigation}) => ({
                 headerTitleAlign: "center",
                 headerStyle: {
-                    width: SCREEN_WIDTH / 2,
                     shadowColor: "#000",
                     shadowOffset: {
                         width: 0,

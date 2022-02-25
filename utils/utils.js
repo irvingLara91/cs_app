@@ -1,4 +1,8 @@
+import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {Dimensions} from "react-native";
+export const SCREEN_WIDTH = Dimensions.get("window").width
+export const SCREEN_HEIGHT = Dimensions.get("window").height
 
 export const setData = async (name, data) => {
     try {
@@ -26,4 +30,9 @@ export const removeData = async (name) => {
     } catch (e) {
         console.log(e)
     }
+}
+
+export const textSizeRender = (size) => {
+    let resolution = size / 100
+    return resolution * SCREEN_WIDTH
 }

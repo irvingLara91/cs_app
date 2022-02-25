@@ -6,6 +6,7 @@ import {
 	FormControl,
 } from "native-base";
 import { useForm, Controller } from "react-hook-form";
+import screens from "~/constants/screens";
 
 
 const Form = (props) => {
@@ -59,7 +60,7 @@ const Form = (props) => {
 					{errors?.password?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
-			<Button onPress={handleSubmit(onSubmit)} size="lg" style={{width: "100%"}}>
+			<Button bgColor="primary_black.900" borderRadius={0} size="lg" onPress={handleSubmit(onSubmit)} size="lg" style={{width: "100%",marginTop:30}}>
           Log in
 			</Button>
 		</VStack>

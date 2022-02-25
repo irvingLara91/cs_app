@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "@react-navigation/native";
-import {Stack, Box, Center, Image} from "native-base";
+import {Stack, Box, Center, Image, Text} from "native-base";
 import Form from "../../../components/Login/Form";
 import ReferenceImage from "~/assets/image.png";
 import screens from "~/constants/screens";
@@ -8,6 +8,7 @@ import styles from "./styles";
 import ContainerBase from "~/components/common/ContainerBase";
 import Loading from "~/components/Loading/Loading";
 import {useAuthUserContext} from "~/context/authUser";
+import {textSizeRender} from "~/utils/utils";
 
 export default function Login() {
     const {passwordRecoveryLink} = styles;
@@ -18,7 +19,7 @@ export default function Login() {
         data.username = params.username;
         data.password = params.password;
         data.LoggedIn = true;
-        data.userType = 3;
+        data.userType = 2;
         await LoginUser(data)
     }
 
@@ -35,7 +36,9 @@ export default function Login() {
                             to={{screen: screens.PASSWORD_RECOVERY_ADMIN}}
                             style={passwordRecoveryLink}
                         >
-                            Did you forget your password? admin
+                            <Text underline fontFamily={"Roboto_400Regular"} fontSize={textSizeRender(3.5)}>
+                                Did you forget your password?</Text>
+
                         </Link>
                     </Box>
                 </Stack>

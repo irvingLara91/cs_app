@@ -1,8 +1,10 @@
 import React from "react";
-import {Center, Stack, Box, Button, Image} from "native-base";
+import {Center, Stack, Box, Button, Image, Text} from "native-base";
 import screens from "~/constants/screens";
 import Carousel from "~/components/common/Carousel";
 import CSLogo from "~/assets/cornerstone-logo-300px.png";
+import {Link} from "@react-navigation/native";
+import {textSizeRender} from "~/utils/utils";
 
 const PostSplash = ({navigation}) => {
     const data = [
@@ -36,19 +38,27 @@ const PostSplash = ({navigation}) => {
                     data={data}
                 />
                 <Box>
-                    <Button onPress={() => navigation.navigate(screens.LOGIN)}>
-                        Login client
+                    <Button bgColor="primary_black.900" borderRadius={0} size="lg" onPress={() => navigation.navigate(screens.LOGIN)}>
+                        Log in
                     </Button>
                 </Box>
-				<Box>
-					<Button onPress={() => navigation.navigate(screens.LOGIN_ADMIN)}>
-						Login (admin and technician)
-					</Button>
-				</Box>
                 <Box>
-                    <Button onPress={() => navigation.navigate(screens.REGISTER)}>
-                        Register
+                    <Button bgColor="primary_black.400" borderRadius={0} size="lg" onPress={() => navigation.navigate(screens.REGISTER)}>
+                        Sign up
                     </Button>
+                </Box>
+
+                <Box>
+                    <Link
+                        to={{screen: screens.LOGIN_ADMIN}}
+                        style={{
+                            marginTop:20,
+                            fontSize: 13,
+                            textAlign: "center"
+                    }}
+                    >
+                        <Text fontFamily={"Roboto_400Regular"} fontSize={textSizeRender(3.5)} >You are a cornerstone technician?</Text>  <Text underline fontFamily={"Roboto_700Bold"} fontSize={textSizeRender(3.5)}>Log in</Text>
+                    </Link>
                 </Box>
             </Stack>
         </Center>

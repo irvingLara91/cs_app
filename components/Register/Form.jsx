@@ -158,10 +158,10 @@ const Form = ({navigation}) => {
 				</FormControl>
 
 			</View>
-			<Button onPress={handleSubmit(onSubmit)} size="lg" style={{width: "100%"}}>
+			<Button bgColor="primary_black.900" borderRadius={0} size="lg" onPress={handleSubmit(onSubmit)}  style={{width: "100%",marginTop:30}}>
           Register
 			</Button>
-			<Button onPress={() => navigation.goBack()} size="lg" style={{width: "100%"}}>
+			<Button bgColor="primary_black.400" borderRadius={0} size="lg" onPress={() => navigation.goBack()}  style={{width: "100%"}}>
           Back
 			</Button>
 		</VStack>

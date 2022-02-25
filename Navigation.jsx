@@ -122,6 +122,7 @@ const Navigation_ = () => {
                 <Screen
                     name={screens.PASSWORD_UPDATE}
                     component={PasswordUpdate}
+                    options={backButton}
                 />
                 <Screen
                     name={screens.NEW_ORDER_STEP_1}
@@ -177,7 +178,13 @@ const NavigationAdmin = () => {
                     component={DrawerNavigationAdmin}
                     options={{headerShown: false}}
                     initialParams={{isFirstTime: false}}
-                /></Navigator>
+                />
+                <Screen
+                    name={screens.PASSWORD_UPDATE}
+                    component={PasswordUpdate}
+                    options={backButton}
+                />
+            </Navigator>
         </NavigationContainer>
     )
 }
