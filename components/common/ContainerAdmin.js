@@ -31,7 +31,7 @@ const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => 
                                 <Text style={{
                                     width: '100%',
                                     fontFamily: 'Roboto_700Bold',
-                                    fontSize: textSizeRender(8)
+                                    fontSize: textSizeRender(7)
                                 }}>{title}</Text>
                             </View>
                         </View>
@@ -44,7 +44,6 @@ const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => 
                 </Center>
 
                 <KeyboardAwareScrollView
-                    style={{paddingHorizontal: SCREEN_WIDTH * .05}}
                     extraScrollHeight={80}
                     enableOnAndroid={true}
                     keyboardShouldPersistTaps="handled">

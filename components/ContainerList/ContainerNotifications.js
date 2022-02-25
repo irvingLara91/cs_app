@@ -30,7 +30,7 @@ const ContainerNotifications = ({data = [], action = null}) => {
         </View>)
 
     return (
-        <View style={{marginBottom:SCREEN_WIDTH/3.5}}>
+        <View style={{marginBottom:SCREEN_WIDTH/3.5,paddingHorizontal: SCREEN_WIDTH * .05}}>
             {
                 data && data.length > 0 ?
                     data.map((item, index) => renderItem(item, index))

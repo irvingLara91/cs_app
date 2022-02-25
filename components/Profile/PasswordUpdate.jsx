@@ -80,10 +80,9 @@ const PasswordUpdate = ({navigation}) => {
                                     height={SCREEN_WIDTH * .12}
                                     _light={{
                                         paddingLeft: 5,
-                                        borderColor: 'primary_black.100',
                                         backgroundColor: 'primary_white.50',
                                     }} _dark={{
-                                    borderColor: 'primary_black.100',
+                                    paddingLeft: 5,
                                     backgroundColor: 'primary_white.50',
                                 }}
                                     variant="rounded"
@@ -124,10 +123,9 @@ const PasswordUpdate = ({navigation}) => {
                                     height={SCREEN_WIDTH * .12}
                                     _light={{
                                         paddingLeft: 5,
-                                        borderColor: 'primary_black.100',
                                         backgroundColor: 'primary_white.50',
                                     }} _dark={{
-                                    borderColor: 'primary_black.100',
+                                    paddingLeft: 5,
                                     backgroundColor: 'primary_white.50',
                                 }}
                                     variant="rounded"
