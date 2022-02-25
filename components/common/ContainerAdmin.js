@@ -6,7 +6,7 @@ import {Center, Divider} from "native-base";
 import {SCREEN_HEIGHT, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 
-const ContainerBase = ({title = "", icon = null, actions = null, ...props}) => {
+const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => {
 
     return (
         <View
@@ -54,4 +54,4 @@ const ContainerBase = ({title = "", icon = null, actions = null, ...props}) => {
         </View>
     );
 };
-export default ContainerBase;
+export default ContainerAdmin;

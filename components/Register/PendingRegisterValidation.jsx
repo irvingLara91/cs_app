@@ -46,6 +46,8 @@ const PendingRegisterValidation = ({ navigation,route}) => {
 				</View>
 				<Box mt={3}>
 					<Button
+						bgColor="primary_black.900" borderRadius={0}
+						size="lg"
 						onPress={() =>
 						{
 							registerUserData(params)

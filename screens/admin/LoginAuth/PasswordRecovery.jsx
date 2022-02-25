@@ -12,13 +12,20 @@ import {
 import {useForm, Controller} from "react-hook-form";
 import screens from "~/constants/screens";
 import ContainerBase from "~/components/common/ContainerBase";
+import {textSizeRender} from "~/utils/utils";
 
 const PasswordRecovery = () => {
 	return (
 		<ContainerBase screenName={screens.LOGIN_ADMIN} >
 			<Center>
 				<Stack mt={20} space={4} w="75%" maxW="300px">
-					<Heading>Help with password</Heading>
+					<Heading
+						style={{
+							color: "primary_black.900",
+							fontFamily: "Roboto_700Bold",
+							fontSize: textSizeRender(7),
+						}}
+					>Help with password</Heading>
 					<PasswordRecoveryForm/>
 				</Stack>
 			</Center>
@@ -60,9 +67,9 @@ const PasswordRecoveryForm = () => {
 				</FormControl.ErrorMessage>
 			</FormControl>
 			<Button
+				bgColor="primary_black.900" borderRadius={0} size="lg"
 				onPress={handleSubmit(onSubmit)}
-				size="lg"
-				style={{width: "100%"}}
+				style={{width: "100%",marginTop:30}}
 			>
 				Recover password
 			</Button>
