@@ -105,7 +105,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         marginVertical: 5,
         paddingVertical:20,
-        paddingHorizontal:6
+        paddingHorizontal:6,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0, height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
     },
     containerRol: {
         padding: 5,

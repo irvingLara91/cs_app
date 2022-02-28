@@ -11,6 +11,13 @@ const ContainerHelp = ({data = [], action = null}) => {
                               setActiveSections(item)
                           }}
                           style={{
+                              shadowColor: "#000",
+                              shadowOffset: {
+                                  width: 0, height: 4,
+                              },
+                              shadowOpacity: 0.30,
+                              shadowRadius: 4.65,
+                              elevation: 8,
                               borderRadius: 10,
                               backgroundColor: activeSections.id === item.id ? "#E6E6E6" : "white",
                               marginVertical: 5,

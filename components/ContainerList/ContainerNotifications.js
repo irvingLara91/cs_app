@@ -8,6 +8,13 @@ const ContainerNotifications = ({data = [], action = null}) => {
 
     const renderItem = (item, index) => (
         <View key={index} style={{
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0, height: 4,
+            },
+            shadowOpacity: 0.30,
+            shadowRadius: 4.65,
+            elevation: 8,
             borderRadius: 10, backgroundColor: 'white', marginVertical: 5, padding: 20
         }}>
             <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: SCREEN_WIDTH * .05}}>

@@ -28,6 +28,7 @@ import OrdersScreen from "~/screens/admin/OrdersScreen";
 import UsersScreen from "~/screens/admin/UsersScreen";
 import NotificationsScreen from "~/screens/admin/NotificationsScreen";
 import HelpScreen from "~/screens/admin/HelpScreen";
+import Screens from "~/constants/screens";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -285,7 +286,7 @@ const DrawerNavigator = () => {
 
                         <TouchableOpacity
                             onPress={() => {
-                                alert("Profile")
+                                navigation.navigate("Profile");
                             }}
                             style={{
                                 marginRight: 15,
