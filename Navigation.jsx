@@ -101,7 +101,6 @@ const Navigation_ = () => {
                     name={screens.HOME}
                     component={DrawerNavigator}
                     options={{headerShown: false}}
-                    initialParams={{isFirstTime: false}}
                 />
                 <Screen
                     name={screens.FAQ}
@@ -177,7 +176,6 @@ const NavigationAdmin = () => {
                     name={screens.HOME_ADMIN}
                     component={DrawerNavigationAdmin}
                     options={{headerShown: false}}
-                    initialParams={{isFirstTime: false}}
                 />
                 <Screen
                     name={screens.PASSWORD_UPDATE}
@@ -192,11 +190,11 @@ const NavigationAdmin = () => {
 
 const Navigation = () => {
     const {user} = useAuthUserContext()
-    if (user && user.LoggedIn && user.userType === 1) {
+    if (user && user.role === 1) {
         return (
             <Navigation_/>
         )
-    } else if (user && user.LoggedIn && user.userType !== 1) {
+    } else if (user && user.role !== 1) {
         return (
             <NavigationAdmin/>
         )

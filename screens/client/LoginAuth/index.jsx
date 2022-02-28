@@ -1,27 +1,36 @@
 import React, {useState} from "react";
 import {Link} from "@react-navigation/native";
 import {Stack, Box, Center, Image, Text} from "native-base";
-import Form from "../../../components/Login/Form";
-import ReferenceImage from "~/assets/image.png";
+import Form from "~/components/Login/Form";
 import screens from "~/constants/screens";
-import styles from "./styles";
 import ContainerBase from "~/components/common/ContainerBase";
 import Loading from "~/components/Loading/Loading";
+
+import ReferenceImage from "~/assets/image.png";
+import styles from "./styles";
+import {textSizeRender, setData} from "~/utils/utils";
+
+import userService from "~/services/user";
+
 import {useAuthUserContext} from "~/context/authUser";
-import {textSizeRender} from "~/utils/utils";
 
 export default function Login() {
     const {passwordRecoveryLink} = styles;
-    const {LoginUser, fetching} = useAuthUserContext()
+    const { setFetching, fetching, setUser } = useAuthUserContext()
+    const { loginUser } = userService;
 
-    const LoginParams = async (params) => {
-        let data = {}
-        data.username = params.username;
-        data.password = params.password;
-        data.LoggedIn = true;
-        data.userType = 1;
-        data.isFirstTime = false;
-        await LoginUser(data)
+    const onLogin = async(data) => {
+        const { email, password } = data;
+        setFetching(true);
+        const result = await loginUser(email, password);
+        if (result.hasOwnProperty("errorMessage")) {
+            console.log("trigger error")
+        } else {
+
+            setUser({...result, role: 1});
+            setData("user", {...result, role: 1})
+        }
+        setFetching(false)
     }
 
     return (
@@ -31,7 +40,7 @@ export default function Login() {
                     <Center mt={20} mb={20}>
                         <Image source={ReferenceImage} alt="reference login image"/>
                     </Center>
-                    <Form LoginParams={LoginParams}/>
+                    <Form onSubmit={onLogin} />
                     <Box>
                         <Link
                             to={{screen: screens.PASSWORD_RECOVERY}}
