@@ -41,9 +41,9 @@ export const roleType =(type)=>{
     let rol = ""
     switch (type) {
         case 1 :
-            rol = "user";
+            rol = "User";
         case 2:
-            rol = "administrator";
+            rol = "Administrator";
         case 3:
             rol = "Technician"
     };

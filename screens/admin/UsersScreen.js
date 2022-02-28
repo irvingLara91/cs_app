@@ -5,6 +5,8 @@ import ContainerAdmin from "~/components/common/ContainerAdmin";
 import {Feather} from "@expo/vector-icons";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import ContainerUsersList from "~/components/ContainerList/ContainerUsersList";
+import Screens from "~/constants/screens";
+import {useNavigation} from "@react-navigation/native";
 
 const users_dummy = [
     {
@@ -55,9 +57,17 @@ const TitleComponent = (props) => {
 
 
 const UsersScreen = (props) => {
+    const navigation = useNavigation();
+
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
-            <TouchableOpacity style={{
+            <TouchableOpacity
+
+                onPress={()=>{
+                    navigation.navigate(Screens.CREATE_USER)
+                }}
+
+                style={{
                 width: "45%",
                 flexDirection: 'row',
                 marginRight: 2,
