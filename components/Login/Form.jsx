@@ -6,19 +6,16 @@ import {
 	FormControl,
 } from "native-base";
 import { useForm, Controller } from "react-hook-form";
-import screens from "~/constants/screens";
 
 
-const Form = (props) => {
+const Form = ({ onSubmit }) => {
 	const { control, handleSubmit, formState: { errors } } = useForm();
-	const onSubmit = async (response) => {
-		await props.LoginParams(response)
-	};
+
 
 	return (
 		<VStack space={2} alignItems="center">
-			<FormControl isRequired isInvalid={"username" in errors}>
-				<FormControl.Label>Username</FormControl.Label>
+			<FormControl isRequired isInvalid={"email" in errors}>
+				<FormControl.Label>Email</FormControl.Label>
 				<Controller
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
@@ -31,12 +28,12 @@ const Form = (props) => {
 							autoCapitalize="none"
 						/>
 					)}
-					name="username"
+					name="email"
 					rules={{ required: "Field is required", minLength: 3 }}
 					defaultValue=""
 				/>
 				<FormControl.ErrorMessage>
-					{errors?.username?.message}
+					{errors?.email?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
 			<FormControl isRequired isInvalid={"password" in errors}>

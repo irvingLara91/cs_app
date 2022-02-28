@@ -154,7 +154,7 @@ function CustomDrawerContent(props) {
                                     <Text
                                         fontWeight="500"
                                         color={"gray.700"}>
-                                        LogOut
+                                        Log out
                                     </Text>
                                 </HStack>
                             </Pressable>
@@ -203,7 +203,6 @@ const DrawerNavigator = () => {
             <Screen
                 name="Home"
                 component={Home}
-                initialParams={{isFirstTime: false}}
             />
             <Screen
                 name="Orders"
