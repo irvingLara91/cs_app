@@ -312,7 +312,7 @@ const DrawerNavigator = () => {
                 component={OrdersScreen}
             />
             {
-                user.userType !== 3 &&
+                user.role !== 3 &&
                 <Screen
                     name="Users"
                     component={UsersScreen}

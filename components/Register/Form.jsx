@@ -4,47 +4,21 @@ import {
 	Input,
 	Button,
 	FormControl,
-	View,
-	Select,
-	CheckIcon
+	View
 } from "native-base";
 import { useForm, Controller } from "react-hook-form";
+import { useNavigation } from "@react-navigation/native";
 
-import screens from "~/constants/screens";
 import styles from "./styles";
 
 
-const Form = ({navigation}) => {
+const Form = ({ onSubmit }) => {
+	const navigation = useNavigation();
 	const { flexSpaceBetween } = styles;
 	const { control, handleSubmit, formState: { errors } } = useForm();
-	const onSubmit = (data) => {
-		///console.log("submiting with ", data);
-		navigation.navigate(screens.PENDING_REGISTER_VALIDATION,{register:data});
-	};
-
 
 	return (
 		<VStack space={2} alignItems="center">
-			<FormControl isRequired isInvalid={"fullName" in errors}>
-				<FormControl.Label>Full name</FormControl.Label>
-				<Controller
-					control={control}
-					render={({ field: { onChange, onBlur, value } }) => (
-						<Input
-							variant="outline"
-							onBlur={onBlur}
-							onChangeText={(text) => onChange(text)}
-							value={value}
-						/>  
-					)}
-					name="fullName"
-					rules={{ required: "Field is required", minLength: 3 }}
-					defaultValue=""
-				/>
-				<FormControl.ErrorMessage>
-					{errors?.fullName?.message}
-				</FormControl.ErrorMessage>
-			</FormControl>
 			<FormControl isRequired isInvalid={"email" in errors}>
 				<FormControl.Label>Email</FormControl.Label>
 				<Controller
@@ -67,7 +41,69 @@ const Form = ({navigation}) => {
 					{errors?.email?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
-			<FormControl isRequired isInvalid={"phone" in errors}>
+			<FormControl isRequired isInvalid={"password" in errors}>
+				<FormControl.Label>Password</FormControl.Label>
+				<Controller
+					control={control}
+					render={({ field: { onChange, onBlur, value } }) => (
+						<Input
+							type="password"
+							variant="outline"
+							onBlur={onBlur}
+							onChangeText={(text) => onChange(text)}
+							value={value}
+							autoCapitalize="none"
+						/>
+					)}
+					name="password"
+					rules={{ required: "Field is required", minLength: 3 }}
+					defaultValue=""
+				/>
+				<FormControl.ErrorMessage>
+					{errors?.password?.message}
+				</FormControl.ErrorMessage>
+			</FormControl>
+			<FormControl isRequired isInvalid={"firstName" in errors}>
+				<FormControl.Label>First name</FormControl.Label>
+				<Controller
+					control={control}
+					render={({ field: { onChange, onBlur, value } }) => (
+						<Input
+							variant="outline"
+							onBlur={onBlur}
+							onChangeText={(text) => onChange(text)}
+							value={value}
+						/>  
+					)}
+					name="firstName"
+					rules={{ required: "Field is required", minLength: 3 }}
+					defaultValue=""
+				/>
+				<FormControl.ErrorMessage>
+					{errors?.firstName?.message}
+				</FormControl.ErrorMessage>
+			</FormControl>
+			<FormControl isRequired isInvalid={"lastName" in errors}>
+				<FormControl.Label>Last name</FormControl.Label>
+				<Controller
+					control={control}
+					render={({ field: { onChange, onBlur, value } }) => (
+						<Input
+							variant="outline"
+							onBlur={onBlur}
+							onChangeText={(text) => onChange(text)}
+							value={value}
+						/>  
+					)}
+					name="lastName"
+					rules={{ required: "Field is required", minLength: 3 }}
+					defaultValue=""
+				/>
+				<FormControl.ErrorMessage>
+					{errors?.lastName?.message}
+				</FormControl.ErrorMessage>
+			</FormControl>
+			<FormControl isRequired isInvalid={"phoneNumber" in errors}>
 				<FormControl.Label>Phone number</FormControl.Label>
 				<Controller
 					control={control}
@@ -79,12 +115,12 @@ const Form = ({navigation}) => {
 							value={value}
 						/>
 					)}
-					name="phone"
+					name="phoneNumber"
 					rules={{ required: "Field is required", minLength: 3 }}
 					defaultValue=""
 				/>
 				<FormControl.ErrorMessage>
-					{errors?.phone?.message}
+					{errors?.phoneNumber?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
 			<FormControl isRequired isInvalid={"address" in errors}>
@@ -108,32 +144,24 @@ const Form = ({navigation}) => {
 				</FormControl.ErrorMessage>
 			</FormControl>
 			<View style={flexSpaceBetween}>
-				<FormControl isRequired isInvalid={"city" in errors} style={{width: "48%"}}>
+				<FormControl isRequired isInvalid={"address" in errors} style={{width: "48%"}}>
 					<FormControl.Label>City</FormControl.Label>
 					<Controller
 						control={control}
 						render={({ field: { onChange, onBlur, value } }) => (
-							<Select
-								selectedValue={value}
-								onValueChange={(itemValue) => {
-									onChange(itemValue);
-								}}
-								_selectedItem={{
-									bg: "teal.400",
-									endIcon: <CheckIcon size={4} />
-								}}  
-							>
-								{
-									[{label: "Chicago", value: "chi"}, {label: "New York", value: "ny"}].map((city, index) => <Select.Item key={index} label={city.label} value={city.value} />)
-								}
-							</Select>
+							<Input
+								variant="outline"
+								onBlur={onBlur}
+								onChangeText={(text) => onChange(text)}
+								value={value}
+							/>
 						)}
 						name="city"
-						rules={{ required: "Field is required" }}
-						defaultValue="chi"
+						rules={{ required: "Field is required", minLength: 3 }}
+						defaultValue=""
 					/>
 					<FormControl.ErrorMessage>
-						{errors.city?.message}
+						{errors?.city?.message}
 					</FormControl.ErrorMessage>
 				</FormControl>
 				<FormControl isRequired isInvalid={"zipCode" in errors} style={{width: "48%"}}>

@@ -34,3 +34,23 @@ export const FAKE_USER_DETAILS = {
 	password: "enctrypted password",
 	address: "724 Echo ave,"
 };
+
+const isNumber = (value) => {
+  if (typeof value != "string") return false;
+  return !isNaN(value) && !isNaN(parseFloat(value)); 
+};
+
+const getNumbersFromLocaleTime = (localeTime) => {
+  const splitted = localeTime.split("");
+  return splitted.reduce((acc, currentValue) => {
+    if (isNumber(currentValue)) acc.push(currentValue);
+    return acc;
+  }, []).join("");
+};
+
+
+export const generateOrderId = () => {
+  const localeTime = new Date().toLocaleTimeString("en-US");
+  const orderId = getNumbersFromLocaleTime(localeTime) + Math.floor((1 + Math.random()) * 0x10);
+  return orderId;
+};
