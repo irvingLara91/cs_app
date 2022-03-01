@@ -27,6 +27,12 @@ export function AuthUserProvider(props) {
         });
     }
 
+    const FirstTime = async () => {
+        await  setUser({...user, isFirstTime: false})
+        await setData("user",{...user, isFirstTime: false})
+
+    }
+
     useEffect(() => {
         getUser();
     }, [])
@@ -37,6 +43,7 @@ export function AuthUserProvider(props) {
         setFetching,
         user,
         fetching,
+        FirstTime
     };
     return (
         <AuthUserContext.Provider value={defaultContext}>

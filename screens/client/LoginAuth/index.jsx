@@ -27,8 +27,8 @@ export default function Login() {
             console.log("trigger error")
         } else {
 
-            setUser({...result, role: 1});
-            setData("user", {...result, role: 1})
+            setUser({...result, role: 1, isFirstTime : false});
+            setData("user", {...result, role: 1, isFirstTime : false})
         }
         setFetching(false)
     }
