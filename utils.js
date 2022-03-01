@@ -26,9 +26,11 @@ export const FAKE_ORDER_DETAIL = {
 };
 
 export const FAKE_USER_DETAILS = {
-	fullName: "Oscar Fuentes",
+	fullName: "Oscar",
+	lastName:"Fuentes",
 	phone: "5554095303",
 	email: "me@cornernstone.com",
+	rol:3,
 	city: "chi",
 	zipCode: "60446",
 	password: "enctrypted password",

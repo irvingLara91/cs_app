@@ -5,7 +5,12 @@ import moment from "moment";
 import {Divider, Image} from "native-base";
 
 const ContainerOrdersList = ({data = null, ...props}) => {
-    const renderItem = (item, index) => (<View key={index} style={styles.containerCard}>
+    const renderItem = (item, index) => (
+        <TouchableOpacity
+            onPress={()=>{
+                alert("Detail")
+            }}
+            key={index} style={styles.containerCard}>
         <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <Text style={{
@@ -64,7 +69,7 @@ const ContainerOrdersList = ({data = null, ...props}) => {
             </View>
 
         </View>
-    </View>);
+    </TouchableOpacity>);
 
     return (<View>
         <Text style={{

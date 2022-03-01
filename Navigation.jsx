@@ -27,6 +27,7 @@ import LoginAdminScreen from "~/screens/admin/LoginAuth";
 import PasswordRecoveryAdmin from "./screens/admin/LoginAuth/PasswordRecovery";
 import DrawerNavigationAdmin from "~/components/Navigation/DrawerNavigationAdmin";
 import CreateUserScreen from "~/screens/admin/CreateUserScreen";
+import UpdateUserScreen from "~/screens/admin/UpdateUserScreen";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const Stack = createNativeStackNavigator();
@@ -187,6 +188,11 @@ const NavigationAdmin = () => {
                 <Screen
                     name={screens.CREATE_USER}
                     component={CreateUserScreen}
+                    options={backButton}
+                />
+                <Screen
+                    name={screens.UPDATE_USER}
+                    component={UpdateUserScreen}
                     options={backButton}
                 />
 

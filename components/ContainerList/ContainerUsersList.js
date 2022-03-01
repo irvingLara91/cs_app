@@ -4,12 +4,18 @@ import {roleType, textSizeRender} from "~/utils/utils";
 import {Image} from "native-base";
 import moment from "moment";
 import {Feather} from "@expo/vector-icons";
+import screens from "~/constants/screens";
+import {useNavigation} from "@react-navigation/native";
 
 const ContainerUsersList = ({data = [], action = null}) => {
-
+    const navigation = useNavigation();
 
     const renderItem = (item, index) => (
-        <View key={index} style={styles.containerRender}>
+        <TouchableOpacity
+            onPress={()=>{
+                navigation.navigate(screens.UPDATE_USER)
+            }}
+            key={index} style={styles.containerRender}>
             <View style={styles.rowUser}>
                 <View style={styles.containerUser}>
                     {item.img ?
@@ -67,7 +73,7 @@ const ContainerUsersList = ({data = [], action = null}) => {
             </View>
 
 
-        </View>
+        </TouchableOpacity>
     );
     return (
         <View>
