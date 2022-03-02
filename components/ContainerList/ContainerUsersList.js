@@ -43,12 +43,12 @@ const ContainerUsersList = ({data = [], action = null}) => {
                         {item.lastName &&  item.lastName.length >10 ? item.lastName.substr(0,8)+ "...": item.lastName}
                     </Text>
                 </View>
-                <View style={styles.containerUser}>
+                <View style={[styles.containerUser,{justifyContent:"center"}]}>
                     <Text style={styles.textDate}>
                         {item.timestamp && moment(item.timestamp, "", "es").format('DD/MM/YYYY')}
                     </Text>
                 </View>
-                <View style={styles.containerUser}>
+                <View style={[styles.containerUser,{justifyContent:"center"}]}>
                     <View style={styles.containerRol}>
                         <Text style={styles.textRol}>
                             {roleType(item.assignedRole)}
@@ -96,7 +96,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1.5,
         margin:1,
-        justifyContent:'center',
     },
     textName: {
         fontSize: textSizeRender(3),
