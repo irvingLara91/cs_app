@@ -39,8 +39,8 @@ const ContainerUsersList = ({data = [], action = null}) => {
                         </View>
                     }
                     <Text style={styles.textName}>
-                        {item.firstName && item.firstName + "\n"}
-                        {item.lastName && item.lastName}
+                        {item.firstName &&  item.firstName.length >10 ? item.firstName.substr(0,8) + "...\n" : item.firstName + "\n"}
+                        {item.lastName &&  item.lastName.length >10 ? item.lastName.substr(0,8)+ "...": item.lastName}
                     </Text>
                 </View>
                 <View style={styles.containerUser}>

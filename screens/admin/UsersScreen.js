@@ -10,7 +10,7 @@ import {useNavigation} from "@react-navigation/native";
 
 const users_dummy = [
     {
-        id: 1, firstName: "Irving", lastName: "Lara",
+        id: 1, firstName: "Irving isidoro", lastName: "Lara  jimenez",
         timestamp: new Date(),
         assignedRole: 3,
         orders: 20,
