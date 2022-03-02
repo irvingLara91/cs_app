@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {View, FlatList, Text, TouchableOpacity, StyleSheet} from "react-native";
+import {View, Text, TouchableOpacity, StyleSheet} from "react-native";
 import {MaterialIcons} from "@expo/vector-icons";
 import { SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 

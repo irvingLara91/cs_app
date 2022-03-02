@@ -1,9 +1,8 @@
 import React from "react";
 import {Dimensions, View, Text} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import Header from "~/components/Header";
 import {Center, Divider} from "native-base";
-import {SCREEN_HEIGHT, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 
 const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => {

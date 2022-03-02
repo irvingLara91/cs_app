@@ -1,8 +1,8 @@
 import React from "react";
-import {View, FlatList, Text, TouchableOpacity, StyleSheet} from "react-native";
+import {View, Text, TouchableOpacity, StyleSheet} from "react-native";
 import moment from "moment";
 import {AntDesign, Feather} from "@expo/vector-icons";
-import {SCREEN_HEIGHT, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 const ContainerNotifications = ({data = [], action = null}) => {
 
