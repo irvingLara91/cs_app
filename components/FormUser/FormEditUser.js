@@ -4,11 +4,12 @@ import {Text, TouchableOpacity, View} from "react-native";
 import {Feather} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
-import {Center, CheckIcon, FormControl, Image, Input, Select, Stack} from "native-base";
+import {Center, CheckIcon, Divider, FormControl, Image, Input, Select, Stack} from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as mime from "react-native-mime-types";
 import * as ImageManipulator from "expo-image-manipulator";
 import {FAKE_USER_DETAILS} from "~/utils";
+import ContainOrdersAssignedList from "~/components/ContainerList/ContainOrdersAssignedList";
 
 const FormEditUser = (props) => {
     const {control, setValue, handleSubmit, formState: {errors}} = useForm();
@@ -334,6 +335,8 @@ const FormEditUser = (props) => {
                         </FormControl>
                     </Stack>
                 </Center>
+                <Divider mb={5} bg={"primary_black.900"}/>
+                <ContainOrdersAssignedList/>
             </View>
         </ContainerAdmin>
 
