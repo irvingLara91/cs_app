@@ -18,8 +18,6 @@ import {
     View,
 } from "native-base";
 
-import Orders from "~/components/Orders";
-import Profile from "~/components/Profile";
 import {Dimensions, Image, Platform, TouchableOpacity} from "react-native";
 import Dashboard from "../../screens/admin/DashboardScreen";
 import {useAuthUserContext} from "~/context/authUser";
@@ -28,7 +26,6 @@ import OrdersScreen from "~/screens/admin/OrdersScreen";
 import UsersScreen from "~/screens/admin/UsersScreen";
 import NotificationsScreen from "~/screens/admin/NotificationsScreen";
 import HelpScreen from "~/screens/admin/HelpScreen";
-import Screens from "~/constants/screens";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
