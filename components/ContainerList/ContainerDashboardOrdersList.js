@@ -25,12 +25,14 @@ const ContainerDashboardOrdersList = ({data = null, ...props}) => {
             {
                 !item.img ?
                     <Image
+                        alt="Dashboard admin"
                         size={100} resizeMode={"contain"}
                         source={{
                             uri: item.img
                         }}/>
                     :
                     <Image
+                        alt="Dashboard admin"
                         size={100} resizeMode={"contain"}
                         source={require("../../assets/image.png")}/>
             }

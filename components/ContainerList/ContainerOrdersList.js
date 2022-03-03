@@ -50,12 +50,14 @@ const ContainerOrdersList = ({data = null, ...props}) => {
                     <View style={{width:50,justifyContent:'center',backgroundColor: "#C4C4C4", borderRadius: 100, padding: 10}}>
                         {item.img ?
                             <Image
+                                alt="Order list"
                                 size={8} resizeMode={"contain"}
                                 source={{
                                     uri: item.img
                                 }}/>
                             :
                             <Image
+                                alt="Order list"
                                 size={8} resizeMode={"contain"}
                                 source={require("../../assets/image.png")}/>
                         }

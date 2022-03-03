@@ -20,6 +20,7 @@ const ContainerUsersList = ({data = [], action = null}) => {
                 <View style={styles.containerUser}>
                     {item.img ?
                         <Image
+                            alt="User list"
                             size={8} mr={2} resizeMode={"contain"} borderRadius={100}
                             source={{
                                 uri: item.img
@@ -34,6 +35,7 @@ const ContainerUsersList = ({data = [], action = null}) => {
                             padding: 10
                         }}>
                             <Image
+                                alt="User list"
                                 size={5} resizeMode={"contain"}
                                 source={require("../../assets/image.png")}/>
                         </View>
