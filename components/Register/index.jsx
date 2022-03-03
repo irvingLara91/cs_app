@@ -15,8 +15,8 @@ const Register = ({ navigation }) => {
 		if (result.hasOwnProperty("errorMessage")) {
 			console.log("trigger error")
 		} else {
-			setUser({...result, role: 1});
-			setData("user", {...result, role: 1})
+			setUser({...result, role: 1,isFirstTime : true});
+			setData("user", {...result, role: 1,isFirstTime : true})
 			// navigate(screens.PENDING_REGISTER_VALIDATION,{register:data});
 		}
 

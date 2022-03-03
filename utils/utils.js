@@ -36,3 +36,17 @@ export const textSizeRender = (size) => {
     let resolution = size / 100
     return resolution * SCREEN_WIDTH
 }
+
+export const roleType =(type)=>{
+    let rol = ""
+    switch (type) {
+        case 1 :
+            rol = "User";
+        case 2:
+            rol = "Administrator";
+        case 3:
+            rol = "Technician"
+    };
+
+    return rol;
+};

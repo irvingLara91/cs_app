@@ -7,7 +7,6 @@ import {
 	Stack,
 	VStack,
 	Button,
-	KeyboardAvoidingView,
 } from "native-base";
 import {useForm, Controller} from "react-hook-form";
 import ContainerBase from "~/components/common/ContainerBase";

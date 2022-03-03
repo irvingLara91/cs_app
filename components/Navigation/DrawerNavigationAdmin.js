@@ -18,8 +18,6 @@ import {
     View,
 } from "native-base";
 
-import Orders from "~/components/Orders";
-import Profile from "~/components/Profile";
 import {Dimensions, Image, Platform, TouchableOpacity} from "react-native";
 import Dashboard from "../../screens/admin/DashboardScreen";
 import {useAuthUserContext} from "~/context/authUser";
@@ -285,7 +283,7 @@ const DrawerNavigator = () => {
 
                         <TouchableOpacity
                             onPress={() => {
-                                alert("Profile")
+                                navigation.navigate("Profile");
                             }}
                             style={{
                                 marginRight: 15,

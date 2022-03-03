@@ -1,13 +1,20 @@
 import React from "react";
-import {View, FlatList, Text, TouchableOpacity, StyleSheet} from "react-native";
+import {View, Text, TouchableOpacity, StyleSheet} from "react-native";
 import moment from "moment";
 import {AntDesign, Feather} from "@expo/vector-icons";
-import {SCREEN_HEIGHT, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 const ContainerNotifications = ({data = [], action = null}) => {
 
     const renderItem = (item, index) => (
         <View key={index} style={{
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0, height: 4,
+            },
+            shadowOpacity: 0.30,
+            shadowRadius: 4.65,
+            elevation: 8,
             borderRadius: 10, backgroundColor: 'white', marginVertical: 5, padding: 20
         }}>
             <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: SCREEN_WIDTH * .05}}>
@@ -30,7 +37,7 @@ const ContainerNotifications = ({data = [], action = null}) => {
         </View>)
 
     return (
-        <View style={{marginBottom:SCREEN_WIDTH/3.5}}>
+        <View style={{marginBottom:SCREEN_WIDTH/3.5,paddingHorizontal: SCREEN_WIDTH * .05}}>
             {
                 data && data.length > 0 ?
                     data.map((item, index) => renderItem(item, index))

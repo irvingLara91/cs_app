@@ -1,9 +1,8 @@
 import React from "react";
 import {Dimensions, View, Text} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
-import Header from "~/components/Header";
 import {Center, Divider} from "native-base";
-import {SCREEN_HEIGHT, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 
 const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => {
@@ -31,7 +30,7 @@ const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => 
                                 <Text style={{
                                     width: '100%',
                                     fontFamily: 'Roboto_700Bold',
-                                    fontSize: textSizeRender(8)
+                                    fontSize: textSizeRender(7)
                                 }}>{title}</Text>
                             </View>
                         </View>
@@ -44,7 +43,6 @@ const ContainerAdmin = ({title = "", icon = null, actions = null, ...props}) => 
                 </Center>
 
                 <KeyboardAwareScrollView
-                    style={{paddingHorizontal: SCREEN_WIDTH * .05}}
                     extraScrollHeight={80}
                     enableOnAndroid={true}
                     keyboardShouldPersistTaps="handled">

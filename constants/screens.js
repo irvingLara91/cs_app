@@ -19,6 +19,8 @@ const screens = {
 	NEW_ORDER_STEP_4: "NEW_ORDER_STEP_4",
 	NEW_ORDER_PLACED: "NEW_ORDER_PLACED",
 	FAQ: "FAQ",
+	CREATE_USER:"CREATE_USER",
+	UPDATE_USER:"UPDATE_USER"
 };
 
 export default screens;
