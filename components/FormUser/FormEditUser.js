@@ -46,7 +46,6 @@ const FormEditUser = (props) => {
                 {format: result.type.split('/').pop(), base64: false});
             setImage(resizedImage.uri);
             setImageError(false)
-            console.log(result, resizedImage)
         }
     };
 

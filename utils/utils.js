@@ -38,15 +38,44 @@ export const textSizeRender = (size) => {
 }
 
 export const roleType =(type)=>{
-    let rol = ""
+    let role = ""
     switch (type) {
         case 1 :
-            rol = "User";
+            role = "User";
         case 2:
-            rol = "Administrator";
+            role = "Administrator";
         case 3:
-            rol = "Technician"
+            role = "Technician"
     };
 
-    return rol;
+    return role;
 };
+
+export const roles = [
+    {
+        label: "Client",
+        value: 1
+    },
+    {
+        label: "Administrator",
+        value: 2
+    },
+    {
+        label: "Technician",
+        value: 3
+    }
+]
+
+export const generateRandomPassword = (length = 8) => {
+    const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const numbers = "0123456789";
+    const symbols = "!@#$%^&*_-+=";
+    const characters = alpha + numbers + symbols
+    let password = "";
+    for (let i = 0; i < length; i++) {
+        password += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+        );
+    }
+  return password;
+}

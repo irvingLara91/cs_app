@@ -2,37 +2,36 @@ import React, {useState} from "react";
 import {TouchableOpacity, Text, View} from "react-native";
 import {Controller, useForm} from "react-hook-form";
 import {
-    Button,
     Center,
-    CheckIcon, Divider,
+    CheckIcon,
     FormControl,
     Image,
     Input,
     Select,
     Stack,
 } from "native-base";
-import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {roles, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import {Feather} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as mime from "react-native-mime-types";
+import userService from "~/services/user";
 
 const FormCreateUser = (props) => {
     const {control, handleSubmit, formState: {errors}} = useForm();
     const [image, setImage] = useState(null)
     const [imageError, setImageError] = useState(false)
 
-    const onSubmit = (data) => {
+    const onSubmit = async (data) => {
         if (image==null){
             setImageError(true)
             return
         }else {
             setImageError(false)
+            const result = await userService.createUser({...data, photo: image.uri})
+            console.log({result})
         }
-
-        console.log("submiting with ", data,image);
-
     };
 
 
@@ -77,7 +76,6 @@ const FormCreateUser = (props) => {
                 {format: result.type.split('/').pop(), base64: false});
             setImage(result);
             setImageError(false)
-            console.log(result)
             /// updateImageProfile(resizedImage)
         }
     };
@@ -196,7 +194,7 @@ const FormCreateUser = (props) => {
                                 {errors?.email?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <FormControl mb={3} isInvalid={"phone" in errors}>
+                        <FormControl mb={3} isInvalid={"phoneNumber" in errors}>
                             <FormControl.Label
                                 _text={{
                                     color: "primary_black",
@@ -223,15 +221,15 @@ const FormCreateUser = (props) => {
                                         keyboardType={"phone-pad"}
                                     />
                                 )}
-                                name="phone"
+                                name="phoneNumber"
                                 rules={{required: "Field is required", minLength: 3}}
                                 defaultValue=""
                             />
                             <FormControl.ErrorMessage>
-                                {errors?.phone?.message}
+                                {errors?.phoneNumber?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <FormControl mb={3} isInvalid={"Rol" in errors}>
+                        <FormControl mb={3} isInvalid={"role" in errors}>
                             <FormControl.Label
                                 _text={{
                                     color: "primary_black",
@@ -240,7 +238,7 @@ const FormCreateUser = (props) => {
                                 }}>Assign role</FormControl.Label>
                             <Controller
                                 control={control}
-                                render={({field: {onChange, onBlur, value}}) => (
+                                render={({field: {onChange, value}}) => (
                                     <Select
                                         bg={"primary_white.50"}
                                         pl={5}
@@ -257,23 +255,23 @@ const FormCreateUser = (props) => {
                                         }}
                                     >
                                         {
-                                            [{label: "Administrator", value: 2}, {
-                                                label: "Technician",
-                                                value: 3
-                                            }].map((rol, index) =>
-                                                <Select.Item key={index}
-                                                             label={rol.label}
-                                                             value={rol.value}/>
+                                            roles.map((role, index) =>
+                                                <Select.Item 
+                                                    key={index}
+                                                    label={role.label}
+                                                    value={role.value}
+                                                    disabled={role.value === 1}
+                                                />
                                             )
                                         }
                                     </Select>
                                 )}
-                                name="rol"
+                                name="role"
                                 rules={{required: "Field is required"}}
                                 defaultValue={3}
                             />
                             <FormControl.ErrorMessage>
-                                {errors.rol?.message}
+                                {errors.role?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
 
