@@ -84,8 +84,8 @@ const UserPickerModal = ({
                                                         }
                                                     </View>
                                                     <View style={{flex:1,flexDirection:'row',paddingLeft:10}}>
-                                                    <Text style={{fontSize: textSizeRender(3)}}> {opt.firstName} </Text>
-                                                    <Text style={{fontSize: textSizeRender(3)}}>{opt.lastName}</Text>
+                                                    <Text style={{fontFamily:"Roboto_500Medium",fontSize: textSizeRender(3)}}> {opt.firstName} </Text>
+                                                    <Text style={{fontFamily:"Roboto_500Medium",fontSize: textSizeRender(3)}}>{opt.lastName}</Text>
                                                     </View>
                                                     {
                                                         selected  ?  selected.id === opt.id ?
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
     modalTitle: {
         marginBottom: 15,
         textAlign: "center",
-        fontFamily: 'LufgaRegular',
+        fontFamily: 'Roboto_700Bold',
         fontSize: 20,
         color: 'black'
 

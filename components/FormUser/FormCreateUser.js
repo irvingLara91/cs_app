@@ -94,7 +94,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"firstName" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -104,13 +104,8 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor = 'primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -128,7 +123,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"lastName" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -138,13 +133,8 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor = 'primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -162,7 +152,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"email" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -172,13 +162,8 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor = 'primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -197,7 +182,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"phoneNumber" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -207,13 +192,8 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor = 'primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -232,7 +212,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"role" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}>Assign role</FormControl.Label>
@@ -320,7 +300,7 @@ const FormCreateUser = (props) => {
                                     {
                                         image ?
                                             <Center>
-                                                <Image size="lg" resizeMode={"cover"} borderRadius={100}
+                                                <Image alt="image" size="lg" resizeMode={"cover"} borderRadius={100}
                                                        source={{
                                                            uri: image.uri
                                                        }}/>
@@ -333,7 +313,7 @@ const FormCreateUser = (props) => {
                                                 borderRadius: 100,
                                                 padding: 6
                                             }}>
-                                                <Image size="lg" resizeMode={"cover"} borderRadius={100}
+                                                <Image alt="image" size="lg" resizeMode={"cover"} borderRadius={100}
                                                        source={require("../../assets/image.png")}/>
                                             </View>
 

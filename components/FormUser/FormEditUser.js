@@ -50,14 +50,14 @@ const FormEditUser = (props) => {
     };
 
     const onSubmit = (data) => {
-        if (image==null){
+        if (image == null) {
             setImageError(true)
             return
-        }else {
+        } else {
             setImageError(false)
         }
 
-        console.log("submiting with ", data,image);
+        console.log("submiting with ", data, image);
 
     };
 
@@ -84,7 +84,7 @@ const FormEditUser = (props) => {
                 </View>
             </TouchableOpacity>
             <TouchableOpacity
-                onPress={()=>{
+                onPress={() => {
                     alert("delete")
                 }}
                 style={{
@@ -119,7 +119,7 @@ const FormEditUser = (props) => {
                         <FormControl mb={3} isInvalid={"firstName" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -141,10 +141,12 @@ const FormEditUser = (props) => {
                                             {
                                                 image ?
                                                     <Center>
-                                                        <Image size="xs" resizeMode={"cover"} borderRadius={50}
-                                                               source={{
-                                                                   uri: image
-                                                               }}/>
+                                                        <Image
+                                                            alt="image"
+                                                            size="xs" resizeMode={"cover"} borderRadius={50}
+                                                            source={{
+                                                                uri: image
+                                                            }}/>
                                                     </Center>
                                                     :
                                                     <View style={{
@@ -154,21 +156,18 @@ const FormEditUser = (props) => {
                                                         borderRadius: 1000,
                                                         padding: 5
                                                     }}>
-                                                        <Image size={8} resizeMode={"contain"}
-                                                               source={require("../../assets/image.png")}/>
+                                                        <Image
+                                                            alt="image"
+                                                            size={8} resizeMode={"contain"}
+                                                            source={require("../../assets/image.png")}/>
                                                     </View>
                                             }
                                         </TouchableOpacity>
                                         <Input
                                             flex={1}
                                             height={SCREEN_WIDTH * .12}
-                                            _light={{
-                                                paddingLeft: 5,
-                                                backgroundColor: 'primary_white.50',
-                                            }} _dark={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }}
+                                            backgroundColor='primary_white.50'
+                                            pl={5}
                                             variant="rounded"
                                             onBlur={onBlur}
                                             onChangeText={(text) => onChange(text)}
@@ -187,7 +186,7 @@ const FormEditUser = (props) => {
                         <FormControl mb={3} isInvalid={"lastName" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -197,13 +196,8 @@ const FormEditUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor='primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -221,7 +215,7 @@ const FormEditUser = (props) => {
                         <FormControl mb={3} isInvalid={"email" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -231,13 +225,8 @@ const FormEditUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor='primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -256,7 +245,7 @@ const FormEditUser = (props) => {
                         <FormControl mb={3} isInvalid={"phone" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -266,13 +255,8 @@ const FormEditUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor='primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -291,7 +275,7 @@ const FormEditUser = (props) => {
                         <FormControl mb={3} isInvalid={"rol" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}>Role</FormControl.Label>
