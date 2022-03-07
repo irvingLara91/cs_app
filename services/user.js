@@ -11,7 +11,9 @@ const uploadUserPhoto = async (userId, photo) => {
     const metadata = {
         contentType: 'image/jpeg',
     };
-    return await uploadBytes(avatarStorageRef(userId), photo, metadata).then(() => getDownloadURL(avatarStorageRef(userId))).catch(() => "")
+    const img  = await fetch(photo);
+    const bytes= await img.blob();
+    return await uploadBytes(avatarStorageRef(userId), bytes, metadata).then(() => getDownloadURL(avatarStorageRef(userId))).catch(() => "")
 }
 
 const createUserDoc = async (userId, data) => {
