@@ -3,12 +3,15 @@ import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import {AntDesign, Feather} from "@expo/vector-icons";
 import moment from "moment";
 import {Divider, Image} from "native-base";
+import {useNavigation} from "@react-navigation/native";
+import screens from "~/constants/screens";
 
 const ContainerOrdersList = ({data = null, ...props}) => {
+    const navigation = useNavigation()
     const renderItem = (item, index) => (
         <TouchableOpacity
             onPress={()=>{
-                alert("Detail")
+               navigation.navigate(screens.ASSIGN_ORDER_TO)
             }}
             key={index} style={styles.containerCard}>
         <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
