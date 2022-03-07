@@ -1,30 +1,40 @@
 import {FAKE_USER_DETAILS} from "~/utils";
 import {doc, setDoc, getDoc} from "firebase/firestore";
+import { uploadBytes, getDownloadURL } from "firebase/storage";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import {auth, db} from "~/firebase";
+import {auth, db, avatarStorageRef} from "~/firebase";
+import { generateRandomPassword } from "~/utils/utils";
 
 
-const createUser = ({address, city, email, firstName, lastName, password, phoneNumber, photoURL = "", zipCode}) => {
+const uploadUserPhoto = async (userId, photo) => {
+    if (photo === "") return ""
+    const metadata = {
+        contentType: 'image/jpeg',
+    };
+    return await uploadBytes(avatarStorageRef(userId), photo, metadata).then(() => getDownloadURL(avatarStorageRef(userId))).catch(() => "")
+}
+
+const createUserDoc = async (userId, data) => {
+    const docRef = doc(db, "users", userId)
+    return await setDoc(docRef, data).then(() => {return {success: true}}).catch(() => {return {success: false}})
+}
+const createUser = ({address = "", city =  "", email, firstName, lastName, password = generateRandomPassword(), phoneNumber, photo = "", role = 1, zipCode = ""}) => {
     return createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
+            const userId = userCredential.user.uid;
+            const uploadResult = await uploadUserPhoto(userId, photo);
             const data = {
                 address,
                 city,
                 email,
-                firstName,
+                firstName, 
                 lastName,
                 phoneNumber,
-                photoURL,
-                role: 1,
+                photoURL: uploadResult,
+                role,
                 zipCode
             }
-            const docRef = doc(db, "users", userCredential.user.uid)
-            const newDocumentStatus = await setDoc(docRef, data).then(() => {
-                return {
-                    success: true
-                }
-            }).catch(error => new Error(error))
-            return newDocumentStatus
+            return await createUserDoc(userId, data);
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -64,6 +74,8 @@ const getUserDetails = (userId) => {
         }
     });
 };
+
+
 
 const userService = {getUserDetails, loginUser, createUser, getUser};
 

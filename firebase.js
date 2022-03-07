@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyARrBFVOAj-lj4V9coZQewxg6F32d3I2j4",
@@ -17,7 +18,10 @@ const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 
-// const auth = initializeAuth(app, { persistence: getReactNativePersistence(AsyncStorage) });
-// const analytics = getAnalytics(app);
-
 export const auth = getAuth(app)
+
+
+const storage = getStorage(app);
+
+export const avatarStorageRef = (userId) =>  ref(storage, `avatar-bucket/${userId}.jpg`)
+
