@@ -1,10 +1,12 @@
-import React, {useCallback, useState} from "react";
+import React, {useCallback, useState, useEffect} from "react";
 import {View, TouchableOpacity, Text} from "react-native";
 import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 import {textSizeRender} from "~/utils/utils";
 import OrdersAdmin from "~/components/OrdersAdmin/OrdersAdmin";
 import _ from "lodash";
+import ordersService from "~/services/orders";
+import { useAuthUserContext } from "~/context/authUser";
 
 const listOrders = [
     {id:1,date:new Date(),statusOrder:1,numberOrder:"1234",firstName:"Irving",lastName:"Lara",img:"https://random.imagecdn.app/250/150"}
@@ -18,6 +20,17 @@ const listOrders = [
 
 ]
 const OrdersScreen = (props) => {
+    const { user } = useAuthUserContext();
+
+    useEffect(() => {
+
+        const getOrders = async () => {
+            const result = await ordersService.getOrdersAssigned(user.userDoc.orders)
+            console.log({result})
+        }
+        getOrders();
+    }, [])
+
     const [array,setArray]=useState(listOrders)
 
     const [status,setStatus]=useState(null)
