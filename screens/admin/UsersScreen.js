@@ -65,7 +65,6 @@ const UsersScreen = (props) => {
     useEffect(() => {
         const getUserDocs = async () => {
             const docs = await userService.getUsers();
-            console.log({docs})
             setUsers(docs)
         }
         getUserDocs();
