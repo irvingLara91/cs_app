@@ -1,12 +1,13 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {TouchableOpacity, StyleSheet, View} from "react-native";
-import {Text} from "native-base";
-import ContainerAdmin from "~/components/common/ContainerAdmin";
-import {Feather} from "@expo/vector-icons";
-import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
-import ContainerUsersList from "~/components/ContainerList/ContainerUsersList";
-import Screens from "~/constants/screens";
 import {useNavigation} from "@react-navigation/native";
+import {Text} from "native-base";
+import {Feather} from "@expo/vector-icons";
+import ContainerUsersList from "~/components/ContainerList/ContainerUsersList";
+import ContainerAdmin from "~/components/common/ContainerAdmin";
+import Screens from "~/constants/screens";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import userService from "~/services/user"
 
 const users_dummy = [
     {
@@ -31,6 +32,7 @@ const users_dummy = [
         img:"https://random.imagecdn.app/150/150"
     }
 ];
+
 const TitleComponent = (props) => {
     return (
         <View style={{
@@ -57,7 +59,16 @@ const TitleComponent = (props) => {
 
 
 const UsersScreen = (props) => {
+    const [users, setUsers] = useState([]);
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const getUserDocs = async () => {
+            const docs = await userService.getUsers();
+            setUsers(docs)
+        }
+        getUserDocs();
+    }, [])
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
@@ -95,7 +106,7 @@ const UsersScreen = (props) => {
                 marginBottom: SCREEN_WIDTH / 3.5
             }}>
                 <TitleComponent/>
-                <ContainerUsersList data={users_dummy}/>
+                <ContainerUsersList data={users}/>
             </View>
 
 

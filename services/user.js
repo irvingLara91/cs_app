@@ -1,5 +1,5 @@
 import {FAKE_USER_DETAILS} from "~/utils";
-import {doc, setDoc, getDoc} from "firebase/firestore";
+import {doc, setDoc, getDoc, collection, query, getDocs} from "firebase/firestore";
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth, db, avatarStorageRef} from "~/firebase";
@@ -49,14 +49,14 @@ const createUser = ({
                 phoneNumber,
                 photoURL: uploadResult,
                 role,
-                zipCode
+                zipCode,
+                timestamp: new Date()
             }
             return await createUserDoc(userId, data);
         })
         .catch((error) => {
             const errorCode = error.code;
-            return {error: true,message: errorMessage(error.code)}
-            return {errorCode, errorMessage}
+            return {error: true,message: errorMessage(errorCode)}
         })
 }
 
@@ -71,6 +71,19 @@ const loginUser = (email, password) => {
             const errorMessage = error.message;
             return {errorCode, errorMessage}
         })
+}
+
+const getUsers = async () => {
+    const usersRef = query(collection(db, "users"));
+
+    const users = [];
+
+    const querySnapshot = await getDocs(usersRef);
+    querySnapshot.forEach((document) => {
+        users.push(document.data())
+    });
+
+    return users;
 }
 
 const getUser = async (userId) => {
@@ -93,6 +106,6 @@ const getUserDetails = (userId) => {
 };
 
 
-const userService = {getUserDetails, loginUser, createUser, getUser};
+const userService = {getUserDetails, loginUser, createUser, getUser, getUsers};
 
 export default userService;

@@ -1,7 +1,6 @@
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Dimensions} from "react-native";
-
 export const SCREEN_WIDTH = Dimensions.get("window").width
 export const SCREEN_HEIGHT = Dimensions.get("window").height
 
@@ -38,7 +37,7 @@ export const textSizeRender = (size) => {
     return resolution * SCREEN_WIDTH
 }
 
-export const roleType = (type) => {
+export const roleType =(type)=>{
     let role = ""
     switch (type) {
         case 1 :
@@ -47,8 +46,7 @@ export const roleType = (type) => {
             role = "Administrator";
         case 3:
             role = "Technician"
-    }
-    ;
+    };
 
     return role;
 };
@@ -76,10 +74,14 @@ export const generateRandomPassword = (length = 8) => {
     let password = "";
     for (let i = 0; i < length; i++) {
         password += characters.charAt(
-            Math.floor(Math.random() * characters.length)
+        Math.floor(Math.random() * characters.length)
         );
     }
-    return password;
+  return password;
+}
+
+export const rgx = {
+    url: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/
 }
 
 
@@ -97,7 +99,7 @@ export const errorMessage = (codeError) => {
     } else if (codeError === "auth/operation-not-allowed") {
 
         error = "Operation not allowed.";
-    } else if (error.code == "auth/weak-password") {
+    } else if (error.code === "auth/weak-password") {
 
         error = "The password is too weak.";
     }

@@ -6,6 +6,7 @@ import moment from "moment";
 import {Feather} from "@expo/vector-icons";
 import screens from "~/constants/screens";
 import {useNavigation} from "@react-navigation/native";
+import { rgx } from "~/utils/utils";
 
 const ContainerUsersList = ({data = [], action = null}) => {
     const navigation = useNavigation();
@@ -18,12 +19,12 @@ const ContainerUsersList = ({data = [], action = null}) => {
             key={index} style={styles.containerRender}>
             <View style={styles.rowUser}>
                 <View style={styles.containerUser}>
-                    {item.img ?
+                    {item.photoURL && rgx.url.test(item.photoURL)?
                         <Image
                             alt="User list"
                             size={8} mr={2} resizeMode={"contain"} borderRadius={100}
                             source={{
-                                uri: item.img
+                                uri: item.photoURL
                             }}/>
                         :
                         <View style={{
@@ -47,13 +48,13 @@ const ContainerUsersList = ({data = [], action = null}) => {
                 </View>
                 <View style={[styles.containerUser,{justifyContent:"center"}]}>
                     <Text style={styles.textDate}>
-                        {item.timestamp && moment(item.timestamp, "", "es").format('DD/MM/YYYY')}
+                        {item.timestamp && moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')}
                     </Text>
                 </View>
                 <View style={[styles.containerUser,{justifyContent:"center"}]}>
                     <View style={styles.containerRol}>
                         <Text style={styles.textRol}>
-                            {roleType(item.assignedRole)}
+                            {roleType(item.role)}
                         </Text>
                     </View>
 
