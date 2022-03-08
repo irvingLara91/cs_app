@@ -3,7 +3,7 @@ import {doc, setDoc, getDoc} from "firebase/firestore";
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth, db, avatarStorageRef} from "~/firebase";
-import { generateRandomPassword } from "~/utils/utils";
+import {errorMessage, generateRandomPassword} from "~/utils/utils";
 
 
 const uploadUserPhoto = async (userId, photo) => {
@@ -18,9 +18,24 @@ const uploadUserPhoto = async (userId, photo) => {
 
 const createUserDoc = async (userId, data) => {
     const docRef = doc(db, "users", userId)
-    return await setDoc(docRef, data).then(() => {return {success: true}}).catch(() => {return {success: false}})
+    return await setDoc(docRef, data).then(() => {
+        return {success: true,message:"user created successfully."}
+    }).catch(() => {
+        return {success: false,message:"There was an error creating the user."}
+    })
 }
-const createUser = ({address = "", city =  "", email, firstName, lastName, password = generateRandomPassword(), phoneNumber, photo = "", role = 1, zipCode = ""}) => {
+const createUser = ({
+                        address = "",
+                        city = "",
+                        email,
+                        firstName,
+                        lastName,
+                        password = generateRandomPassword(),
+                        phoneNumber,
+                        photo = "",
+                        role = 1,
+                        zipCode = ""
+                    }) => {
     return createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
             const userId = userCredential.user.uid;
@@ -29,7 +44,7 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
                 address,
                 city,
                 email,
-                firstName, 
+                firstName,
                 lastName,
                 phoneNumber,
                 photoURL: uploadResult,
@@ -40,7 +55,7 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
         })
         .catch((error) => {
             const errorCode = error.code;
-            const errorMessage = error.message;
+            return {error: true,message: errorMessage(error.code)}
             return {errorCode, errorMessage}
         })
 }
@@ -76,7 +91,6 @@ const getUserDetails = (userId) => {
         }
     });
 };
-
 
 
 const userService = {getUserDetails, loginUser, createUser, getUser};
