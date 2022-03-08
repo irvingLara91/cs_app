@@ -14,14 +14,14 @@ const ContainerUsersList = ({data = [], action = null}) => {
     const renderItem = (item, index) => (
         <TouchableOpacity
             onPress={()=>{
-                navigation.navigate(screens.UPDATE_USER)
+                navigation.navigate(screens.UPDATE_USER, {user:item})
             }}
             key={index} style={styles.containerRender}>
             <View style={styles.rowUser}>
                 <View style={styles.containerUser}>
                     {item.photoURL && rgx.url.test(item.photoURL)?
                         <Image
-                            alt="User list"
+                            alt=""
                             size={8} mr={2} resizeMode={"contain"} borderRadius={100}
                             source={{
                                 uri: item.photoURL
@@ -36,7 +36,7 @@ const ContainerUsersList = ({data = [], action = null}) => {
                             padding: 10
                         }}>
                             <Image
-                                alt="User list"
+                                alt=""
                                 size={5} resizeMode={"contain"}
                                 source={require("../../assets/image.png")}/>
                         </View>
@@ -62,7 +62,7 @@ const ContainerUsersList = ({data = [], action = null}) => {
                 <View style={{flex:1,flexDirection:'row',alignItems: 'center'}}>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <Text style={styles.textName}>
-                            {item.orders}
+                            {item.orders && item.orders.length}
                         </Text>
                     </View>
                     <View style={{flex: 0, alignItems: 'center'}}>

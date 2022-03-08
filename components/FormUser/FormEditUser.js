@@ -1,15 +1,33 @@
 import React, {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
-import {Text, TouchableOpacity, View} from "react-native";
+import {Text, TouchableOpacity, View, Image} from "react-native";
 import {Feather} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
-import {Center, CheckIcon, Divider, FormControl, Image, Input, Select, Stack} from "native-base";
+import {Center, CheckIcon, Divider, FormControl, Input, Select, Stack} from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as mime from "react-native-mime-types";
 import * as ImageManipulator from "expo-image-manipulator";
 import {FAKE_USER_DETAILS} from "~/utils";
 import ContainOrdersAssignedList from "~/components/ContainerList/ContainOrdersAssignedList";
+
+
+const ImgDefault = () => {
+    return<Image
+            style={{
+                width: 50,
+                height: 50,
+                resizeMode: 'contain',
+                borderRadius:50,
+                borderWidth:3,
+                borderColor:"#C4C4C4",
+                backgroundColor: "#C4C4C4",
+                padding: 15
+            }}
+            defaultSource={require("../../assets/image.png")}
+            source={require("../../assets/image.png")}/>
+}
+
 
 const FormEditUser = (props) => {
     const {control, setValue, handleSubmit, formState: {errors}} = useForm();
@@ -17,16 +35,19 @@ const FormEditUser = (props) => {
     const [imageError, setImageError] = useState(false)
 
     useEffect(() => {
-        setUser()
+        if (props.user) {
+            setUser(props.user)
+        }
+
     }, [])
 
-    const setUser = () => {
-        setValue("firstName", FAKE_USER_DETAILS.fullName);
-        setValue("lastName", FAKE_USER_DETAILS.lastName);
-        setValue("email", FAKE_USER_DETAILS.email);
-        setValue("phone", FAKE_USER_DETAILS.phone);
-        setValue("rol", FAKE_USER_DETAILS.rol);
-        setImage("https://www.w3schools.com/css/img_lights.jpg")
+    const setUser = (user) => {
+        setValue("firstName", user.firstName);
+        setValue("lastName", user.lastName);
+        setValue("email", user.email);
+        setValue("phone", user.phoneNumber);
+        setValue("rol", user.role);
+        setImage(user.photoURL)
 
     }
 
@@ -44,7 +65,7 @@ const FormEditUser = (props) => {
             let resizedImage = await ImageManipulator.manipulateAsync(
                 result.uri, [{resize: {width: result.width / 2, height: result.height / 2}}],
                 {format: result.type.split('/').pop(), base64: false});
-            setImage(resizedImage.uri);
+            setImage(result.uri);
             setImageError(false)
         }
     };
@@ -142,25 +163,24 @@ const FormEditUser = (props) => {
                                                 image ?
                                                     <Center>
                                                         <Image
-                                                            alt="image"
-                                                            size="xs" resizeMode={"cover"} borderRadius={50}
+                                                            style={{
+                                                                width: 50,
+                                                                height: 50,
+                                                                resizeMode: 'cover',
+                                                                borderRadius:50,
+                                                                borderWidth:3,
+                                                                borderColor:"#C4C4C4",
+                                                                backgroundColor: "#C4C4C4",
+                                                                padding: 15
+                                                            }}
+                                                            defaultSource={require("../../assets/image.png")}
                                                             source={{
                                                                 uri: image
                                                             }}/>
                                                     </Center>
                                                     :
-                                                    <View style={{
-                                                        alignItems: 'center',
-                                                        justifyContent: 'center',
-                                                        backgroundColor: "#C4C4C4",
-                                                        borderRadius: 1000,
-                                                        padding: 5
-                                                    }}>
-                                                        <Image
-                                                            alt="image"
-                                                            size={8} resizeMode={"contain"}
-                                                            source={require("../../assets/image.png")}/>
-                                                    </View>
+                                                    <ImgDefault/>
+
                                             }
                                         </TouchableOpacity>
                                         <Input

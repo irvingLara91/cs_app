@@ -55,8 +55,7 @@ const createUser = ({
             return await createUserDoc(userId, data);
         })
         .catch((error) => {
-            const errorCode = error.code;
-            return {error: true,message: errorMessage(errorCode)}
+            return {error: true,message: errorMessage(error.code)}
         })
 }
 
