@@ -1,5 +1,5 @@
 import {FAKE_USER_DETAILS} from "~/utils";
-import {doc, setDoc, getDoc} from "firebase/firestore";
+import {doc, setDoc, getDoc, collection, query, getDocs} from "firebase/firestore";
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth, db, avatarStorageRef} from "~/firebase";
@@ -11,7 +11,9 @@ const uploadUserPhoto = async (userId, photo) => {
     const metadata = {
         contentType: 'image/jpeg',
     };
-    return await uploadBytes(avatarStorageRef(userId), photo, metadata).then(() => getDownloadURL(avatarStorageRef(userId))).catch(() => "")
+    const img  = await fetch(photo);
+    const bytes= await img.blob();
+    return await uploadBytes(avatarStorageRef(userId), bytes, metadata).then(() => getDownloadURL(avatarStorageRef(userId))).catch(() => "")
 }
 
 const createUserDoc = async (userId, data) => {
@@ -32,7 +34,8 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
                 phoneNumber,
                 photoURL: uploadResult,
                 role,
-                zipCode
+                zipCode,
+                timestamp: new Date()
             }
             return await createUserDoc(userId, data);
         })
@@ -56,6 +59,19 @@ const loginUser = (email, password) => {
         })
 }
 
+const getUsers = async () => {
+    const usersRef = query(collection(db, "users"));
+
+    const users = [];
+
+    const querySnapshot = await getDocs(usersRef);
+    querySnapshot.forEach((document) => {
+        users.push(document.data())
+    });
+
+    return users;
+}
+
 const getUser = async (userId) => {
     const docRef = doc(db, "users", userId);
     const docSnap = await getDoc(docRef);
@@ -76,7 +92,6 @@ const getUserDetails = (userId) => {
 };
 
 
-
-const userService = {getUserDetails, loginUser, createUser, getUser};
+const userService = {getUserDetails, loginUser, createUser, getUser, getUsers};
 
 export default userService;
