@@ -49,16 +49,15 @@ const UsersScreen = (props) => {
         }
     }, [isFocused])
 
-    const getUserDocs = async () => {
+    const getUserDocs = () => {
         setLoading(true)
         try {
             userService.getUsers().then(docs => {
                 setUsers(docs)
-                console.log("s", docs)
                 setTimeout(() => {
                     setLoading(false)
                 }, 500);
-            })
+            });
         } catch (e) {
             setLoading(false)
         }
