@@ -1,3 +1,6 @@
+import {doc, setDoc, getDoc, collection, query, where, getDocs, collectionGroup, documentId} from "firebase/firestore";
+import {db} from "~/firebase";
+
 import { FAKE_ORDER_DETAIL, ORDERS_FAKE_DATA } from "~/utils";
 
 const getOrders = (userId) => {
@@ -23,6 +26,20 @@ const getOrderDetails = (orderId) => {
 	});
 };
 
-const ordersService = { getOrders, getOrderDetails };
+
+const getOrdersAssigned = async (ordersIds = []) => {
+	const orders = [];
+	const ordersRef = collection(db, "orders");
+	const querySnapshot = await getDocs(ordersRef);
+	querySnapshot.forEach((document) => {
+		const { orderId } = document.data();
+		if (ordersIds.includes(orderId)) {
+			orders.push(document.data())
+		}
+	})
+	return orders 
+}
+
+const ordersService = { getOrders, getOrderDetails, getOrdersAssigned };
 
 export default ordersService;

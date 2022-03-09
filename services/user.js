@@ -35,7 +35,8 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
                 photoURL: uploadResult,
                 role,
                 zipCode,
-                timestamp: new Date()
+                createdAt: new Date(),
+                orders: []
             }
             return await createUserDoc(userId, data);
         })
@@ -48,9 +49,10 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
 
 const loginUser = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
+            const userDoc = await getUser(userCredential.user.uid);
             const user = userCredential.user;
-            return user;
+            return {...user, userDoc};
         })
         .catch((error) => {
             const errorCode = error.code;
