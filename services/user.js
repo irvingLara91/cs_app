@@ -35,7 +35,7 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
                 photoURL: uploadResult,
                 role,
                 zipCode,
-                timestamp: new Date(),
+                createdAt: new Date(),
                 orders: []
             }
             return await createUserDoc(userId, data);
