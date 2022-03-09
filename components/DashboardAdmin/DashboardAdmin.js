@@ -4,8 +4,11 @@ import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import {Button, Divider, Text} from "native-base";
 import ContainerDashboardOrdersList from "~/components/ContainerList/ContainerDashboardOrdersList";
 import TotalOrdersComponent from "~/components/TotalOrdersComponent/TotalOrdersComponent";
+import screens from "~/constants/screens";
+import {useNavigation} from "@react-navigation/native";
 
 const DashboardAdmin = ({data=null,...pos}) => {
+    const navigation = useNavigation()
 
     return (<View style={{
         paddingHorizontal: SCREEN_WIDTH * .05,
@@ -42,12 +45,16 @@ const DashboardAdmin = ({data=null,...pos}) => {
                 <View style={[styles.viewTitleFix, {
                     alignItems: "flex-end"
                 }]}>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={()=>{
+                        navigation.navigate("Orders");
+                    }}
+                    >
                         <Text underline>View all orders</Text>
                     </TouchableOpacity>
                 </View>
             </View>
-            <TotalOrdersComponent total={80}/>
+            <TotalOrdersComponent total={data && data.length > 0 ? data.length : 0}/>
         </View>
         <View style={styles.ContainerOrderTotal}>
             <ContainerDashboardOrdersList data={data}/>

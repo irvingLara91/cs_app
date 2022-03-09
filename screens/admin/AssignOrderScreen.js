@@ -10,13 +10,14 @@ import AssignOrderTo from "~/components/AssignOrder/AssignOrderTo";
 import CustomerData from "~/components/AssignOrder/CustomerData";
 import OrderInfo from "~/components/AssignOrder/OrderInfo";
 import Screens from "~/constants/screens";
+import {useRoute} from "@react-navigation/native";
 
 const users_fake = [
     {
         id: 1,
         firstName: "Irving",
         lastName: "Lara",
-        phone: 9991501069,
+        phoneNumber: 9991501069,
         email: "irvinglara9115@gmail.com",
         image: "https://random.imagecdn.app/250/150"
     }
@@ -24,7 +25,7 @@ const users_fake = [
         id: 2,
         firstName: "Victor",
         lastName: "Lopez",
-        phone: 555555555,
+        phoneNumber: 555555555,
         email: "victor@gmail.com",
         image: "https://random.imagecdn.app/150/150"
     }
@@ -32,22 +33,20 @@ const users_fake = [
         id: 3,
         firstName: "Carlos",
         lastName: " Jiménez",
-        phone: 9999999999,
+        phoneNumber: 9999999999,
         email: "carlos@gmail.com",
         image: "https://random.imagecdn.app/150/150"
     }
 ]
-
-const user_fake = {id: 9,
-    firstName: "Andres",
-    lastName: " Perez",
-    phone: 111111111,
-    email: "andres@gmail.com",
-    image: "https://random.imagecdn.app/150/150"}
 const AssignOrderScreen = (props) => {
+    const {order} = useRoute().params ?? {};
+
+
+    console.log(order)
+
     const {user} = useAuthUserContext()
     const [visibleUserPicker, setVisibleUserPicker] = useState(false)
-    const [selected, setSelected] = useState(user_fake)
+    const [selected, setSelected] = useState(order  ? order.client ? order.client :{}: {})
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
@@ -119,14 +118,16 @@ const AssignOrderScreen = (props) => {
                     <View style={styles.card}>
                         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                             <Text style={{fontFamily: "Roboto_500Medium", fontSize: textSizeRender(3)}}>Order: </Text>
-                            <Text style={{fontFamily: "Roboto_700Bold", fontSize: textSizeRender(5)}}>{"1458976"}</Text>
+                            <Text style={{fontFamily: "Roboto_700Bold", fontSize: textSizeRender(5)}}>{order && order.orderId}</Text>
                         </View>
                         <View style={{flex: 1, alignItems: "flex-end", justifyContent: 'center'}}>
                             <Text style={{
                                 color: "#646464",
                                 fontFamily: "Roboto_500Medium",
                                 fontSize: textSizeRender(3.5)
-                            }}>{moment(new Date(), "", "es").format('DD-MM-YYYY')}</Text>
+                            }}>
+                                {order.timestamp && moment(order.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')}
+                            </Text>
                         </View>
                     </View>
                     {
@@ -135,7 +136,7 @@ const AssignOrderScreen = (props) => {
                     }
 
                     <CustomerData user={selected}/>
-                    <OrderInfo/>
+                    <OrderInfo gravestone={order && order.gravestone && order.gravestone} />
                 </View>
             </ContainerAdmin>
             {

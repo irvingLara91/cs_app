@@ -11,7 +11,7 @@ const ContainerOrdersList = ({data = null, ...props}) => {
     const renderItem = (item, index) => (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate(screens.ASSIGN_ORDER_TO)
+                navigation.navigate(screens.ASSIGN_ORDER_TO,{order:item});
             }}
             key={index} style={styles.containerCard}>
             <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
@@ -25,7 +25,14 @@ const ContainerOrdersList = ({data = null, ...props}) => {
                 </View>
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                     <AntDesign name="calendar" size={24} color="black"/>
-                    <Text style={styles.textDate}>{moment(item.date, "", "es").format('DD/MM/YYYY')}</Text>
+
+                    <Text style={styles.textDate}>
+                        {
+                            item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                :
+                                "No date"
+                        }
+                    </Text>
                 </View>
             </View>
             <Divider/>
