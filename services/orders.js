@@ -1,4 +1,6 @@
 import { FAKE_ORDER_DETAIL, ORDERS_FAKE_DATA } from "~/utils";
+import {collection, getDocs} from "firebase/firestore";
+import {db} from "~/firebase";
 
 const getOrders = (userId) => {
 	// FAKE API CALL
