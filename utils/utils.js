@@ -42,10 +42,13 @@ export const roleType =(type)=>{
     switch (type) {
         case 1 :
             role = "User";
+            break;
         case 2:
-            role = "Administrator";
+            role = "Administrator"
+            break;
         case 3:
             role = "Technician"
+            break;
     };
 
     return role;
@@ -64,7 +67,31 @@ export const roles = [
         label: "Technician",
         value: 3
     }
-]
+];
+
+export const statusCode = (status) => {
+    let statusCode = ""
+    switch (status) {
+        case 1:
+            statusCode = "Confirmed"
+            break;
+        case 2:
+            statusCode = "In process"
+            break;
+        case 3:
+            statusCode = "Order ready"
+            break;
+        case 4:
+            statusCode = "Order sent"
+            break;
+        default:
+            statusCode = "No status"
+            break
+    }
+    ;
+
+    return statusCode;
+}
 
 export const generateRandomPassword = (length = 8) => {
     const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -82,4 +109,27 @@ export const generateRandomPassword = (length = 8) => {
 
 export const rgx = {
     url: /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/
+}
+
+
+export const errorMessage = (codeError) => {
+    let error = ""
+
+    if (codeError === "auth/email-already-in-use") {
+
+        error = "The email address is already in use";
+
+    } else if (codeError === "auth/invalid-email") {
+
+        error = "The email address is not valid.";
+
+    } else if (codeError === "auth/operation-not-allowed") {
+
+        error = "Operation not allowed.";
+    } else if (error.code === "auth/weak-password") {
+
+        error = "The password is too weak.";
+    }
+
+    return error
 }

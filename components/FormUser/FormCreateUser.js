@@ -17,20 +17,59 @@ import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as mime from "react-native-mime-types";
 import userService from "~/services/user";
+import Loading from "~/components/Loading/Loading";
+import CustomModal from "~/components/Modals/CustomModal";
 
+const defaultValues = {
+    select: 3,
+    input: ""
+};
 const FormCreateUser = (props) => {
-    const {control, handleSubmit, formState: {errors}} = useForm();
+    const [loading, setLoading] = useState(false)
+    const {control,register,reset, handleSubmit, formState: {errors}} = useForm();
     const [image, setImage] = useState(null)
     const [imageError, setImageError] = useState(false)
 
+    /***
+     * States de CustomModal
+     * **/
+    const [customModalVisible, setCustomModalVisible] = useState(false)
+    const [customModal, setCustomModal] = useState({})
+    /***
+     * End States de CustomModal
+     * **/
+
+
+    const resetData=()=>{
+        setImage(null)
+        reset({ defaultValues })
+    }
+
+
     const onSubmit = async (data) => {
-        if (image==null){
+        if (image == null) {
             setImageError(true)
             return
-        }else {
+        } else {
+            setLoading(true)
             setImageError(false)
             const result = await userService.createUser({...data, photo: image.uri})
             console.log({result})
+            if (result.success) {
+                setCustomModalVisible(true)
+                setCustomModal({isError: false, message: result.message})
+                setLoading(false)
+               await resetData();
+            } else if (result.error) {
+                setCustomModalVisible(true)
+                setCustomModal({isError: true, message: result.message})
+                setLoading(false)
+
+            } else {
+                setCustomModalVisible(true)
+                setCustomModal({isError: true, message: result.message})
+                setLoading(false)
+            }
         }
     };
 
@@ -94,7 +133,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"firstName" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -104,13 +143,8 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor='primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -128,7 +162,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"lastName" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -138,13 +172,8 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor='primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -162,7 +191,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"email" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -172,18 +201,21 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor='primary_white.50'
+                                        pl={5}
+                                        autoCapitalize='none'
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
                                         value={value}
                                         keyboardType={"email-address"}
+                                        {...register("email", {
+                                            required: "required",
+                                            pattern: {
+                                                value: /\S+@\S+\.\S+/,
+                                                message: "Entered value does not match email format"
+                                            }
+                                        })}
                                     />
                                 )}
                                 name="email"
@@ -197,7 +229,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"phoneNumber" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}
@@ -207,13 +239,8 @@ const FormCreateUser = (props) => {
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Input
                                         height={SCREEN_WIDTH * .12}
-                                        _light={{
-                                            paddingLeft: 5,
-                                            backgroundColor: 'primary_white.50',
-                                        }} _dark={{
-                                        paddingLeft: 5,
-                                        backgroundColor: 'primary_white.50',
-                                    }}
+                                        backgroundColor='primary_white.50'
+                                        pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -222,7 +249,7 @@ const FormCreateUser = (props) => {
                                     />
                                 )}
                                 name="phoneNumber"
-                                rules={{required: "Field is required", minLength: 3}}
+                                rules={{required: "Field is required", minLength: 3,maxLength:12}}
                                 defaultValue=""
                             />
                             <FormControl.ErrorMessage>
@@ -232,7 +259,7 @@ const FormCreateUser = (props) => {
                         <FormControl mb={3} isInvalid={"role" in errors}>
                             <FormControl.Label
                                 _text={{
-                                    color: "primary_black",
+                                    color: "primary_black.900",
                                     fontFamily: "Roboto_700Bold",
                                     fontSize: textSizeRender(4),
                                 }}>Assign role</FormControl.Label>
@@ -256,7 +283,7 @@ const FormCreateUser = (props) => {
                                     >
                                         {
                                             roles.map((role, index) =>
-                                                <Select.Item 
+                                                <Select.Item
                                                     key={index}
                                                     label={role.label}
                                                     value={role.value}
@@ -276,7 +303,7 @@ const FormCreateUser = (props) => {
                         </FormControl>
 
                         <View style={{
-                            marginTop:10,
+                            marginTop: 10,
                             borderRadius: 5,
                             borderWidth: 1,
                             borderColor: 'black',
@@ -317,39 +344,49 @@ const FormCreateUser = (props) => {
                             </View>
                             <View style={{flex: 1, justifyContent: 'center'}}>
 
-                                    {
-                                        image ?
-                                            <Center>
-                                                <Image size="lg" resizeMode={"cover"} borderRadius={100}
-                                                       source={{
-                                                           uri: image.uri
-                                                       }}/>
-                                            </Center>
-                                            :
-                                            <View style={{
-                                                alignItems: 'center',
-                                                justifyContent: 'center',
-                                                backgroundColor: "#C4C4C4",
-                                                borderRadius: 100,
-                                                padding: 6
-                                            }}>
-                                                <Image size="lg" resizeMode={"cover"} borderRadius={100}
-                                                       source={require("../../assets/image.png")}/>
-                                            </View>
+                                {
+                                    image ?
+                                        <Center>
+                                            <Image alt="image" size="lg" resizeMode={"cover"} borderRadius={100}
+                                                   source={{
+                                                       uri: image.uri
+                                                   }}/>
+                                        </Center>
+                                        :
+                                        <View style={{
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                            backgroundColor: "#C4C4C4",
+                                            borderRadius: 100,
+                                            padding: 6
+                                        }}>
+                                            <Image alt="image" size="lg" resizeMode={"cover"} borderRadius={100}
+                                                   source={require("../../assets/image.png")}/>
+                                        </View>
 
-                                    }
+                                }
                             </View>
                         </View>
                         {
                             imageError &&
                             <Text style={{
-                                color:"red",
-                                fontSize:textSizeRender(2.9)
+                                color: "red",
+                                fontSize: textSizeRender(2.9)
                             }}>Field is required</Text>
                         }
                     </Stack>
                 </Center>
             </View>
+            {
+                loading &&
+                <Loading loading={loading} color={"white"} text={"loading..."}/>
+            }
+            {
+
+                customModalVisible &&
+                <CustomModal visible={customModalVisible} setVisible={setCustomModalVisible} message={customModal.message} isError={customModal.isError}/>
+            }
+
         </ContainerAdmin>
     )
 };

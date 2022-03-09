@@ -3,7 +3,8 @@ import {doc, setDoc, getDoc, collection, query, getDocs} from "firebase/firestor
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth, db, avatarStorageRef} from "~/firebase";
-import { generateRandomPassword } from "~/utils/utils";
+import {errorMessage, generateRandomPassword} from "~/utils/utils";
+import _ from "lodash";
 
 
 const uploadUserPhoto = async (userId, photo) => {
@@ -18,9 +19,24 @@ const uploadUserPhoto = async (userId, photo) => {
 
 const createUserDoc = async (userId, data) => {
     const docRef = doc(db, "users", userId)
-    return await setDoc(docRef, data).then(() => {return {success: true}}).catch(() => {return {success: false}})
+    return await setDoc(docRef, data).then(() => {
+        return {success: true,message:"user created successfully."}
+    }).catch(() => {
+        return {success: false,message:"There was an error creating the user."}
+    })
 }
-const createUser = ({address = "", city =  "", email, firstName, lastName, password = generateRandomPassword(), phoneNumber, photo = "", role = 1, zipCode = ""}) => {
+const createUser = ({
+                        address = "",
+                        city = "",
+                        email,
+                        firstName,
+                        lastName,
+                        password = generateRandomPassword(),
+                        phoneNumber,
+                        photo = "",
+                        role = 1,
+                        zipCode = ""
+                    }) => {
     return createUserWithEmailAndPassword(auth, email, password)
         .then(async (userCredential) => {
             const userId = userCredential.user.uid;
@@ -29,7 +45,7 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
                 address,
                 city,
                 email,
-                firstName, 
+                firstName,
                 lastName,
                 phoneNumber,
                 photoURL: uploadResult,
@@ -41,9 +57,7 @@ const createUser = ({address = "", city =  "", email, firstName, lastName, passw
             return await createUserDoc(userId, data);
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            return {errorCode, errorMessage}
+            return {error: true,message: errorMessage(error.code)}
         })
 }
 
@@ -63,15 +77,22 @@ const loginUser = (email, password) => {
 
 const getUsers = async () => {
     const usersRef = query(collection(db, "users"));
-
     const users = [];
-
+    let user_filter=[];
     const querySnapshot = await getDocs(usersRef);
     querySnapshot.forEach((document) => {
         users.push(document.data())
     });
 
-    return users;
+    /***
+     * Function to filter users that are different from role 1
+     ***/
+    if (users.length>0){
+         user_filter = _.filter(users,function(user) {
+            return user.role!==1;
+        });
+    }
+    return user_filter;
 }
 
 const getUser = async (userId) => {

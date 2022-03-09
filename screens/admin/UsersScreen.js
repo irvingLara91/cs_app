@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {TouchableOpacity, StyleSheet, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {Text} from "native-base";
 import {Feather} from "@expo/vector-icons";
 import ContainerUsersList from "~/components/ContainerList/ContainerUsersList";
@@ -8,35 +8,14 @@ import ContainerAdmin from "~/components/common/ContainerAdmin";
 import Screens from "~/constants/screens";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import userService from "~/services/user"
+import Loading from "~/components/Loading/Loading";
 
-const users_dummy = [
-    {
-        id: 1, firstName: "Irving isidoro", lastName: "Lara  jimenez",
-        timestamp: new Date(),
-        assignedRole: 3,
-        orders: 20,
-        img:"https://random.imagecdn.app/150/150"
-    },
-    {
-        id: 2, firstName: "Alex", lastName: "Lara",
-        timestamp: new Date(),
-        assignedRole: 3,
-        orders: 21,
-        img:"https://random.imagecdn.app/150/150"
-    },
-    {
-        id: 2, firstName: "Carlos", lastName: "Jiménez",
-        timestamp: new Date(),
-        assignedRole: 3,
-        orders: 21,
-        img:"https://random.imagecdn.app/150/150"
-    }
-];
 
 const TitleComponent = (props) => {
     return (
         <View style={{
-            flexDirection: "row", flex: 1,
+            marginHorizontal: SCREEN_WIDTH * .05,
+            flexDirection: "row",
             backgroundColor: '#EAEAEA',
             padding: 15,
             borderRadius: 5
@@ -59,34 +38,48 @@ const TitleComponent = (props) => {
 
 
 const UsersScreen = (props) => {
+    const [loading, setLoading] = useState(null);
     const [users, setUsers] = useState([]);
     const navigation = useNavigation();
+    const isFocused = useIsFocused();
 
-    useEffect(() => {
-        const getUserDocs = async () => {
-            const docs = await userService.getUsers();
-            setUsers(docs)
+    useEffect(async () => {
+        if (isFocused) {
+            await getUserDocs();
         }
-        getUserDocs();
-    }, [])
+    }, [isFocused])
+
+    const getUserDocs = () => {
+        setLoading(true)
+        try {
+            userService.getUsers().then(docs => {
+                setUsers(docs)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
+            });
+        } catch (e) {
+            setLoading(false)
+        }
+    };
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
             <TouchableOpacity
 
-                onPress={()=>{
+                onPress={() => {
                     navigation.navigate(Screens.CREATE_USER)
                 }}
 
                 style={{
-                width: "45%",
-                flexDirection: 'row',
-                marginRight: 2,
-                alignItems: 'center',
-                backgroundColor: 'white',
-                padding: 10,
-                borderRadius: 10
-            }}>
+                    width: "45%",
+                    flexDirection: 'row',
+                    marginRight: 2,
+                    alignItems: 'center',
+                    backgroundColor: 'white',
+                    padding: 10,
+                    borderRadius: 10
+                }}>
                 <View style={{flex: 1}}>
                     <Text style={{
                         textAlign: 'center',
@@ -98,18 +91,24 @@ const UsersScreen = (props) => {
         </View>
     </View>)
     return (
-        <ContainerAdmin title={"Users"}
+        <ContainerAdmin isList={true} title={"Users"}
+                        callApi={() => {
+                            getUserDocs()
+                        }}
                         icon={<Feather name="users" size={30} color={"black"}/>}
-                        actions={actions}>
+                        actions={actions} componentTitle={<TitleComponent/>}>
             <View style={{
                 paddingHorizontal: SCREEN_WIDTH * .05,
                 marginBottom: SCREEN_WIDTH / 3.5
             }}>
-                <TitleComponent/>
-                <ContainerUsersList data={users}/>
+
+                <ContainerUsersList data={users} loading={loading}/>
+
             </View>
-
-
+            {
+                loading &&
+                <Loading color={"white"} loading={loading} text={"Loading..."}/>
+            }
         </ContainerAdmin>
     )
 };

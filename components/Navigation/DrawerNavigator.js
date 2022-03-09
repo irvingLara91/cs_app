@@ -55,6 +55,7 @@ function CustomDrawerContent(props) {
             <VStack space="6" my="2" mx="1">
                 <Box px="4">
                     <Avatar
+                        alt="image"
                         bg="indigo.500"
                         size="xl"
                         source={{

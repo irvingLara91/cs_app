@@ -1,41 +1,36 @@
 import React, {useCallback, useState, useEffect} from "react";
-import {View, TouchableOpacity, Text} from "react-native";
-import {MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
+import {View, TouchableOpacity, Text, TextInput} from "react-native";
+import {FontAwesome, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
-import {textSizeRender} from "~/utils/utils";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import OrdersAdmin from "~/components/OrdersAdmin/OrdersAdmin";
 import _ from "lodash";
 import ordersService from "~/services/orders";
-import { useAuthUserContext } from "~/context/authUser";
+import {useAuthUserContext} from "~/context/authUser";
+import TotalOrdersComponent from "~/components/TotalOrdersComponent/TotalOrdersComponent";
 
-const listOrders = [
-    {id:1,date:new Date(),statusOrder:1,numberOrder:"1234",firstName:"Irving",lastName:"Lara",img:"https://random.imagecdn.app/250/150"}
-    ,{id:2,date:new Date(),statusOrder:0,numberOrder:"3242",firstName:"Carlos",lastName:"Perez",img:"https://random.imagecdn.app/250/150"}
-    ,{id:3,date:new Date(),statusOrder:0,numberOrder:"3242",firstName:"Carlos",lastName:"Perez",img:"https://random.imagecdn.app/250/150"}
-    ,{id:4,date:new Date(),statusOrder:0,numberOrder:"3242",firstName:"Carlos",lastName:"Perez",img:"https://random.imagecdn.app/250/150"}
-    ,{id:5,date:new Date(),statusOrder:0,numberOrder:"3242",firstName:"Carlos",lastName:"Perez",img:"https://random.imagecdn.app/250/150"}
-    ,{id:6,date:new Date(),statusOrder:0,numberOrder:"3242",firstName:"Carlos",lastName:"Perez",img:"https://random.imagecdn.app/250/150"}
-    ,{id:7,date:new Date(),statusOrder:0,numberOrder:"3242",firstName:"Carlos",lastName:"Perez",img:"https://random.imagecdn.app/250/150"}
-    ,{id:8,date:new Date(),statusOrder:0,numberOrder:"3242",firstName:"Carlos",lastName:"Perez",img:"https://random.imagecdn.app/250/150"}
-
-]
 const OrdersScreen = (props) => {
-    const { user } = useAuthUserContext();
+    const {user} = useAuthUserContext();
+    const [orders, setOrders] = useState([])
+    const [ordersOrigin, setOrdersOrigin] = useState([])
 
-    useEffect(() => {
 
-        const getOrders = async () => {
-            const result = await ordersService.getOrdersAssigned(user.userDoc.orders)
-            console.log({result})
+    const getOrders = async () => {
+        setTextSearch("")
+        const result = await ordersService.getOrdersAssigned(user.userDoc.orders)
+        if (result && result.length > 0) {
+            setOrders(result)
+            setOrdersOrigin(result)
         }
-        getOrders();
+    }
+
+    useEffect(async () => {
+        await getOrders();
     }, [])
 
-    const [array,setArray]=useState(listOrders)
-
-    const [status,setStatus]=useState(null)
-    const [short,setShort]=useState(null)
-    const [textSearch,setTextSearch]=useState("")
+    const [status, setStatus] = useState(null)
+    const [short, setShort] = useState(null)
+    const [textSearch, setTextSearch] = useState("")
 
     const handleChange = async (event) => {
         await setTextSearch(event)
@@ -50,17 +45,15 @@ const OrdersScreen = (props) => {
         []
     );
 
-
-
     const filterSearch = async (text) => {
         try {
             if (text) {
-                var results =_.filter(listOrders,function(item){
-                    return item.firstName.indexOf(text)>-1;
+                var results = _.filter(ordersOrigin, function (item) {
+                    return item.client.firstName.indexOf(text) > -1;
                 });
-              await  setArray(results)
+                await setOrders(results)
             } else {
-                setArray(listOrders)
+                setOrders(ordersOrigin)
             }
         } catch (error) {
             console.log(error)
@@ -105,18 +98,42 @@ const OrdersScreen = (props) => {
     </View>)
 
     return (
-        <ContainerAdmin title={"Orders"}
-                        icon={<MaterialCommunityIcons name="clipboard-text-multiple" size={30} color={"black"}/>}
-                        actions={actions}>
+        <ContainerAdmin
+            isList={true}
+            callApi={() => {
+                getOrders()
+            }}
+            title={"Orders"}
+            icon={<MaterialCommunityIcons name="clipboard-text-multiple" size={30} color={"black"}/>}
+            actions={actions}
+            componentTitle={<View style={{
+                marginHorizontal: SCREEN_WIDTH * .05,
+                flexDirection: "column",
+                borderRadius: 5
+            }}>
+                <View style={{
+                    flexDirection: "row",
+                    backgroundColor: 'white',
+                    padding: 15,
+                    borderRadius: 50
+                }}>
+                    <FontAwesome name="search" size={24} color="#BFBDBD"/>
+                    <TextInput
+                        placeholder={"Search Order"}
+                        value={textSearch}
+                        onChangeText={handleChange}
+                        style={{
+                            marginHorizontal: 15,
+                        }}/>
+                </View>
+
+                <TotalOrdersComponent total={orders && orders.length > 0 ? orders.length : 0}/>
+            </View>}
+        >
+
             <OrdersAdmin
-                data={array}
-                setTextSearch={handleChange}
-                textSearch={textSearch}
-                status={status}
-                setStatus={setStatus}
-                short={short}
-                setShort={setShort}
-                        />
+                data={orders}
+            />
         </ContainerAdmin>
     )
 }

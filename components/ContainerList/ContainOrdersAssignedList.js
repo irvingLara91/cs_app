@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Platform, StyleSheet, TouchableOpacity, View} from "react-native";
 import {Text} from "native-base";
-import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {SCREEN_WIDTH, statusCode, textSizeRender} from "~/utils/utils";
 import {AntDesign, Feather} from "@expo/vector-icons";
 import moment from "moment";
 
@@ -28,17 +28,16 @@ const TitleComponent = (props) => {
 
 
 const array = [{id: 1, numberOrder: "1223", date: new Date(), status: 5}];
-const ContainOrdersAssignedList = ({data = null, ...props}) => {
+const ContainOrdersAssignedList = ({data = null, orders = [], ...props}) => {
     const [user, setUser] = useState(data)
-    const [orders, setOrders] = useState(array)
 
 
     const renderItem = (item, index) => (<View key={index} style={styles.containerCard}>
             <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
                 <View style={{flex: 1, justifyContent: 'center'}}>
-                    <Text style={styles.textOrder}>No.<Text
+                    <Text style={styles.textOrder}>No. <Text
                         style={styles.textNumber}
-                    >{item.numberOrder ? item.numberOrder : ""}
+                    >{item.orderId ? item.orderId : ""}
                     </Text>
                     </Text>
                 </View>
@@ -49,7 +48,7 @@ const ContainOrdersAssignedList = ({data = null, ...props}) => {
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{flex: 1, paddingHorizontal: 10}}>
                         <View style={{backgroundColor: 'black', borderRadius: 10, alignItems: 'center'}}>
-                            <Text style={styles.textStatus}>Canceled</Text>
+                            <Text style={styles.textStatus}>{statusCode(item.statusCode)}</Text>
                         </View>
 
                     </View>

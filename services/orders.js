@@ -1,7 +1,6 @@
-import {doc, setDoc, getDoc, collection, query, where, getDocs, collectionGroup, documentId} from "firebase/firestore";
-import {db} from "~/firebase";
-
 import { FAKE_ORDER_DETAIL, ORDERS_FAKE_DATA } from "~/utils";
+import {collection, getDocs} from "firebase/firestore";
+import {db} from "~/firebase";
 
 const getOrders = (userId) => {
 	// FAKE API CALL
@@ -37,7 +36,7 @@ const getOrdersAssigned = async (ordersIds = []) => {
 			orders.push(document.data())
 		}
 	})
-	return orders 
+	return orders
 }
 
 const ordersService = { getOrders, getOrderDetails, getOrdersAssigned };

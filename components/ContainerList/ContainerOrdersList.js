@@ -1,5 +1,5 @@
 import {Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {SCREEN_WIDTH, statusCode, textSizeRender} from "~/utils/utils";
 import {AntDesign, Feather} from "@expo/vector-icons";
 import moment from "moment";
 import {Divider, Image} from "native-base";
@@ -10,71 +10,79 @@ const ContainerOrdersList = ({data = null, ...props}) => {
     const navigation = useNavigation()
     const renderItem = (item, index) => (
         <TouchableOpacity
-            onPress={()=>{
-               navigation.navigate(screens.ASSIGN_ORDER_TO)
+            onPress={() => {
+                navigation.navigate(screens.ASSIGN_ORDER_TO)
             }}
             key={index} style={styles.containerCard}>
-        <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text style={{
-                    color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_400Regular'
-                }}>No.<Text style={{color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'}}
-                >{item.numberOrder ? item.numberOrder : ""}
-                </Text>
-                </Text>
+            <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                    <Text style={{
+                        color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_400Regular'
+                    }}>No.<Text style={{color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'}}
+                    >{item.orderId ? item.orderId : ""}
+                    </Text>
+                    </Text>
+                </View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                    <AntDesign name="calendar" size={24} color="black"/>
+                    <Text style={styles.textDate}>{moment(item.date, "", "es").format('DD/MM/YYYY')}</Text>
+                </View>
             </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <AntDesign name="calendar" size={24} color="black"/>
-                <Text style={styles.textDate}>{moment(item.date, "", "es").format('DD/MM/YYYY')}</Text>
-            </View>
-        </View>
-        <Divider/>
-        <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 20}}>
-            <View style={{flex: .8}}>
-                <Text style={{fontSize: textSizeRender(4)}}>{item.firstName && item.firstName}</Text>
-                <Text style={{fontSize: textSizeRender(4)}}>{item.lastName && item.lastName}</Text>
-            </View>
-
-            <View style={{flex: 1, alignItems: 'center'}}>
-                <View style={{
-                    width: '60%',
-                    backgroundColor: 'black',
-                    alignItems: 'center',
-                    padding: 5,
-                    borderRadius: 10
-                }}>
-                    <Text style={{color: 'white', fontSize: textSizeRender(2.6)}}>{"Assigned"}</Text>
+            <Divider/>
+            <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 20}}>
+                <View style={{flex: .8}}>
+                    <Text style={{fontSize: textSizeRender(4)}}>{item.client.firstName && item.client.firstName}</Text>
+                    <Text style={{fontSize: textSizeRender(4)}}>{item.client.lastName && item.client.lastName}</Text>
                 </View>
 
-            </View>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                    <View style={{
+                        width: '70%',
+                        backgroundColor: 'black',
+                        alignItems: 'center',
+                        padding: 5,
+                        borderRadius: 10
+                    }}>
+                        <Text
+                            style={{color: 'white', fontSize: textSizeRender(2.6)}}>{statusCode(item.statusCode)}</Text>
+                    </View>
 
-            <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                <View style={{flex: 1,alignItems:'center'}}>
-                    <View style={{width:50,justifyContent:'center',backgroundColor: "#C4C4C4", borderRadius: 100, padding: 10}}>
-                        {item.img ?
+                </View>
+
+                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                    <View style={{flex: 1, alignItems: 'center'}}>
+                        {item.card ?
                             <Image
                                 alt="Order list"
-                                size={8} resizeMode={"contain"}
+                                size={10} resizeMode={"cover"}
+                                borderRadius={100}
                                 source={{
-                                    uri: item.img
+                                    uri: item.card
                                 }}/>
                             :
-                            <Image
-                                alt="Order list"
-                                size={8} resizeMode={"contain"}
-                                source={require("../../assets/image.png")}/>
+                            <View style={{
+                                width: 38,
+                                justifyContent: 'center',
+                                backgroundColor: "#C4C4C4",
+                                borderRadius: 100,
+                                padding: 4
+                            }}>
+                                <Image
+                                    alt="Order list"
+                                    size={8} resizeMode={"contain"}
+                                    source={require("../../assets/image.png")}/>
+                            </View>
                         }
                     </View>
+                    <View style={{flex: 0}}>
+                        <TouchableOpacity>
+                            <Feather name="trash-2" size={24} color="black"/>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <View style={{flex: 0}}>
-                    <TouchableOpacity>
-                        <Feather name="trash-2" size={24} color="black"/>
-                    </TouchableOpacity>
-                </View>
-            </View>
 
-        </View>
-    </TouchableOpacity>);
+            </View>
+        </TouchableOpacity>);
 
     return (<View>
         <Text style={{
