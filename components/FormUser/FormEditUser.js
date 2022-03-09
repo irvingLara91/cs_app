@@ -8,31 +8,42 @@ import {Center, CheckIcon, Divider, FormControl, Input, Select, Stack} from "nat
 import * as ImagePicker from "expo-image-picker";
 import * as mime from "react-native-mime-types";
 import * as ImageManipulator from "expo-image-manipulator";
-import {FAKE_USER_DETAILS} from "~/utils";
 import ContainOrdersAssignedList from "~/components/ContainerList/ContainOrdersAssignedList";
+import ordersService from "~/services/orders";
 
 
 const ImgDefault = () => {
-    return<Image
-            style={{
-                width: 50,
-                height: 50,
-                resizeMode: 'contain',
-                borderRadius:50,
-                borderWidth:3,
-                borderColor:"#C4C4C4",
-                backgroundColor: "#C4C4C4",
-                padding: 15
-            }}
-            defaultSource={require("../../assets/image.png")}
-            source={require("../../assets/image.png")}/>
+    return <Image
+        style={{
+            width: 50,
+            height: 50,
+            resizeMode: 'contain',
+            borderRadius: 50,
+            borderWidth: 3,
+            borderColor: "#C4C4C4",
+            backgroundColor: "#C4C4C4",
+            padding: 15
+        }}
+        defaultSource={require("../../assets/image.png")}
+        source={require("../../assets/image.png")}/>
 }
 
 
 const FormEditUser = (props) => {
     const {control, setValue, handleSubmit, formState: {errors}} = useForm();
     const [image, setImage] = useState(null)
+    const [orders, setOrders] = useState([])
     const [imageError, setImageError] = useState(false)
+
+
+    const getOrders = async (array) => {
+        ordersService.getOrdersAssigned(array).then(response=>{
+            setOrders(response)
+        }).catch(error=>{
+            console.log(error)
+            setOrders([])
+        });
+    };
 
     useEffect(() => {
         if (props.user) {
@@ -48,6 +59,7 @@ const FormEditUser = (props) => {
         setValue("phone", user.phoneNumber);
         setValue("role", user.role);
         setImage(user.photoURL)
+        getOrders(user.orders && user.orders.length > 0 ? user.orders : [])
     }
 
 
@@ -166,9 +178,9 @@ const FormEditUser = (props) => {
                                                                 width: 50,
                                                                 height: 50,
                                                                 resizeMode: 'cover',
-                                                                borderRadius:50,
-                                                                borderWidth:3,
-                                                                borderColor:"#C4C4C4",
+                                                                borderRadius: 50,
+                                                                borderWidth: 3,
+                                                                borderColor: "#C4C4C4",
                                                                 backgroundColor: "#C4C4C4",
                                                                 padding: 15
                                                             }}
@@ -338,7 +350,7 @@ const FormEditUser = (props) => {
                     </Stack>
                 </Center>
                 <Divider mb={5} bg={"primary_black.900"}/>
-                <ContainOrdersAssignedList/>
+                <ContainOrdersAssignedList user={props.user && props.user} orders={orders ? orders: []}/>
             </View>
         </ContainerAdmin>
 

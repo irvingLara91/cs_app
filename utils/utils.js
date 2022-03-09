@@ -67,7 +67,31 @@ export const roles = [
         label: "Technician",
         value: 3
     }
-]
+];
+
+export const statusCode = (status) => {
+    let statusCode = ""
+    switch (status) {
+        case 1:
+            statusCode = "Confirmed"
+            break;
+        case 2:
+            statusCode = "In process"
+            break;
+        case 3:
+            statusCode = "Order ready"
+            break;
+        case 4:
+            statusCode = "Order sent"
+            break;
+        default:
+            statusCode = "No status"
+            break
+    }
+    ;
+
+    return statusCode;
+}
 
 export const generateRandomPassword = (length = 8) => {
     const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
