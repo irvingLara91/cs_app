@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {TouchableOpacity, StyleSheet, View} from "react-native";
-import {useNavigation} from "@react-navigation/native";
+import {useIsFocused, useNavigation} from "@react-navigation/native";
 import {Text} from "native-base";
 import {Feather} from "@expo/vector-icons";
 import ContainerUsersList from "~/components/ContainerList/ContainerUsersList";
@@ -38,25 +38,31 @@ const TitleComponent = (props) => {
 
 
 const UsersScreen = (props) => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(null);
     const [users, setUsers] = useState([]);
     const navigation = useNavigation();
-
-    const getUserDocs = () => {
-        setLoading(true)
-        userService.getUsers().then(docs => {
-            setUsers(docs)
-            console.log("s",docs)
-            setLoading(false)
-        }).catch(e => {
-            console.log(e)
-            setLoading(false)
-        })
-    }
+    const isFocused = useIsFocused();
 
     useEffect(async () => {
-        await getUserDocs();
-    }, [])
+        if (isFocused) {
+            await getUserDocs();
+        }
+    }, [isFocused])
+
+    const getUserDocs = async () => {
+        setLoading(true)
+        try {
+            userService.getUsers().then(docs => {
+                setUsers(docs)
+                console.log("s", docs)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
+            })
+        } catch (e) {
+            setLoading(false)
+        }
+    };
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
@@ -87,7 +93,9 @@ const UsersScreen = (props) => {
     </View>)
     return (
         <ContainerAdmin isList={true} title={"Users"}
-                        callApi={getUserDocs}
+                        callApi={() => {
+                            getUserDocs()
+                        }}
                         icon={<Feather name="users" size={30} color={"black"}/>}
                         actions={actions} componentTitle={<TitleComponent/>}>
             <View style={{
@@ -95,7 +103,8 @@ const UsersScreen = (props) => {
                 marginBottom: SCREEN_WIDTH / 3.5
             }}>
 
-                <ContainerUsersList data={users}/>
+                <ContainerUsersList data={users} loading={loading}/>
+
             </View>
             {
                 loading &&
