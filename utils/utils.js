@@ -42,10 +42,13 @@ export const roleType =(type)=>{
     switch (type) {
         case 1 :
             role = "User";
+            break;
         case 2:
-            role = "Administrator";
+            role = "Administrator"
+            break;
         case 3:
             role = "Technician"
+            break;
     };
 
     return role;

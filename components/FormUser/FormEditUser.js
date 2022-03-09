@@ -3,7 +3,7 @@ import {Controller, useForm} from "react-hook-form";
 import {Text, TouchableOpacity, View, Image} from "react-native";
 import {Feather} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
-import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {roles, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import {Center, CheckIcon, Divider, FormControl, Input, Select, Stack} from "native-base";
 import * as ImagePicker from "expo-image-picker";
 import * as mime from "react-native-mime-types";
@@ -46,9 +46,8 @@ const FormEditUser = (props) => {
         setValue("lastName", user.lastName);
         setValue("email", user.email);
         setValue("phone", user.phoneNumber);
-        setValue("rol", user.role);
+        setValue("role", user.role);
         setImage(user.photoURL)
-
     }
 
 
@@ -292,7 +291,7 @@ const FormEditUser = (props) => {
                                 {errors?.phone?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <FormControl mb={3} isInvalid={"rol" in errors}>
+                        <FormControl mb={3} isInvalid={"role" in errors}>
                             <FormControl.Label
                                 _text={{
                                     color: "primary_black.900",
@@ -318,22 +317,22 @@ const FormEditUser = (props) => {
                                         }}
                                     >
                                         {
-                                            [{label: "Administrator", value: 2}, {
-                                                label: "Technician",
-                                                value: 3
-                                            }].map((rol, index) =>
-                                                <Select.Item key={index}
-                                                             label={rol.label}
-                                                             value={rol.value}/>
+                                            roles.map((role, index) =>
+                                                <Select.Item
+                                                    key={index}
+                                                    label={role.label}
+                                                    value={role.value}
+                                                    disabled={role.value === 1}
+                                                />
                                             )
                                         }
                                     </Select>
                                 )}
-                                name="rol"
+                                name="role"
                                 rules={{required: "Field is required"}}
                             />
                             <FormControl.ErrorMessage>
-                                {errors.rol?.message}
+                                {errors.role?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
                     </Stack>

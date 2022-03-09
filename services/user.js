@@ -4,6 +4,7 @@ import { uploadBytes, getDownloadURL } from "firebase/storage";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import {auth, db, avatarStorageRef} from "~/firebase";
 import {errorMessage, generateRandomPassword} from "~/utils/utils";
+import _ from "lodash";
 
 
 const uploadUserPhoto = async (userId, photo) => {
@@ -74,15 +75,22 @@ const loginUser = (email, password) => {
 
 const getUsers = async () => {
     const usersRef = query(collection(db, "users"));
-
     const users = [];
-
+    let user_filter=[];
     const querySnapshot = await getDocs(usersRef);
     querySnapshot.forEach((document) => {
         users.push(document.data())
     });
 
-    return users;
+    /***
+     * Function to filter users that are different from role 1
+     ***/
+    if (users.length>0){
+         user_filter = _.filter(users,function(user) {
+            return user.role!==1;
+        });
+    }
+    return user_filter;
 }
 
 const getUser = async (userId) => {

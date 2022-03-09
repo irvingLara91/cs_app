@@ -123,6 +123,8 @@ const styles = StyleSheet.create({
         elevation: 8,
     },
     containerRol: {
+        width:'90%',
+        alignItems:'center',
         padding: 5,
         borderRadius: 10,
         backgroundColor: 'black'
