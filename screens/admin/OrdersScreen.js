@@ -16,8 +16,13 @@ const OrdersScreen = (props) => {
 
 
     const getOrders = async () => {
+        let result;
         setTextSearch("")
-        const result = await ordersService.getOrdersAssigned(user.userDoc.orders)
+        if (user.userDoc.role === 2) {
+            result = await ordersService.getAllOrders()
+        } else {
+            result = await ordersService.getOrdersAssigned(user.userDoc.orders)
+        }
         if (result && result.length > 0) {
             setOrders(result)
             setOrdersOrigin(result)

@@ -27,18 +27,27 @@ const getOrderDetails = (orderId) => {
 
 
 const getOrdersAssigned = async (ordersIds = []) => {
+	const assigned = [];
+	const all = await getAllOrders();
+	all.forEach((order) => {
+		const { orderId } = order;
+		if (ordersIds.includes(orderId)) {
+			assigned.push(order);
+		}
+	})
+	return assigned;
+}
+
+const getAllOrders = async () => {
 	const orders = [];
 	const ordersRef = collection(db, "orders");
 	const querySnapshot = await getDocs(ordersRef);
 	querySnapshot.forEach((document) => {
-		const { orderId } = document.data();
-		if (ordersIds.includes(orderId)) {
-			orders.push(document.data())
-		}
+		orders.push(document.data())
 	})
-	return orders
+	return orders;
 }
 
-const ordersService = { getOrders, getOrderDetails, getOrdersAssigned };
+const ordersService = { getOrders, getOrderDetails, getOrdersAssigned, getAllOrders };
 
 export default ordersService;
