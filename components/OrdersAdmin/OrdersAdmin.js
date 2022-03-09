@@ -12,28 +12,7 @@ const OrdersAdmin = (props) => {
             paddingHorizontal: SCREEN_WIDTH * .05,
             marginBottom: SCREEN_WIDTH / 3.5
         }}>
-            <View style={{
-                flexDirection: "row", flex: 1,
-                backgroundColor: 'white',
-                padding: 15,
-                borderRadius: 50
-            }}>
-                <FontAwesome name="search" size={24} color="#BFBDBD"/>
-                <TextInput
-                    placeholder={"Search Order"}
-                    value={props.textSearch}
-                    onChangeText={props.setTextSearch}
-                    style={{
-                        marginHorizontal: 15,
-                        flex: 1,
-                    }}/>
-            </View>
-
-            <TotalOrdersComponent total={22}/>
-
             <ContainerOrdersList data={props.data} />
-
-
         </View>
     )
 }
