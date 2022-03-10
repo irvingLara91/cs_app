@@ -6,12 +6,42 @@ import Steps from "./Steps";
 import DemoImage from "~/assets/image.png"; 
 import screens from "~/constants/screens";
 
+import { useAuthUserContext } from "~/context/authUser";
+import { useNewOrderContext } from "~/context/newOrder";
+import ordersService from "~/services/orders";
+
 const ConfirmStep = ({ navigation, route }) => {
 	const { navigate } = navigation;
+	const { orderData } = useNewOrderContext();
+	const { user, setUser } = useAuthUserContext()
 
-	const onConfirm = () => {
-		console.log("confirm order");
-		navigate(screens.NEW_ORDER_PLACED);
+	const addOrderToUserContext = (orderId) => {
+		setUser((prevState) => {
+			return {
+				...prevState,
+				userDoc: {
+					...prevState.userDoc,
+					orders: [...prevState.userDoc.orders, orderId]
+				}
+			}
+		})	
+	}
+
+	const onConfirm = async() => {
+		const { userDoc } = user;
+		const { orders, ...userDocRest } = userDoc;
+		const data = {
+			...orderData,
+			createdAt: new Date(),
+			client: userDocRest,
+			statusCode: 1
+		}
+		const result = await ordersService.createOrder(user.uid, data, userDoc.orders);
+		console.log({result})
+		if (result.success) {
+			addOrderToUserContext(result.order.orderId)
+			navigate(screens.NEW_ORDER_PLACED);
+		}
 	};
 
 	return (

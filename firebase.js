@@ -18,10 +18,12 @@ const app = initializeApp(firebaseConfig);
 
 export const db = getFirestore(app);
 
-export const auth = getAuth(app)
+export const auth = getAuth(app);
 
 
 const storage = getStorage(app);
 
-export const avatarStorageRef = (userId) =>  ref(storage, `avatar-bucket/${userId}.jpg`)
+export const avatarStorageRef = (userId) =>  ref(storage, `avatar-bucket/${userId}.jpg`);
+export const cardStorageRef = (userId, orderId) =>  ref(storage, `card-bucket/${userId}-${orderId}.jpg`);
+export const gravestoneStorageRef = (userId, orderId) =>  ref(storage, `gravestone-bucket/${userId}-${orderId}.jpg`);
 

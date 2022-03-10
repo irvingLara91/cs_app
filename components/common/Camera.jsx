@@ -110,7 +110,7 @@ export default function Camera({ onConfirm }) {
 								<Button _text={{fontWeight: "bold"}} size="1/3" bg="white" mr="1" onPress={cancelPicture}>
                   Back
 								</Button>
-								<Button _text={{fontWeight: "bold"}} size="1/3" bg="white" onPress={onConfirm}>
+								<Button _text={{fontWeight: "bold"}} size="1/3" bg="white" onPress={() => onConfirm(picture)}>
                   Accept
 								</Button>
 							</Center>

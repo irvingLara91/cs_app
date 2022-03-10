@@ -12,11 +12,13 @@ import {
 	TextArea,
 	Text
 } from "native-base";
-import Steps from "./Steps";
-import screens from "~/constants/screens";
-import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import MapView from "react-native-maps";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
+import Steps from "./Steps";
+import screens from "~/constants/screens";
+import { useNewOrderContext } from "~/context/newOrder";
+import { isNumber } from "~/utils"; 
 
 
 const DetailsStep = () => {
@@ -42,6 +44,7 @@ const Location = () => {
 
 
 const Form = () => {
+	const { setOrderData } = useNewOrderContext();
 	const {location} = useRoute().params ?? {};
 	const {control, setValue, handleSubmit, formState: {errors}} = useForm();
 	const [location_map, setLocation_map] = useState(null);
@@ -57,7 +60,29 @@ const Form = () => {
 
 
 	const onSubmit = (data) => {
-		console.log({data});
+		const { additionalInformation, address: addressState, gravestoneText } = data;
+		const addressSplitted = addressState.split(",");
+		const address = addressSplitted[0];
+		const address2 = addressSplitted[1];
+		const city = addressSplitted[2];
+		const zipCode = addressSplitted[addressSplitted.length - 1];
+
+		setOrderData((prevState) => {
+			return {
+				...prevState,
+				gravestone: {
+					...prevState.gravestone,
+					additionalInformation,
+					text: gravestoneText,
+					address: {
+						address,
+						address2,
+						city,
+						zipCode: isNumber(zipCode) ? zipCode : ""
+					}
+				}
+			}
+		})
 		navigate(screens.NEW_ORDER_STEP_4);
 	};
 	return (
