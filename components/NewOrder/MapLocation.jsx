@@ -98,6 +98,8 @@ const MapLocation = (props) => {
 							textInput: {
 								borderTopLeftRadius: 10,
 								borderBottomLeftRadius: 10,
+								borderTopRightRadius: 10,
+								borderBottomRightRadius: 10,
 								borderRadius: 0,
 								height: "100%",
 								color: "#5d5d5d",
@@ -107,8 +109,8 @@ const MapLocation = (props) => {
 								color: "#1faadb",
 							},
 						}}
-						renderRightButton={() => (
-							<TouchableOpacity
+						/*renderRightButton={() => (
+							/!*<TouchableOpacity
 								style={{
 									borderTopRightRadius: 10,
 									borderBottomRightRadius: 10,
@@ -119,8 +121,8 @@ const MapLocation = (props) => {
 								}}
 							>
 								<AntDesign name="closecircleo" size={10} color="black"/>
-							</TouchableOpacity>
-						)}
+							</TouchableOpacity>*!/
+						)}*/
 						ref={ref}
 						placeholder="Search"
 						onPress={(data, details = null) => {

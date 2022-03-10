@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useForm, Controller} from "react-hook-form";
 import {TouchableOpacity,View} from "react-native";
-import {useNavigation, useRoute} from "@react-navigation/native";
+import {useIsFocused, useNavigation, useRoute} from "@react-navigation/native";
 
 import {
 	Box,
@@ -17,6 +17,7 @@ import screens from "~/constants/screens";
 import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import MapView from "react-native-maps";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import loading from "~/components/Loading/Loading";
 
 
 const DetailsStep = () => {
@@ -31,7 +32,7 @@ const DetailsStep = () => {
 };
 
 
-const Location = () => {
+const Location = (props) => {
 	const {navigate} = useNavigation();
 	return (
 		<TouchableOpacity onPress={() => navigate(screens.NEW_ORDER_STEP_3_MAP, {screen: screens.NEW_ORDER_STEP_3})}>
@@ -42,18 +43,22 @@ const Location = () => {
 
 
 const Form = () => {
+	const isFocused = useIsFocused();
 	const {location} = useRoute().params ?? {};
 	const {control, setValue, handleSubmit, formState: {errors}} = useForm();
 	const [location_map, setLocation_map] = useState(null);
 	const {navigate} = useNavigation();
 	useEffect(() => {
 		let locationVar = location;
-		setLocation_map(null)
-		if (locationVar) {
+		if (isFocused && locationVar){
 			setLocation_map(locationVar);
 			setValue("address", locationVar.address);
+		}else {
+			setLocation_map(null);
+			setValue("address", "");
 		}
-	}, [location]);
+
+	}, [location,isFocused]);
 
 
 	const onSubmit = (data) => {
@@ -105,7 +110,12 @@ const Form = () => {
 			<FormControl isRequired isInvalid={"address" in errors}>
 				<FormControl.Label>Address</FormControl.Label>
 				{
-					location_map &&
+
+					 !isFocused?
+						null
+						:
+
+					  location_map &&
 					<View style={{marginVertical: 8}}>
 						<MapView
 							minZoomLevel={2}  // default => 0
@@ -117,7 +127,7 @@ const Form = () => {
 								latitudeDelta: 0.023,
 								longitudeDelta: 0.023,
 							}}
-							scrollEnabled={false}
+							scrollEnabled={true}
 							rotateEnabled={false}
 							zoomEnabled={false}
 

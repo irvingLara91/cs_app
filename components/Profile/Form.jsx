@@ -24,8 +24,6 @@ const Form = ({profile = null,...props}) => {
 
 
 	const setUserData =()=>{
-
-		console.log(profile)
 		setValue("firstName", profile.firstName);
 		setValue("lastName", profile.lastName);
 		setValue("email", profile.email);
@@ -34,10 +32,6 @@ const Form = ({profile = null,...props}) => {
 		setValue("zipCode",profile.address.zipCode+"")
 		setValue("city","chi")
 		setValue("password",".............")
-
-
-
-		//setImage(user.photoURL)
 	}
 	useEffect(() => {
 		if (profile){
