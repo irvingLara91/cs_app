@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {MaterialIcons} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 import DashboardAdmin from "~/components/DashboardAdmin/DashboardAdmin";
@@ -11,18 +11,27 @@ const listOrders = [
 
 ]
 const DashboardScreen = (props) => {
-
     const {user} = useAuthUserContext()
-    useEffect(() => {
+    const [orders, setOrders] = useState([])
+    const getOrders = async () => {
+        let result;
+        if (user.userDoc.role === 2) {
+            result = await ordersService.getAllOrders()
+        } else {
+            result = await ordersService.getOrdersAssigned(user.userDoc.orders)
+        }
+        if (result && result.length > 0) {
+            setOrders(result)
+        }
+    }
 
-        console.log('user',user)
-
-
-    }, []);
+    useEffect(async () => {
+        await getOrders();
+    }, [])
 
     return (
-        <ContainerAdmin title={"Dashboard Cornerstone"}>
-            <DashboardAdmin data={listOrders}/>
+        <ContainerAdmin isList={true} callApi={getOrders} title={"Dashboard Cornerstone"}>
+            <DashboardAdmin data={orders}/>
         </ContainerAdmin>
     )
 }

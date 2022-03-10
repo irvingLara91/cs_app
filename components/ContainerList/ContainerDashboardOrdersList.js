@@ -3,44 +3,64 @@ import {TouchableOpacity, StyleSheet, Text, View, Platform} from "react-native";
 import {Divider, Image} from "native-base";
 import {AntDesign} from "@expo/vector-icons";
 import moment from "moment";
+import screens from "~/constants/screens";
+import {useNavigation} from "@react-navigation/native";
 
 const ContainerDashboardOrdersList = ({data = null, ...props}) => {
+    const navigation = useNavigation()
+
     const renderItem = (item, index) => (<View key={index} style={styles.containerCard}>
         <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
             <View style={{flex: 1, justifyContent: 'center'}}>
                 <Text style={{
                     color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_400Regular'
                 }}>No.<Text style={{color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'}}
-                >{item.numberOrder ? item.numberOrder : ""}
+                >{item.orderId ? item.orderId : ""}
                 </Text>
                 </Text>
             </View>
             <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <AntDesign name="calendar" size={24} color="black"/>
-                <Text style={styles.textDate}>{moment(item.date, "", "es").format('DD/MM/YYYY')}</Text>
+                <Text style={styles.textDate}>
+                    {
+                        item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                            :
+                            "No date"
+                    }
+                </Text>
             </View>
         </View>
         <Divider/>
-        <View style={{alignItems: 'center'}}>
-            {
-                !item.img ?
-                    <Image
-                        alt="Dashboard admin"
-                        size={100} resizeMode={"contain"}
-                        source={{
-                            uri: item.img
-                        }}/>
-                    :
-                    <Image
-                        alt="Dashboard admin"
-                        size={100} resizeMode={"contain"}
-                        source={require("../../assets/image.png")}/>
-            }
-            <TouchableOpacity>
-                <Text style={{
-                    textDecorationLine: 'underline'
-                }}>View order</Text>
-            </TouchableOpacity>
+        <View>
+            <View style={{flex: 1,alignItems:'center'}}>
+                {
+                    item.card ?
+                        <Image
+                            alt="Dashboard admin"
+                            size={"xl"} resizeMode={"contain"}
+                            source={{
+                                uri: item.card
+                            }}/>
+                        :
+                        <Image
+                            alt="Dashboard admin"
+                            size={"xl"} resizeMode={"contain"}
+                            source={require("../../assets/image.png")}/>
+                }
+            </View>
+            <View style={{flex: 0,alignItems:'center',paddingBottom: 20}}>
+                <TouchableOpacity
+
+                    onPress={() => {
+                        navigation.navigate(screens.ASSIGN_ORDER_TO, {order: item});
+                    }}
+                >
+                    <Text style={{
+                        textDecorationLine: 'underline'
+                    }}>View order</Text>
+                </TouchableOpacity>
+            </View>
+
         </View>
     </View>);
 
@@ -61,7 +81,6 @@ const ContainerDashboardOrdersList = ({data = null, ...props}) => {
 const styles = StyleSheet.create({
     containerCard: {
         marginBottom: 20,
-        height: SCREEN_WIDTH / (Platform.OS === "ios" ? 2 : 2.5),
         borderRadius: 5,
         backgroundColor: 'white',
         shadowColor: "#000",

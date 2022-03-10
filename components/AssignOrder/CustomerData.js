@@ -48,7 +48,7 @@ const CustomerData = ({user=null,props}) => {
             <View>
                 <Text style={styles.textTitle}>Phone Number</Text>
                 <View style={styles.input}>
-                    <Text style={styles.text}>{user && user.phone && user.phone}</Text>
+                    <Text style={styles.text}>{user && user.phoneNumber && user.phoneNumber}</Text>
                 </View>
             </View>
 
