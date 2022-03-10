@@ -1,4 +1,4 @@
-import { FAKE_ORDER_DETAIL, ORDERS_FAKE_DATA } from "~/utils";
+import { FAKE_ORDER_DETAIL, ORDERS_FAKE_DATA } from "../utils/utils";
 import {collection, getDocs} from "firebase/firestore";
 import {db} from "~/firebase";
 

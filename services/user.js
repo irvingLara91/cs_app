@@ -1,4 +1,4 @@
-import {FAKE_USER_DETAILS} from "~/utils";
+import {FAKE_USER_DETAILS} from "../utils/utils";
 import {doc, setDoc, getDoc, collection, query, getDocs} from "firebase/firestore";
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
