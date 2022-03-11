@@ -21,7 +21,7 @@ const Orders = ({navigation}) => {
     const _onRefresh = () => {
         setRefreshing(true)
         try {
-            getOrders();
+            getOrders().then(r => {});
         } catch (e) {
         }
         setTimeout(() => {
@@ -30,14 +30,17 @@ const Orders = ({navigation}) => {
     }
 
     const getOrders = async () => {
-        setLoading(true)
         try {
             let result = await ordersService.getOrdersAssigned(user.userDoc.orders)
             if (result && result.length > 0) {
                 setOrders(result)
-                setLoading(false)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
             } else {
-                setLoading(false)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
             }
         } catch (e) {
             setLoading(false)
@@ -47,6 +50,7 @@ const Orders = ({navigation}) => {
 
     useEffect(async () => {
         if (isFocused) {
+            await setLoading(true)
             await getOrders();
         }
     }, [isFocused])

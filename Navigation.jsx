@@ -34,6 +34,20 @@ const SCREEN_WIDTH = Dimensions.get("window").width;
 const Stack = createNativeStackNavigator();
 const {Navigator, Screen} = Stack;
 
+export const noBackButton = (props) => {
+    return {
+        headerTitleAlign: "center",
+        headerLeft: () => (
+            <TouchableOpacity style={{
+                marginLeft: 15,
+            }}>
+            </TouchableOpacity>
+        ),
+    };
+};
+
+
+
 export const backButton = (props) => {
     return {
         headerTitleAlign: "center",
@@ -163,7 +177,7 @@ const Navigation_ = () => {
                 <Screen
                     name={screens.NEW_ORDER_PLACED}
                     component={OrderPlaced}
-                    options={backButton}
+                    options={noBackButton}
                 />
             </Navigator>
         </NavigationContainer>

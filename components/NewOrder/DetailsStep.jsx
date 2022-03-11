@@ -18,7 +18,7 @@ import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import Steps from "./Steps";
 import screens from "~/constants/screens";
 import { useNewOrderContext } from "~/context/newOrder";
-import { isNumber } from "~/utils";
+import { isNumber } from "../../utils/utils";
 import loading from "~/components/Loading/Loading";
 
 
