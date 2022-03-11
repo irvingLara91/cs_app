@@ -12,6 +12,7 @@ import screens from "~/constants/screens";
 import {Dimensions} from "react-native";
 import {useAuthUserContext} from "~/context/authUser";
 import {useIsFocused} from "@react-navigation/native";
+import Loading from "~/components/Loading/Loading";
 
 export default function Home({navigation, route}) {
     const {user} = useAuthUserContext()
@@ -126,6 +127,10 @@ export default function Home({navigation, route}) {
 					</Box>
 				</Center>
 			</View>
+			{
+				loading &&
+				<Loading loading={loading} color={"white"} text={"Loading..."}/>
+			}
         </View>
     );
 }
