@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import {useForm, Controller} from "react-hook-form";
 import {TouchableOpacity,View} from "react-native";
 import {useIsFocused, useNavigation, useRoute} from "@react-navigation/native";
-
+import{isNumber} from "../../utils/utils"
 import {
 	Box,
 	VStack,
@@ -18,7 +18,6 @@ import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import Steps from "./Steps";
 import screens from "~/constants/screens";
 import { useNewOrderContext } from "~/context/newOrder";
-import { isNumber } from "../../utils/utils";
 import loading from "~/components/Loading/Loading";
 
 
