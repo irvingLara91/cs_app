@@ -19,6 +19,7 @@ const Orders = ({navigation}) => {
     const [refreshing, setRefreshing] = useState(false)
 
     const _onRefresh = () => {
+        setLoading(true)
         setRefreshing(true)
         try {
             getOrders().then(r => {});
