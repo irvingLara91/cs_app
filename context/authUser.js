@@ -32,6 +32,13 @@ export function AuthUserProvider(props) {
         await setData("user",{...user, isFirstTime: false})
 
     }
+    const setNewOrder = async (user,newOrder)=>{
+        let user_= user
+        user_.userDoc.orders.push(newOrder)
+        console.log("userData:::",user_)
+        await  setUser(user_)
+        await setData("user",user_)
+    }
 
     useEffect(() => {
         getUser();
@@ -43,7 +50,8 @@ export function AuthUserProvider(props) {
         setFetching,
         user,
         fetching,
-        FirstTime
+        FirstTime,
+        setNewOrder
     };
     return (
         <AuthUserContext.Provider value={defaultContext}>

@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useForm, Controller} from "react-hook-form";
 import {TouchableOpacity,View} from "react-native";
-import {useNavigation, useRoute} from "@react-navigation/native";
+import {useIsFocused, useNavigation, useRoute} from "@react-navigation/native";
 
 import {
 	Box,
@@ -18,7 +18,8 @@ import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import Steps from "./Steps";
 import screens from "~/constants/screens";
 import { useNewOrderContext } from "~/context/newOrder";
-import { isNumber } from "~/utils"; 
+import { isNumber } from "../../utils/utils";
+import loading from "~/components/Loading/Loading";
 
 
 const DetailsStep = () => {
@@ -44,6 +45,7 @@ const Location = () => {
 
 
 const Form = () => {
+	const isFocused = useIsFocused();
 	const { setOrderData } = useNewOrderContext();
 	const {location} = useRoute().params ?? {};
 	const {control, setValue, handleSubmit, formState: {errors}} = useForm();
@@ -51,12 +53,15 @@ const Form = () => {
 	const {navigate} = useNavigation();
 	useEffect(() => {
 		let locationVar = location;
-		setLocation_map(null)
-		if (locationVar) {
+		if (isFocused && locationVar){
 			setLocation_map(locationVar);
 			setValue("address", locationVar.address);
+		}else {
+			setLocation_map(null);
+			setValue("address", "");
 		}
-	}, [location]);
+
+	}, [location,isFocused]);
 
 
 	const onSubmit = (data) => {
@@ -130,7 +135,12 @@ const Form = () => {
 			<FormControl isRequired isInvalid={"address" in errors}>
 				<FormControl.Label>Address</FormControl.Label>
 				{
-					location_map &&
+
+					 !isFocused?
+						null
+						:
+
+					  location_map &&
 					<View style={{marginVertical: 8}}>
 						<MapView
 							minZoomLevel={2}  // default => 0

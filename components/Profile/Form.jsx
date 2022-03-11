@@ -17,18 +17,33 @@ import screens from "~/constants/screens";
 import styles from "./styles";
 import userService from "~/services/user";
 
-const Form = () => {
+const Form = ({profile = null,...props}) => {
 	const { flexSpaceBetween } = styles;
 	const navigation = useNavigation();
-	const { control, handleSubmit, reset, formState: { errors } } = useForm();
+	const { control,setValue, handleSubmit, reset, formState: { errors } } = useForm();
 
+
+	const setUserData =()=>{
+		setValue("firstName", profile.firstName);
+		setValue("lastName", profile.lastName);
+		setValue("email", profile.email);
+		setValue("phoneNumber", profile.phoneNumber);
+		setValue("address",profile.address.address)
+		setValue("zipCode",profile.address.zipCode+"")
+		setValue("city","chi")
+		setValue("password",".............")
+	}
 	useEffect(() => {
-		const getUserDetails = async() => {
+		if (profile){
+			setUserData()
+		}
+		/*const getUserDetails = async() => {
 			const result = await userService.getUserDetails(1);
 			reset({...result});
 		};
-		getUserDetails();
-	}, []);
+		getUserDetails();*/
+
+	}, [profile]);
 
 	const onSubmit = (data) => {
 		console.log("submiting with ", data);
@@ -38,8 +53,8 @@ const Form = () => {
 	return (
 		<VStack space={2} pb="5" alignItems="center">
 			<Text alignSelf="flex-start" fontSize={19} fontWeight="bold" mb="5">My personal information</Text>
-			<FormControl isRequired isInvalid={"fullName" in errors}>
-				<FormControl.Label>Full name</FormControl.Label>
+			<FormControl isRequired isInvalid={"firstName" in errors}>
+				<FormControl.Label>First name</FormControl.Label>
 				<Controller
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
@@ -52,19 +67,51 @@ const Form = () => {
 							}} />}
 							variant="outline"
 							onBlur={onBlur}
-							onChangeText={(text) => onChange(text)}
+							onChangeText={(text) => {
+								onChange(text)
+								props.setFirstName(text)
+							}}
 							value={value}
 						/>  
 					)}
-					name="fullName"
+					name="firstName"
 					rules={{ required: "Field is required", minLength: 3 }}
 					defaultValue=""
 				/>
 				<FormControl.ErrorMessage>
-					{errors?.fullName?.message}
+					{errors?.firstName?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
-			<FormControl isRequired isInvalid={"phone" in errors}>
+			<FormControl isRequired isInvalid={"lastName" in errors}>
+				<FormControl.Label>Last name</FormControl.Label>
+				<Controller
+					control={control}
+					render={({ field: { onChange, onBlur, value } }) => (
+						<Input
+							InputRightElement={<IconButton variant="outlined" _icon={{
+								as: MaterialIcons,
+								name: "edit",
+								color: "black",
+								size: 4
+							}} />}
+							variant="outline"
+							onBlur={onBlur}
+							onChangeText={(text) => {
+								onChange(text)
+								props.setLastName(text)
+							}}
+							value={value}
+						/>
+					)}
+					name="lastName"
+					rules={{ required: "Field is required", minLength: 3 }}
+					defaultValue=""
+				/>
+				<FormControl.ErrorMessage>
+					{errors?.lastName?.message}
+				</FormControl.ErrorMessage>
+			</FormControl>
+			<FormControl isRequired isInvalid={"phoneNumber" in errors}>
 				<FormControl.Label>Phone number</FormControl.Label>
 				<Controller
 					control={control}
@@ -82,12 +129,12 @@ const Form = () => {
 							value={value}
 						/>
 					)}
-					name="phone"
+					name="phoneNumber"
 					rules={{ required: "Field is required", minLength: 3 }}
 					defaultValue=""
 				/>
 				<FormControl.ErrorMessage>
-					{errors?.phone?.message}
+					{errors?.phoneNumber?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
 			<FormControl isRequired isInvalid={"email" in errors}>
@@ -106,6 +153,8 @@ const Form = () => {
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
 							value={value}
+							isDisabled={true}
+
 						/>
 					)}
 					name="email"
@@ -223,6 +272,7 @@ const Form = () => {
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
 							value={value}
+							isDisabled={true}
 						/>
 					)}
 					name="password"
