@@ -42,15 +42,17 @@ const createUser = ({
             const userId = userCredential.user.uid;
             const uploadResult = await uploadUserPhoto(userId, photo);
             const data = {
-                address,
-                city,
+                address: {
+                    address,
+                    city,
+                    zipCode,
+                },
                 email,
                 firstName,
                 lastName,
                 phoneNumber,
                 photoURL: uploadResult,
                 role,
-                zipCode,
                 createdAt: new Date(),
                 orders: []
             }

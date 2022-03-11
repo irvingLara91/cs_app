@@ -12,11 +12,13 @@ import {
 	TextArea,
 	Text
 } from "native-base";
-import Steps from "./Steps";
-import screens from "~/constants/screens";
-import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import MapView from "react-native-maps";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
+import Steps from "./Steps";
+import screens from "~/constants/screens";
+import { useNewOrderContext } from "~/context/newOrder";
+import { isNumber } from "~/utils";
 import loading from "~/components/Loading/Loading";
 
 
@@ -32,7 +34,7 @@ const DetailsStep = () => {
 };
 
 
-const Location = (props) => {
+const Location = () => {
 	const {navigate} = useNavigation();
 	return (
 		<TouchableOpacity onPress={() => navigate(screens.NEW_ORDER_STEP_3_MAP, {screen: screens.NEW_ORDER_STEP_3})}>
@@ -44,6 +46,7 @@ const Location = (props) => {
 
 const Form = () => {
 	const isFocused = useIsFocused();
+	const { setOrderData } = useNewOrderContext();
 	const {location} = useRoute().params ?? {};
 	const {control, setValue, handleSubmit, formState: {errors}} = useForm();
 	const [location_map, setLocation_map] = useState(null);
@@ -62,7 +65,29 @@ const Form = () => {
 
 
 	const onSubmit = (data) => {
-		console.log({data});
+		const { additionalInformation, address: addressState, gravestoneText } = data;
+		const addressSplitted = addressState.split(",");
+		const address = addressSplitted[0];
+		const address2 = addressSplitted[1];
+		const city = addressSplitted[2];
+		const zipCode = addressSplitted[addressSplitted.length - 1];
+
+		setOrderData((prevState) => {
+			return {
+				...prevState,
+				gravestone: {
+					...prevState.gravestone,
+					additionalInformation,
+					text: gravestoneText,
+					address: {
+						address,
+						address2,
+						city,
+						zipCode: isNumber(zipCode) ? zipCode : ""
+					}
+				}
+			}
+		})
 		navigate(screens.NEW_ORDER_STEP_4);
 	};
 	return (
@@ -127,7 +152,7 @@ const Form = () => {
 								latitudeDelta: 0.023,
 								longitudeDelta: 0.023,
 							}}
-							scrollEnabled={true}
+							scrollEnabled={false}
 							rotateEnabled={false}
 							zoomEnabled={false}
 
