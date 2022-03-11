@@ -37,7 +37,7 @@ export const FAKE_USER_DETAILS = {
 	address: "724 Echo ave,"
 };
 
-const isNumber = (value) => {
+export const isNumber = (value) => {
   if (typeof value != "string") return false;
   return !isNaN(value) && !isNaN(parseFloat(value)); 
 };

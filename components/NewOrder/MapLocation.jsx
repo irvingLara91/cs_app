@@ -56,11 +56,13 @@ const MapLocation = (props) => {
 		});
 		let address_struct = "";
 		if (place && place.length > 0) {
-			address_struct = `${valData(place[0].district)} ${valData(place[0].street)} ${valData(place[0].streetNumber)} ${valData(place[0].city)} ${valData(place[0].region)} ${valData(place[0].country, "end")}`;
+			// address_struct = `${valData(place[0].street)} ${valData(place[0].streetNumber)} ${valData(place[0].district)} ${valData(place[0].city)} ${valData(place[0].region)} ${valData(place[0].country, "end")}`;
+			address_struct = `${place[0].street} ${place[0].streetNumber},${place[0].district}, ${place[0].city},${place[0].region},${place[0].country},${place[0].postalCode}`
 		}
 		ref.current?.setAddressText(address_struct);
 		await setAddress(address_struct);
 	};
+
 	useEffect(() => {
 		(async () => {
 			setLoading(true);

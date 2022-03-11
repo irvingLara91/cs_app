@@ -5,12 +5,28 @@ import Steps from "./Steps";
 import Camera from "~/components/common/Camera";
 import screens from "~/constants/screens";
 import HelperImage from "~/assets/image.png";
+import { useNewOrderContext } from "~/context/newOrder";
 
 const { height } = Dimensions.get("window");
 
 const GravestoneStep = ({ navigation }) => {
+	const { setOrderData } = useNewOrderContext();
 	const { navigate } = navigation;
 	const [enableCamera, setEnableCamera] = useState(false);
+	
+	const handleConfirmation = (picture) => {
+		setOrderData((prevState) => {
+			return {
+				...prevState,
+				gravestone: {
+					...prevState.gravestone,
+					image: picture,
+				}
+			}
+		})
+		navigate(screens.NEW_ORDER_STEP_3)
+	}
+
 	return (
 		<Center bg="black" height={!enableCamera ? height : null}>
 			{
@@ -18,7 +34,7 @@ const GravestoneStep = ({ navigation }) => {
 					<Unboarding setEnableCamera={() => setEnableCamera(true)} /> : 
 					<Box alignItems="center">
 						<Steps />
-						<Camera onConfirm={() => navigate(screens.NEW_ORDER_STEP_3)}/>
+						<Camera onConfirm={handleConfirmation}/>
 					</Box>
 			}
 		</Center>
