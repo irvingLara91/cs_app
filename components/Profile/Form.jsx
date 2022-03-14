@@ -17,7 +17,8 @@ import screens from "~/constants/screens";
 import styles from "./styles";
 import userService from "~/services/user";
 
-const Form = ({profile = null,...props}) => {
+const Form = ({profile = null, ...props}) => {
+	const { onSubmit } = props;
 	const { flexSpaceBetween } = styles;
 	const navigation = useNavigation();
 	const { control,setValue, handleSubmit, reset, formState: { errors } } = useForm();
@@ -29,25 +30,28 @@ const Form = ({profile = null,...props}) => {
 		setValue("email", profile.email);
 		setValue("phoneNumber", profile.phoneNumber);
 		setValue("address",profile.address.address)
-		setValue("zipCode",profile.address.zipCode+"")
-		setValue("city","chi")
+		setValue("zipCode", profile.address.zipCode.toString())
+		setValue("city", profile.address.city)
 		setValue("password",".............")
 	}
 	useEffect(() => {
 		if (profile){
 			setUserData()
 		}
-		/*const getUserDetails = async() => {
-			const result = await userService.getUserDetails(1);
-			reset({...result});
-		};
-		getUserDetails();*/
-
 	}, [profile]);
 
-	const onSubmit = (data) => {
-		console.log("submiting with ", data);
-	};
+	const updateIcon = () => (
+		<IconButton 
+		onPress={handleSubmit(onSubmit)}
+		variant="outlined"
+		 _icon={{
+				as: MaterialIcons,
+				name: "check",
+				color: "black",
+				size: 4
+			}} 
+		/>
+	)
 
 
 	return (
@@ -59,12 +63,7 @@ const Form = ({profile = null,...props}) => {
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
-							InputRightElement={<IconButton variant="outlined" _icon={{
-								as: MaterialIcons,
-								name: "edit",
-								color: "black",
-								size: 4
-							}} />}
+							InputRightElement={profile?.firstName !== value && updateIcon()}
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => {
@@ -88,12 +87,7 @@ const Form = ({profile = null,...props}) => {
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
-							InputRightElement={<IconButton variant="outlined" _icon={{
-								as: MaterialIcons,
-								name: "edit",
-								color: "black",
-								size: 4
-							}} />}
+							InputRightElement={profile?.lastName !== value && updateIcon()}
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => {
@@ -117,12 +111,7 @@ const Form = ({profile = null,...props}) => {
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
-							InputRightElement={<IconButton variant="outlined" _icon={{
-								as: MaterialIcons,
-								name: "edit",
-								color: "black",
-								size: 4
-							}} />}
+							InputRightElement={profile?.phoneNumber !== value && updateIcon()}
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
@@ -143,12 +132,6 @@ const Form = ({profile = null,...props}) => {
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
-							InputRightElement={<IconButton variant="outlined" _icon={{
-								as: MaterialIcons,
-								name: "edit",
-								color: "black",
-								size: 4
-							}} />}
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
@@ -171,12 +154,7 @@ const Form = ({profile = null,...props}) => {
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
 						<Input
-							InputRightElement={<IconButton variant="outlined" _icon={{
-								as: MaterialIcons,
-								name: "edit",
-								color: "black",
-								size: 4
-							}} />}
+							InputRightElement={profile?.address?.address !== value && updateIcon()}
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
@@ -197,33 +175,20 @@ const Form = ({profile = null,...props}) => {
 					<Controller
 						control={control}
 						render={({ field: { onChange, onBlur, value } }) => (
-							<Select
-								InputRightElement={<IconButton variant="outlined" _icon={{
-									as: MaterialIcons,
-									name: "edit",
-									color: "black",
-									size: 4
-								}} />}
-								selectedValue={value}
-								onValueChange={(itemValue) => {
-									onChange(itemValue);
-								}}
-								_selectedItem={{
-									bg: "teal.400",
-									endIcon: <CheckIcon size={4} />
-								}}  
-							>
-								{
-									[{label: "Chicago", value: "chi"}, {label: "New York", value: "ny"}].map((city, index) => <Select.Item key={index} label={city.label} value={city.value} />)
-								}
-							</Select>
+							<Input
+								InputRightElement={profile?.address?.city !== value && updateIcon()}
+								variant="outline"
+								onBlur={onBlur}
+								onChangeText={(text) => onChange(text)}
+								value={value}
+							/>
 						)}
 						name="city"
-						rules={{ required: "Field is required" }}
-						defaultValue="chi"
+						rules={{ required: "Field is required", minLength: 3 }}
+						defaultValue=""
 					/>
 					<FormControl.ErrorMessage>
-						{errors.city?.message}
+						{errors?.city?.message}
 					</FormControl.ErrorMessage>
 				</FormControl>
 				<FormControl isRequired isInvalid={"zipCode" in errors} style={{width: "48%"}}>
@@ -232,12 +197,7 @@ const Form = ({profile = null,...props}) => {
 						control={control}
 						render={({ field: { onChange, onBlur, value } }) => (
 							<Input
-								InputRightElement={<IconButton variant="outlined" _icon={{
-									as: MaterialIcons,
-									name: "edit",
-									color: "black",
-									size: 4
-								}} />}
+								InputRightElement={profile?.address?.zipCode.toString() !== value && updateIcon()}
 								variant="outline"
 								onBlur={onBlur}
 								onChangeText={(text) => onChange(text)}
