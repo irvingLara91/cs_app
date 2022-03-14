@@ -46,7 +46,7 @@ const Form = ({profile = null, ...props}) => {
 		variant="outlined"
 		 _icon={{
 				as: MaterialIcons,
-				name: "edit",
+				name: "check",
 				color: "black",
 				size: 4
 			}} 
