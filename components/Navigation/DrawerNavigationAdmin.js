@@ -26,6 +26,7 @@ import OrdersScreen from "~/screens/admin/OrdersScreen";
 import UsersScreen from "~/screens/admin/UsersScreen";
 import NotificationsScreen from "~/screens/admin/NotificationsScreen";
 import HelpScreen from "~/screens/admin/HelpScreen";
+import {textSizeRender} from "~/utils/utils";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -75,20 +76,31 @@ const getName = (screenName) => {
 };
 
 function CustomDrawerContent(props) {
-    const {LogOut} = useAuthUserContext()
+    const {LogOut,user} = useAuthUserContext()
 
     return (
         <DrawerContentScrollView {...props} safeArea>
             <View style={{height: Platform.OS === "ios" ? (SCREEN_HEIGHT - 51) : SCREEN_HEIGHT}}>
                 <View style={{flex: 1}}>
                     <Box my="2" mx="1" px="4">
-                        <Avatar
-                            bg="indigo.500"
-                            size="xl"
-                            source={{
-                                uri: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                            }}
-                        />
+                        {
+                            user && user.userDoc ?
+                                <Avatar
+                                    bg="indigo.500"
+                                    size="xl"
+                                    source={{
+                                        uri: user.userDoc.photoURL
+                                    }}
+                                />
+                                :
+                            <Avatar
+                                bg="indigo.500"
+                                size="xl"
+                                source={{
+                                    uri: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                                }}
+                            />
+                        }
                         <IconButton
                             w={"40px"}
                             top={"60px"}
@@ -102,10 +114,10 @@ function CustomDrawerContent(props) {
                                 size: "sm",
                             }}
                             _hover={{
-                                bg: "red.600:alpha.30",
+                                bg: "red.500:alpha.30",
                             }}
                             _pressed={{
-                                bg: "red.600:alpha.30",
+                                bg: "primary_black.100:alpha.30",
                                 _icon: {
                                     name: "pencil-outline",
                                 },
@@ -122,8 +134,9 @@ function CustomDrawerContent(props) {
                             }}
                         />
 
-                        <Text bold color="primary.700" pt={5}>
-                            Jonh Appleseed
+                        <Text bold color="primary_black.700" style={{fontSize:textSizeRender(5),fontFamily:"Roboto_500Medium"}} pt={5}>
+                            {user && user.userDoc&& user.userDoc.firstName+" "}
+                            {user && user.userDoc&& user.userDoc.lastName}
                         </Text>
                     </Box>
                     <Divider mb={4}/>
@@ -203,7 +216,7 @@ function CustomDrawerContent(props) {
 
 function LogoTitle() {
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1,justifyContent:'center'}}>
             <View style={{width: SCREEN_WIDTH / 2, alignSelf: 'center'}}>
                 <Image
                     resizeMode={"contain"}
