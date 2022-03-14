@@ -11,7 +11,7 @@ export function AuthUserProvider(props) {
     const {children} = props;
     const [fetching, setFetching] = useState(false);
     const [user, setUser] = useState(null);
-    
+
     const LogOut = async () => {
         await setUser(null);
         await removeData("user");
@@ -22,22 +22,38 @@ export function AuthUserProvider(props) {
         getData("user").then(response => {
             setUser(response)
             setFetching(false)
-        }).catch(e=>{
+        }).catch(e => {
             setFetching(false)
         });
     }
 
+    /**
+     * Function to change user profile data
+     * **/
+    const setUserParam = async (name, value) => {
+        let userDoc = user.userDoc;
+        let address = userDoc.address;
+        if (name.substr(0, 7) === "address") {
+            setUser({...user,userDoc:{...userDoc,address:{...address,[name.substr(8)]:value}}})
+            await setData("user",{...user,userDoc:{...address,address:{...address,[name.substr(8)]:value}}})
+        } else {
+            setUser({...user, userDoc: {...userDoc, [name]: value}})
+            await setData("user", {...user, userDoc: {...userDoc, [name]: value}})
+        }
+    }
+
+
     const FirstTime = async () => {
-        await  setUser({...user, isFirstTime: false})
-        await setData("user",{...user, isFirstTime: false})
+        await setUser({...user, isFirstTime: false})
+        await setData("user", {...user, isFirstTime: false})
 
     }
-    const setNewOrder = async (user,newOrder)=>{
-        let user_= user
+    const setNewOrder = async (user, newOrder) => {
+        let user_ = user
         user_.userDoc.orders.push(newOrder)
-        console.log("userData:::",user_)
-        await  setUser(user_)
-        await setData("user",user_)
+        console.log("userData:::", user_)
+        await setUser(user_)
+        await setData("user", user_)
     }
 
     useEffect(() => {
@@ -51,7 +67,8 @@ export function AuthUserProvider(props) {
         user,
         fetching,
         FirstTime,
-        setNewOrder
+        setNewOrder,
+        setUserParam
     };
     return (
         <AuthUserContext.Provider value={defaultContext}>
