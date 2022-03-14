@@ -7,6 +7,7 @@ import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import {useAuthUserContext} from "~/context/authUser";
 import {useIsFocused} from "@react-navigation/native";
 import {SCREEN_WIDTH} from "~/utils/utils";
+import userService from "~/services/user";
 
 const Profile = (props) => {
     const isFocused = useIsFocused();
@@ -21,6 +22,32 @@ const Profile = (props) => {
             setProfile(user.userDoc)
         }
     }, [isFocused])
+
+
+    const handleSubmit = async (data) => {
+        const { address, city, zipCode, email, firstName, lastName, phoneNumber } = data;
+        const { orders, role, photoURL } = user.userDoc;
+        const newData = {
+            address: {
+                address,
+                city,
+                zipCode
+            },
+            email,
+            firstName,
+            lastName,
+            orders,
+            role,
+            photoURL
+        }
+       const updateResult = await userService.updateUser(user.uid, newData);
+       console.log({updateResult})
+    //    if (updateResult.success){
+
+    //    } else {
+
+    //    }
+    }
 
 
     return (
@@ -47,7 +74,7 @@ const Profile = (props) => {
                         </Center>
                         <Divider mt="5" mb="5"/>
                         <Box>
-                            <Form setFirstName={setFirstName} setLastName={setLastName} profile={profile}/>
+                            <Form setFirstName={setFirstName} setLastName={setLastName} profile={profile} onSubmit={handleSubmit}/>
                         </Box>
                     </Stack>
                 </Center>
