@@ -4,11 +4,12 @@ import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 import Header from "../Header";
 import {Center} from "native-base";
 
-const ContainerBase = ({screenName = "POST_SPLASH", ...props}) => {
+const ContainerBase = ({ isHeader=true, backgroundColor="none",screenName = "POST_SPLASH", ...props}) => {
 
 	return (
 		<View
 			style={{
+				backgroundColor:backgroundColor,
 				width: Dimensions.get("window").width,
 				flex: 1
 			}}
@@ -20,9 +21,13 @@ const ContainerBase = ({screenName = "POST_SPLASH", ...props}) => {
 					zIndex: 20
 				}}
 			>
-				<Center>
-					<Header screenName={screenName}/>
-				</Center>
+				{
+					isHeader &&
+					<Center>
+						<Header screenName={screenName}/>
+					</Center>
+				}
+
 				<KeyboardAwareScrollView
 					extraScrollHeight={60}
 					enableOnAndroid={true}

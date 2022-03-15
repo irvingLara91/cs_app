@@ -17,7 +17,7 @@ import {
 } from "@expo-google-fonts/roboto";
 import {NewOrderProvider} from "./context/newOrder";
 import theme from "~/theme";
-import {LogBox} from "react-native";
+import {LogBox, StatusBar} from "react-native";
 import {AuthUserProvider} from "~/context/authUser";
 import Layout from "~/components/container/Layout";
 
@@ -42,6 +42,12 @@ export default function App() {
         <NativeBaseProvider theme={theme}>
             <AuthUserProvider>
                 <NewOrderProvider>
+                    <StatusBar
+                        animated={true}
+                        backgroundColor={"#fff"}
+                        barStyle={"dark-content"}
+                        showHideTransition={"slide"}
+                        hidden={false} />
                    <Layout fontsLoaded={fontsLoaded}/>
                 </NewOrderProvider>
             </AuthUserProvider>
