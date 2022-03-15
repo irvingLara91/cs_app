@@ -14,7 +14,7 @@ import screens from "~/constants/screens";
 import ContainerBase from "~/components/common/ContainerBase";
 import {textSizeRender} from "~/utils/utils";
 import styles from "~/components/Register/styles";
-import CustomButton from "~/components/CustomButton  /CustomButton";
+import CustomButton from "~/components/CustomButton/CustomButton";
 
 const PasswordRecovery = () => {
 

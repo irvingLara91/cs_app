@@ -5,7 +5,7 @@ import Carousel from "~/components/common/Carousel";
 import CSLogo from "~/assets/cornerstone-logo-300px.png";
 import {Link} from "@react-navigation/native";
 import {textSizeRender} from "~/utils/utils";
-import CustomButton from "~/components/CustomButton  /CustomButton";
+import CustomButton from "~/components/CustomButton/CustomButton";
 import ContainerBase from "~/components/common/ContainerBase";
 import {Platform} from "react-native";
 

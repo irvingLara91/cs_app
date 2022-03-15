@@ -11,7 +11,7 @@ import {useNavigation} from "@react-navigation/native";
 import {TextInput} from "react-native"
 
 import styles from "./styles";
-import CustomButton from "~/components/CustomButton  /CustomButton";
+import CustomButton from "~/components/CustomButton/CustomButton";
 
 
 const Form = ({onSubmit}) => {

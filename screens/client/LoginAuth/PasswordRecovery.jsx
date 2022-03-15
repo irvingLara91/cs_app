@@ -10,7 +10,7 @@ import {TextInput} from "react-native";
 import {useForm, Controller} from "react-hook-form";
 import ContainerBase from "~/components/common/ContainerBase";
 import {textSizeRender} from "~/utils/utils";
-import CustomButton from "~/components/CustomButton  /CustomButton";
+import CustomButton from "~/components/CustomButton/CustomButton";
 import styles from "~/components/Register/styles";
 
 const PasswordRecovery = () => {

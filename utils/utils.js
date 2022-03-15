@@ -124,11 +124,15 @@ export const errorMessage = (codeError) => {
         error = "The email address is not valid.";
 
     } else if (codeError === "auth/operation-not-allowed") {
-
         error = "Operation not allowed.";
-    } else if (error.code === "auth/weak-password") {
-
+    } else if (codeError === "auth/weak-password") {
         error = "The password is too weak.";
+    }else if (codeError ==="auth/too-many-requests"){
+        error = "Incorrect user credentials";
+    }else if (codeError ==="auth/user-not-found"){
+        error="There is no user record corresponding to this identifier."
+    }else if (codeError==="auth/wrong-password"){
+        error="Incorrect user credentials"
     }
 
     return error
