@@ -1,3 +1,5 @@
+import { signOut } from "firebase/auth";
+import { auth } from "~/firebase";
 import React, {
     useState,
     createContext,
@@ -13,8 +15,12 @@ export function AuthUserProvider(props) {
     const [user, setUser] = useState(null);
 
     const LogOut = async () => {
-        await setUser(null);
-        await removeData("user");
+        return await signOut(auth).then(async () => {
+            await setUser(null);
+            await removeData("user");
+        }).catch((error) =>{
+            // error login out of firebase auth api;
+        })
     }
 
     const getUser = () => {
