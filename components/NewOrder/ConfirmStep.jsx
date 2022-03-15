@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { TouchableHighlight } from "react-native";
 import { Text, Box, Center, Button, Flex, VStack, Image } from "native-base";
 import Steps from "./Steps";
@@ -9,11 +9,13 @@ import screens from "~/constants/screens";
 import { useAuthUserContext } from "~/context/authUser";
 import { useNewOrderContext } from "~/context/newOrder";
 import ordersService from "~/services/orders";
+import Loading from "~/components/Loading/Loading";
 
 const ConfirmStep = ({ navigation, route }) => {
 	const { navigate } = navigation;
 	const { orderData } = useNewOrderContext();
 	const { user, setUser } = useAuthUserContext()
+	const [loading,setLoading] = useState(false)
 
 	const addOrderToUserContext = (orderId) => {
 		setUser((prevState) => {
@@ -28,6 +30,7 @@ const ConfirmStep = ({ navigation, route }) => {
 	}
 
 	const onConfirm = async() => {
+		setLoading(true)
 		const { userDoc } = user;
 		const { orders, ...userDocRest } = userDoc;
 		const data = {
@@ -41,6 +44,9 @@ const ConfirmStep = ({ navigation, route }) => {
 		if (result.success) {
 			addOrderToUserContext(result.order.orderId)
 			navigate(screens.NEW_ORDER_PLACED);
+			setLoading(false)
+		}else {
+			setLoading(false)
 		}
 	};
 
@@ -91,6 +97,10 @@ const ConfirmStep = ({ navigation, route }) => {
 				</Box>
 				<Button mt="5" borderRadius="none" bgColor="dark.50" onPress={onConfirm} >Confirm order</Button>
 			</VStack>
+			{
+				loading &&
+				<Loading loading={loading} color={"white"} text={"Loading..."}/>
+			}
 		</Center>
 	);
 };

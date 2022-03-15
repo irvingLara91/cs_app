@@ -3,22 +3,22 @@ import {
 	Center,
 	Heading,
 	FormControl,
-	Input,
 	Stack,
 	VStack,
-	Button,
 } from "native-base";
+import {TextInput} from "react-native";
 import {useForm, Controller} from "react-hook-form";
 import ContainerBase from "~/components/common/ContainerBase";
 import {textSizeRender} from "~/utils/utils";
+import CustomButton from "~/components/CustomButton/CustomButton";
+import styles from "~/components/Register/styles";
 
 const PasswordRecovery = () => {
 	return (
-		<ContainerBase screenName={"LOGIN"} >
+		<ContainerBase backgroundColor={"white"} screenName={"LOGIN"} >
 			<Center>
-				<Stack mt={20} space={4} w="75%" maxW="300px">
+				<Stack mt={20} mb={40} space={4} w="75%" maxW="300px">
 					<Heading style={{
-						color: "primary_black.900",
 						fontFamily: "Roboto_700Bold",
 						fontSize: textSizeRender(7),
 					}}>Help with password</Heading>
@@ -30,6 +30,8 @@ const PasswordRecovery = () => {
 };
 
 const PasswordRecoveryForm = () => {
+	const {textInput} = styles;
+
 	const {
 		control,
 		handleSubmit,
@@ -47,7 +49,8 @@ const PasswordRecoveryForm = () => {
 				<Controller
 					control={control}
 					render={({field: {onChange, onBlur, value}}) => (
-						<Input
+						<TextInput
+							style={textInput}
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
@@ -62,13 +65,11 @@ const PasswordRecoveryForm = () => {
 					{errors?.email?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
-			<Button
-				bgColor="primary_black.900" borderRadius={0} size="lg"
-				onPress={handleSubmit(onSubmit)}
-				style={{width: "100%",marginTop:30}}
-			>
-				Recover password
-			</Button>
+			<CustomButton onPress={handleSubmit(onSubmit)}
+						  title={"Recover password"}
+						  textColor={"#fff"}
+						  gradient={["#555555","#171717"]}
+						  borderRadius={10} />
 		</VStack>
 	);
 };
