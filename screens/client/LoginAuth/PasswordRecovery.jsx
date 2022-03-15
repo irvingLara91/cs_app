@@ -15,11 +15,10 @@ import styles from "~/components/Register/styles";
 
 const PasswordRecovery = () => {
 	return (
-		<ContainerBase screenName={"LOGIN"} >
+		<ContainerBase backgroundColor={"white"} screenName={"LOGIN"} >
 			<Center>
-				<Stack mt={20} space={4} w="75%" maxW="300px">
+				<Stack mt={20} mb={40} space={4} w="75%" maxW="300px">
 					<Heading style={{
-						color: "primary_black.900",
 						fontFamily: "Roboto_700Bold",
 						fontSize: textSizeRender(7),
 					}}>Help with password</Heading>

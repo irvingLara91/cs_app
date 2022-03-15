@@ -19,12 +19,11 @@ import CustomButton from "~/components/CustomButton  /CustomButton";
 const PasswordRecovery = () => {
 
 	return (
-		<ContainerBase screenName={screens.LOGIN_ADMIN} >
+		<ContainerBase backgroundColor={"white"} screenName={screens.LOGIN_ADMIN} >
 			<Center>
-				<Stack mt={20} space={4} w="75%" maxW="300px">
+				<Stack mt={20} mb={40} space={4} w="75%" maxW="300px">
 					<Heading
 						style={{
-							color: "primary_black.900",
 							fontFamily: "Roboto_700Bold",
 							fontSize: textSizeRender(7),
 						}}
