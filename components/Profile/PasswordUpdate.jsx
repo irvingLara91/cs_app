@@ -22,7 +22,6 @@ const PasswordUpdate = ({navigation}) => {
         if (!verified.hasOwnProperty("errorCode")) {
             if (newPassword === newPasswordConfirm) {
                const result = await authService.updateUserPassword(newPassword);
-               console.log({result})
                if (result.success) {
                    //trigger success 
                } else {
