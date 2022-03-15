@@ -86,20 +86,31 @@ const Profile = (props) => {
         }
     };
 
-    const changeImage=async (image_)=>{
-        let res = "";
-        if (image){
-             res =  await userService.uploadUserPhoto(user.uid, image)
-        }else {
-            res = image_
-        }
-        return res
+    // const changeImage=async (image_)=>{
+    //     let res = "";
+    //     if (image){
+    //          res =  await userService.uploadUserPhoto(user.uid, image)
+    //     }else {
+    //         res = image_
+    //     }
+    //     return res
+    // }
+
+    const handlePhotoURL = async (photoURL) => {
+        if (image) {
+            if (photoURL !== "") {
+                return await userService.updateUserPhoto(user.uid, image)
+            } else {
+                return await userService.uploadUserPhoto(user.uid, image)
+            }
+        } else return photoURL;
     }
 
     const handleSubmit = async (data, param) => {
         setLoading(true)
         const { address, city, zipCode, email, firstName, lastName, phoneNumber } = data;
         const { orders, role, photoURL } = user.userDoc;
+
         const newData = {
             address: {
                 address,
@@ -112,11 +123,10 @@ const Profile = (props) => {
             phoneNumber,
             orders,
             role,
-            photoURL: await changeImage(image ? image : photoURL)
+            photoURL: await handlePhotoURL(photoURL)
         }
 
        const updateResult = await userService.updateUser(user.uid, newData);
-       console.log(updateResult)
         if (updateResult.success){
             setUserDoc(newData)
             setImage(null)
