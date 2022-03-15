@@ -15,7 +15,7 @@ export function AuthUserProvider(props) {
     const [user, setUser] = useState(null);
 
     const LogOut = async () => {
-        return await signOut(auth).then(async () => {
+        await signOut(auth).then(async () => {
             await setUser(null);
             await removeData("user");
         }).catch((error) =>{
