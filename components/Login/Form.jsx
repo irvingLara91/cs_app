@@ -5,10 +5,14 @@ import {
 	Button,
 	FormControl,
 } from "native-base";
+import {TextInput} from "react-native"
 import { useForm, Controller } from "react-hook-form";
+import CustomButton from "~/components/CustomButton/CustomButton";
+import styles from "~/components/Register/styles";
 
 
 const Form = ({ onSubmit }) => {
+	const {textInput} = styles;
 	const { control, handleSubmit, formState: { errors } } = useForm();
 
 
@@ -19,7 +23,8 @@ const Form = ({ onSubmit }) => {
 				<Controller
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
-						<Input
+						<TextInput
+							style={textInput}
 							variant="outline"
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
@@ -41,7 +46,9 @@ const Form = ({ onSubmit }) => {
 				<Controller
 					control={control}
 					render={({ field: { onChange, onBlur, value } }) => (
-						<Input
+						<TextInput
+							style={textInput}
+							secureTextEntry={true}
 							type="password"
 							variant="outline"
 							onBlur={onBlur}
@@ -57,9 +64,11 @@ const Form = ({ onSubmit }) => {
 					{errors?.password?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
-			<Button bgColor="primary_black.900" borderRadius={0} size="lg" onPress={handleSubmit(onSubmit)} size="lg" style={{width: "100%",marginTop:30}}>
-          Log in
-			</Button>
+				<CustomButton onPress={handleSubmit(onSubmit)}
+							  title={"Log In"}
+							  textColor={"#fff"}
+							  gradient={["#555555","#171717"]}
+							  borderRadius={10} />
 		</VStack>
 	);
 };

@@ -8,25 +8,35 @@ import Loading from "~/components/Loading/Loading";
 
 import ReferenceImage from "~/assets/image.png";
 import styles from "./styles";
-import {textSizeRender, setData} from "~/utils/utils";
+import {textSizeRender, setData, errorMessage} from "~/utils/utils";
 
 import userService from "~/services/user";
 
 import {useAuthUserContext} from "~/context/authUser";
+import CustomModal from "~/components/Modals/CustomModal";
 
 export default function Login() {
     const {passwordRecoveryLink} = styles;
     const { setFetching, fetching, setUser } = useAuthUserContext()
     const { loginUser } = userService;
 
+    /***
+     * States de CustomModal
+     * **/
+    const [modalVisible, setModalVisible] = useState(false)
+    const [customModal, setCustomModal] = useState({})
+    /***
+     * End States de CustomModal
+     * **/
+
     const onLogin = async(data) => {
         const { email, password } = data;
         setFetching(true);
         const result = await loginUser(email, password);
         if (result.hasOwnProperty("errorMessage")) {
-            console.log("trigger error")
+            setModalVisible(true)
+            setCustomModal({isError: true, message: errorMessage(result.errorCode)})
         } else {
-
             setUser({...result, role: 1, isFirstTime : false});
             setData("user", {...result, role: 1, isFirstTime : false})
         }
@@ -34,7 +44,7 @@ export default function Login() {
     }
 
     return (
-        <ContainerBase>
+        <ContainerBase backgroundColor={"white"}>
             <Center>
                 <Stack mt={3} space={4} w="75%" maxW="300px">
                     <Center mt={20} mb={20}>
@@ -56,6 +66,10 @@ export default function Login() {
             {
                 fetching &&
                 <Loading loading={fetching} color={"black"} text={"loading..."}/>
+            }
+            {
+                modalVisible &&
+                <CustomModal message={customModal.message} visible={modalVisible} setVisible={setModalVisible} isError={customModal.isError} />
             }
         </ContainerBase>
     );

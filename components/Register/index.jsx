@@ -19,13 +19,12 @@ const Register = ({ navigation }) => {
 			setData("user", {...result, role: 1,isFirstTime : true})
 			// navigate(screens.PENDING_REGISTER_VALIDATION,{register:data});
 		}
-
 	}
 
 	return (
-		<ContainerBase>
+		<ContainerBase backgroundColor={"white"}>
 			<Center>
-				<Stack mt={3} space={4} w="75%" maxW="300px">
+				<Stack mt={3} mb={10} space={4} w="75%" maxW="300px">
 					<Heading>Complete the following information</Heading>
 					<Form onSubmit={onRegister} />
 				</Stack>

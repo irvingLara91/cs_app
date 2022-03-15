@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {Link} from "@react-navigation/native";
 import {Stack, Box, Center, Image, Text} from "native-base";
 import Form from "../../../components/Login/Form";
@@ -9,19 +9,28 @@ import ContainerBase from "~/components/common/ContainerBase";
 import Loading from "~/components/Loading/Loading";
 import userService from "~/services/user";
 import {useAuthUserContext} from "~/context/authUser";
-import {textSizeRender, setData} from "~/utils/utils";
+import {textSizeRender, setData, errorMessage} from "~/utils/utils";
+import CustomModal from "~/components/Modals/CustomModal";
 
 export default function Login() {
     const { loginUser, getUser } = userService;
     const {passwordRecoveryLink} = styles;
     const {setFetching, fetching, setUser} = useAuthUserContext()
-
+    /***
+     * States de CustomModal
+     * **/
+    const [modalVisible, setModalVisible] = useState(false)
+    const [customModal, setCustomModal] = useState({})
+    /***
+     * End States de CustomModal
+     * **/
     const onLogin = async(data) => {
         const { email, password } = data;
         setFetching(true);
         const result = await loginUser(email, password);
         if (result.hasOwnProperty("errorMessage")) {
-            console.log("trigger error")
+            setModalVisible(true)
+            setCustomModal({isError: true, message: errorMessage(result.errorCode)})
         } else {
             const user = await getUser(result.uid);
             setUser({...result, role: user.role});
@@ -31,7 +40,7 @@ export default function Login() {
     }
 
     return (
-        <ContainerBase>
+        <ContainerBase backgroundColor={"white"}>
             <Center>
                 <Stack mt={3} space={4} w="75%" maxW="300px">
                     <Center mt={20} mb={20}>
@@ -53,6 +62,11 @@ export default function Login() {
             {
                 fetching &&
                 <Loading loading={fetching} color={"black"} text={"loading..."}/>
+            }
+
+            {
+                modalVisible &&
+                <CustomModal message={customModal.message} visible={modalVisible} setVisible={setModalVisible} isError={customModal.isError} />
             }
         </ContainerBase>
     );
