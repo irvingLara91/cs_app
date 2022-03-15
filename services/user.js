@@ -144,7 +144,8 @@ const userService = {
   createUser,
   getUser,
   getUsers,
-  updateUser
+  updateUser,
+  uploadUserPhoto
 };
 
 export default userService;

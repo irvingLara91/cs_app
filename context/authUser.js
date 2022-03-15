@@ -30,6 +30,14 @@ export function AuthUserProvider(props) {
     /**
      * Function to change user profile data
      * **/
+    const setUserDoc=async (doc)=>{
+       await setUser({...user, userDoc: doc})
+        await setData("user", {...user, userDoc: doc})
+    }
+
+    /**
+     * Function to change user profile data
+     * **/
     const setUserParam = async (name, value) => {
         let userDoc = user.userDoc;
         let address = userDoc.address;
@@ -67,8 +75,7 @@ export function AuthUserProvider(props) {
         user,
         fetching,
         FirstTime,
-        setNewOrder,
-        setUserParam
+        setUserDoc
     };
     return (
         <AuthUserContext.Provider value={defaultContext}>
