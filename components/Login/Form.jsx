@@ -64,11 +64,13 @@ const Form = ({ onSubmit }) => {
 					{errors?.password?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
+
 				<CustomButton onPress={handleSubmit(onSubmit)}
 							  title={"Log In"}
 							  textColor={"#fff"}
 							  gradient={["#555555","#171717"]}
 							  borderRadius={10} />
+                  
 		</VStack>
 	);
 };

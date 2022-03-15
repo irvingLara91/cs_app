@@ -10,7 +10,7 @@ import ReferenceImage from "~/assets/image.png";
 import styles from "./styles";
 import {textSizeRender, setData, errorMessage} from "~/utils/utils";
 
-import userService from "~/services/user";
+import authService from "~/services/auth";
 
 import {useAuthUserContext} from "~/context/authUser";
 import CustomModal from "~/components/Modals/CustomModal";
@@ -18,7 +18,6 @@ import CustomModal from "~/components/Modals/CustomModal";
 export default function Login() {
     const {passwordRecoveryLink} = styles;
     const { setFetching, fetching, setUser } = useAuthUserContext()
-    const { loginUser } = userService;
 
     /***
      * States de CustomModal
@@ -32,7 +31,8 @@ export default function Login() {
     const onLogin = async(data) => {
         const { email, password } = data;
         setFetching(true);
-        const result = await loginUser(email, password);
+
+        const result = await authService.loginUser(email, password);
         if (result.hasOwnProperty("errorMessage")) {
             setModalVisible(true)
             setCustomModal({isError: true, message: errorMessage(result.errorCode)})
