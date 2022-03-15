@@ -199,3 +199,7 @@ export const FAKE_USER_DETAILS = {
     password: "enctrypted password",
     address: "724 Echo ave,"
 };
+
+
+const barHeightFactor = Dimensions.get('window').height * .2 - 125;
+export const statusBarHeight = barHeightFactor > 22 ? barHeightFactor : 22;

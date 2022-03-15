@@ -31,7 +31,7 @@ export default function Login() {
     }
 
     return (
-        <ContainerBase>
+        <ContainerBase backgroundColor={"white"}>
             <Center>
                 <Stack mt={3} space={4} w="75%" maxW="300px">
                     <Center mt={20} mb={20}>

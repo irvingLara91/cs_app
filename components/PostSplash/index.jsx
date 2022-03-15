@@ -5,6 +5,9 @@ import Carousel from "~/components/common/Carousel";
 import CSLogo from "~/assets/cornerstone-logo-300px.png";
 import {Link} from "@react-navigation/native";
 import {textSizeRender} from "~/utils/utils";
+import CustomButton from "~/components/CustomButton  /CustomButton";
+import ContainerBase from "~/components/common/ContainerBase";
+import {Platform} from "react-native";
 
 const PostSplash = ({navigation}) => {
     const data = [
@@ -27,41 +30,50 @@ const PostSplash = ({navigation}) => {
     ];
 
     return (
-        <Center>
-            <Stack mt={10}>
-                <Box>
-                    <Image alt="image" source={CSLogo}/>
-                </Box>
-            </Stack>
-            <Stack mt={60} space={4} w="75%" maxW="300px">
-                <Carousel
-                    data={data}
-                />
-                <Box>
-                    <Button bgColor="primary_black.900" borderRadius={0} size="lg" onPress={() => navigation.navigate(screens.LOGIN)}>
-                        Log in
-                    </Button>
-                </Box>
-                <Box>
-                    <Button bgColor="primary_black.400" borderRadius={0} size="lg" onPress={() => navigation.navigate(screens.REGISTER)}>
-                        Sign up
-                    </Button>
-                </Box>
+        <ContainerBase backgroundColor={"white"} isHeader={false}>
+            <Center>
+                <Stack mt={Platform.OS === "ios" ? 10 : 5}>
+                    <Box>
+                        <Image alt="image" source={CSLogo}/>
+                    </Box>
+                </Stack>
+                <Stack mt={60} space={4} w="75%" maxW="300px">
+                    <Carousel
+                        data={data}
+                    />
+                    <Box>
+                        <CustomButton onPress={() => navigation.navigate(screens.LOGIN)}
+                                      title={"Log In"}
+                                      textColor={"#fff"}
+                                      gradient={["#555555", "#171717"]}
+                                      borderRadius={10}/>
+                    </Box>
+                    <Box>
+                        <CustomButton onPress={() => navigation.navigate(screens.REGISTER)}
+                                      title={"Sign up"}
+                                      textColor={"#fff"}
+                                      gradient={["#838B95", "#4A4E54"]}
+                                      borderRadius={10}/>
+                    </Box>
 
-                <Box>
-                    <Link
-                        to={{screen: screens.LOGIN_ADMIN}}
-                        style={{
-                            marginTop:20,
-                            fontSize: 13,
-                            textAlign: "center"
-                    }}
-                    >
-                        <Text fontFamily={"Roboto_400Regular"} fontSize={textSizeRender(3.5)} >You are a cornerstone technician?</Text>  <Text underline fontFamily={"Roboto_700Bold"} fontSize={textSizeRender(3.5)}>Log in</Text>
-                    </Link>
-                </Box>
-            </Stack>
-        </Center>
+                    <Box>
+                        <Link
+                            to={{screen: screens.LOGIN_ADMIN}}
+                            style={{
+                                marginTop: 20,
+                                fontSize: 13,
+                                textAlign: "center"
+                            }}
+                        >
+                            <Text fontFamily={"Roboto_400Regular"} fontSize={textSizeRender(3.5)}>You are a cornerstone
+                                technician?</Text> <Text underline fontFamily={"Roboto_700Bold"}
+                                                         fontSize={textSizeRender(3.5)}>Log in</Text>
+                        </Link>
+                    </Box>
+                </Stack>
+            </Center>
+        </ContainerBase>
+
     );
 };
 
