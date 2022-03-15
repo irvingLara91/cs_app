@@ -8,7 +8,7 @@ import {
   getDocs,
   updateDoc
 } from "firebase/firestore";
-import { uploadBytes, getDownloadURL } from "firebase/storage";
+import { uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -16,6 +16,20 @@ import {
 import { auth, db, avatarStorageRef } from "~/firebase";
 import { errorMessage, generateRandomPassword } from "~/utils/utils";
 import _ from "lodash";
+
+const removePreviousUserPhoto = async (userId) => {
+  return await deleteObject(avatarStorageRef(userId)).then(() => {
+    return {
+      success: true,
+    }
+  }).catch((error) => {
+    return {
+      success: false,
+      msg: error
+    }
+  })
+
+}
 
 const uploadUserPhoto = async (userId, photo) => {
   if (photo === "") return "";
@@ -28,6 +42,13 @@ const uploadUserPhoto = async (userId, photo) => {
     .then(() => getDownloadURL(avatarStorageRef(userId)))
     .catch(() => "");
 };
+
+const updateUserPhoto = async(userId, photo) => {
+  const removeResult = await removePreviousUserPhoto(userId);
+  if (!removeResult.success) return new Error(removeResult.msg);
+  return await uploadUserPhoto(userId, photo);
+}
+
 
 const createUserDoc = async (userId, data) => {
   const docRef = doc(db, "users", userId);
@@ -145,7 +166,8 @@ const userService = {
   getUser,
   getUsers,
   updateUser,
-  uploadUserPhoto
+  uploadUserPhoto,
+  updateUserPhoto
 };
 
 export default userService;
