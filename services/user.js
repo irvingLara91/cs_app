@@ -11,7 +11,6 @@ import {
 import { uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import {
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
 } from "firebase/auth";
 import { auth, db, avatarStorageRef } from "~/firebase";
 import { errorMessage, generateRandomPassword } from "~/utils/utils";
@@ -101,19 +100,7 @@ const createUser = ({
     });
 };
 
-const loginUser = (email, password) => {
-  return signInWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const userDoc = await getUser(userCredential.user.uid);
-      const user = userCredential.user;
-      return { ...user, userDoc };
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      return { errorCode, errorMessage };
-    });
-};
+
 
 const getUsers = async () => {
   const usersRef = query(collection(db, "users"));
@@ -161,7 +148,6 @@ const updateUser = async (userId, data) => {
 
 const userService = {
   getUserDetails,
-  loginUser,
   createUser,
   getUser,
   getUsers,

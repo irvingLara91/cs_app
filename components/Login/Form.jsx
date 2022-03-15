@@ -57,7 +57,7 @@ const Form = ({ onSubmit }) => {
 					{errors?.password?.message}
 				</FormControl.ErrorMessage>
 			</FormControl>
-			<Button bgColor="primary_black.900" borderRadius={0} size="lg" onPress={handleSubmit(onSubmit)} size="lg" style={{width: "100%",marginTop:30}}>
+			<Button bgColor="primary_black.900" borderRadius={0} size="lg" onPress={handleSubmit(onSubmit)} style={{width: "100%",marginTop:30}}>
           Log in
 			</Button>
 		</VStack>

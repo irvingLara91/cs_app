@@ -7,12 +7,14 @@ import screens from "~/constants/screens";
 import styles from "./styles";
 import ContainerBase from "~/components/common/ContainerBase";
 import Loading from "~/components/Loading/Loading";
+import authService from "~/services/auth";
 import userService from "~/services/user";
 import {useAuthUserContext} from "~/context/authUser";
 import {textSizeRender, setData} from "~/utils/utils";
 
 export default function Login() {
-    const { loginUser, getUser } = userService;
+    const { getUser } = userService;
+    const { loginUser } = authService;
     const {passwordRecoveryLink} = styles;
     const {setFetching, fetching, setUser} = useAuthUserContext()
 

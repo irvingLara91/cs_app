@@ -10,19 +10,19 @@ import ReferenceImage from "~/assets/image.png";
 import styles from "./styles";
 import {textSizeRender, setData} from "~/utils/utils";
 
-import userService from "~/services/user";
+import authService from "~/services/auth";
 
 import {useAuthUserContext} from "~/context/authUser";
 
 export default function Login() {
     const {passwordRecoveryLink} = styles;
     const { setFetching, fetching, setUser } = useAuthUserContext()
-    const { loginUser } = userService;
 
     const onLogin = async(data) => {
         const { email, password } = data;
         setFetching(true);
-        const result = await loginUser(email, password);
+
+        const result = await authService.loginUser(email, password);
         if (result.hasOwnProperty("errorMessage")) {
             console.log("trigger error")
         } else {

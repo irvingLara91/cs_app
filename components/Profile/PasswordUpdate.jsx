@@ -3,18 +3,47 @@ import {useForm, Controller} from "react-hook-form";
 import {Center, Stack, IconButton, FormControl, Input, Button, Box} from "native-base";
 import {MaterialIcons} from "@expo/vector-icons";
 
-import screens from "~/constants/screens";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
+import authService from "~/services/auth";
+import {useAuthUserContext} from "~/context/authUser";
 
 const PasswordUpdate = ({navigation}) => {
-    const {control, handleSubmit, formState: {errors}} = useForm();
+    const { user } = useAuthUserContext();
+    const {control, handleSubmit, formState: {errors}, setError} = useForm();
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showNewPasswordConfirmation, setShowNewPasswordConfirmation] = useState(false);
 
-    const onSubmit = (data) => {
-        console.log("submiting with ", data);
+    const onSubmit = async(data) => {
+        const { newPassword, newPasswordConfirm, currentPassword } = data;
+        const verified = await authService.loginUser(user.email, currentPassword);
+
+        if (!verified.hasOwnProperty("errorCode")) {
+            if (newPassword === newPasswordConfirm) {
+               const result = await authService.updateUserPassword(newPassword);
+               console.log({result})
+               if (result.success) {
+                   //trigger success 
+               } else {
+                   // trigger error alert
+               }
+            } else {
+                setError("newPassword", {
+                    type: "manual",
+                    message: "Password mismatch",
+                });
+                setError("newPasswordConfirm", {
+                    type: "manual",
+                    message: "Password mismatch",
+                });
+            }
+        } else {
+            setError("currentPassword", {
+                type: "manual",
+                message: "Incorrect password",
+            });
+        }        
     };
 
     return (
