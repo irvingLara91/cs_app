@@ -56,8 +56,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
-
-        elevation: 2,
         textAlign: 'center',
         justifyContent:'center',
     },
