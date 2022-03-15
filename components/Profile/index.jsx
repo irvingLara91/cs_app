@@ -103,7 +103,7 @@ const Profile = (props) => {
             } else {
                 return await userService.uploadUserPhoto(user.uid, image)
             }
-        }
+        } else return photoURL;
     }
 
     const handleSubmit = async (data, param) => {
