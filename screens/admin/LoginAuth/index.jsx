@@ -15,7 +15,7 @@ import CustomModal from "~/components/Modals/CustomModal";
 
 export default function Login() {
     const { getUser } = userService;
-    const { loginUser } = authService;
+    const { login } = authService;
     const {passwordRecoveryLink} = styles;
     const {setFetching, fetching, setUser} = useAuthUserContext()
     /***
@@ -29,7 +29,7 @@ export default function Login() {
     const onLogin = async(data) => {
         const { email, password } = data;
         setFetching(true);
-        const result = await loginUser(email, password);
+        const result = await login(email, password);
         if (result.hasOwnProperty("errorMessage")) {
             setModalVisible(true)
             setCustomModal({isError: true, message: errorMessage(result.errorCode)})

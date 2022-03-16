@@ -9,11 +9,9 @@ import {
   updateDoc
 } from "firebase/firestore";
 import { uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
-import {
-  createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { auth, db, avatarStorageRef } from "~/firebase";
-import { errorMessage, generateRandomPassword } from "~/utils/utils";
+
+import { db, avatarStorageRef } from "~/firebase";
+import { errorMessage, initialResponse } from "~/utils/utils";
 import _ from "lodash";
 
 const removePreviousUserPhoto = async (userId) => {
@@ -56,51 +54,9 @@ const createUserDoc = async (userId, data) => {
       return { success: true, message: "user created successfully." };
     })
     .catch(() => {
-      return {
-        success: false,
-        message: "There was an error creating the user.",
-      };
+      return { ...initialResponse, error: true, message: errorMessage(error.code) };
     });
 };
-const createUser = ({
-  address = "",
-  city = "",
-  email,
-  firstName,
-  lastName,
-  password = generateRandomPassword(),
-  phoneNumber,
-  photo = "",
-  role = 1,
-  zipCode = "",
-}) => {
-  return createUserWithEmailAndPassword(auth, email, password)
-    .then(async (userCredential) => {
-      const userId = userCredential.user.uid;
-      const uploadResult = await uploadUserPhoto(userId, photo);
-      const data = {
-        address: {
-          address,
-          city,
-          zipCode,
-        },
-        email,
-        firstName,
-        lastName,
-        phoneNumber,
-        photoURL: uploadResult,
-        role,
-        createdAt: new Date(),
-        orders: [],
-      };
-      return await createUserDoc(userId, data);
-    })
-    .catch((error) => {
-      return { error: true, message: errorMessage(error.code) };
-    });
-};
-
-
 
 const getUsers = async () => {
   const usersRef = query(collection(db, "users"));
@@ -128,6 +84,7 @@ const getUser = async (userId) => {
   if (docSnap.exists()) {
     return docSnap.data();
   } else return new Error({ errorMessage: "Document doesn't exist" });
+  // return { ...initialResponse, error: true, message: errorMessage(error.code) };
 };
 
 const getUserDetails = (userId) => {
@@ -143,17 +100,17 @@ const getUserDetails = (userId) => {
 
 const updateUser = async (userId, data) => {
     const userDocRef = doc(db, "users", userId);
-    return await updateDoc(userDocRef, data).then(() => { return {success: true} }).catch((error) => {return {success: false, msg: error}})
+    return await updateDoc(userDocRef, data).then(() => { return {success: true} }).catch((error) => {return { ...initialResponse, error: true, message: errorMessage(error.code) }})
 };
 
 const userService = {
   getUserDetails,
-  createUser,
   getUser,
   getUsers,
   updateUser,
   uploadUserPhoto,
-  updateUserPhoto
+  updateUserPhoto,
+  createUserDoc
 };
 
 export default userService;

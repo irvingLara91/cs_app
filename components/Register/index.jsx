@@ -1,15 +1,15 @@
 import React from "react";
-import { Center, Stack, Heading, KeyboardAvoidingView } from "native-base";
+import { Center, Stack, Heading } from "native-base";
 import Form from "./Form";
 import ContainerBase from "../common/ContainerBase";
-import userService from "~/services/user";
+import authService from "~/services/auth";
 import { useAuthUserContext } from "~/context/authUser";
 import { setData } from "~/utils/utils";
 
 const Register = ({ navigation }) => {
 	const { setUser } = useAuthUserContext();
-	const { navigate } = navigation;
-	const { createUser } = userService;
+	const { createUser } = authService;
+	
 	const onRegister = async(data) => {
 		const result = await createUser(data);
 		if (result.hasOwnProperty("errorMessage")) {
