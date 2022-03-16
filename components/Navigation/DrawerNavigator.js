@@ -4,7 +4,7 @@ import {
     createDrawerNavigator,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import {Feather} from "@expo/vector-icons";
+import {Feather, MaterialIcons} from "@expo/vector-icons";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {
     Box,
@@ -21,11 +21,12 @@ import {
 
 import Orders from "~/components/Orders";
 import Profile from "~/components/Profile";
-import {Dimensions, Image, Platform, TouchableOpacity} from "react-native";
+import {Dimensions, Image, Platform, StatusBar, TouchableOpacity} from "react-native";
 import Home from "~/components/Home";
 import Help from "~/components/Help";
 import {useAuthUserContext} from "~/context/authUser";
-import {SCREEN_HEIGHT, textSizeRender} from "~/utils/utils";
+import {SCREEN_HEIGHT, statusBarHeight, textSizeRender} from "~/utils/utils";
+import {LinearGradient} from "expo-linear-gradient";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 
@@ -197,12 +198,60 @@ function LogoTitle() {
     );
 }
 
+const HeaderClient =({navigation,...props})=>{
+    return(
+        <LinearGradient colors={["#555555", "#171717"]} style={{
+            width: SCREEN_WIDTH,
+            paddingTop: Platform.OS ==="ios" ?  statusBarHeight-5 :  statusBarHeight - (SCREEN_WIDTH*10)
+        }}>
+            <StatusBar
+                animated={true}
+                backgroundColor="#555555"
+                barStyle={"light-content"}
+                showHideTransition={"slide"}
+                hidden={false} />
+            <View style={{height: SCREEN_WIDTH * .15, flexDirection: 'row', marginBottom: 8, marginTop: 8}}>
+                <View style={{
+                    flex: .3, justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.toggleDrawer()}
+                        style={{
+                            width: SCREEN_WIDTH * .1,
+                            height: SCREEN_WIDTH * .1,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white',
+                            marginLeft: 15,
+                        }}>
+                        <Feather name="menu" size={SCREEN_WIDTH * 0.07} color="black"/>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                    <View style={{width: SCREEN_WIDTH / 2, alignSelf: 'center'}}>
+                        <Image
+                            resizeMode={"cover"}
+                            style={{width: '100%', tintColor: 'white'}}
+                            source={require("~/assets/cornerstone-logo-300px.png")}
+                        />
+                    </View>
+                </View>
+                <View style={{flex: .3}}>
+                </View>
+            </View>
+        </LinearGradient>
+    )
+};
+
 
 const DrawerNavigator = () => {
     const {Navigator, Screen} = Drawer;
     return (
         <Navigator
-            screenOptions={({navigation}) => ({
+            /*screenOptions={({navigation}) => ({
                 headerTitleAlign: "center",
                 headerStyle: {
                     shadowColor: "#000",
@@ -230,37 +279,37 @@ const DrawerNavigator = () => {
                     </TouchableOpacity>
                 ),
                 headerTitle: (props) => <LogoTitle {...props} />,
-
-            })}
+            })}*/
             drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
             <Screen
                 name="Home"
                 component={Home}
+                options={{
+                    header: (props) => <HeaderClient {...props} />,
+                }}
             />
             <Screen
                 name="Orders"
                 component={Orders}
                 options={{
-                    drawerLabel: "My Orders",
-                    title: "My Orders",
+                    header: (props) => <HeaderClient {...props} />,
                 }}
             />
             <Screen
                 name="Profile"
                 component={Profile}
                 options={{
-                    drawerLabel: "My Profile",
-                    title: "My Profile",
+                    header: (props) => <HeaderClient {...props} />,
                 }}
             />
             <Screen
                 name="Help"
                 component={Help}
                 options={{
-                    drawerLabel: "Help",
-                    title: "Help",
+                    header: (props) => <HeaderClient {...props} />,
                 }}
+
             />
         </Navigator>
     );

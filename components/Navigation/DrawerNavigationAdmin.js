@@ -18,7 +18,7 @@ import {
     View,
 } from "native-base";
 
-import {Dimensions, Image, Platform, TouchableOpacity} from "react-native";
+import {Dimensions, Image, Platform, StatusBar, TouchableOpacity} from "react-native";
 import Dashboard from "../../screens/admin/DashboardScreen";
 import {useAuthUserContext} from "~/context/authUser";
 import ProfileScreen from "~/screens/admin/ProfileScreen";
@@ -26,7 +26,8 @@ import OrdersScreen from "~/screens/admin/OrdersScreen";
 import UsersScreen from "~/screens/admin/UsersScreen";
 import NotificationsScreen from "~/screens/admin/NotificationsScreen";
 import HelpScreen from "~/screens/admin/HelpScreen";
-import {textSizeRender} from "~/utils/utils";
+import {statusBarHeight, textSizeRender} from "~/utils/utils";
+import {LinearGradient} from "expo-linear-gradient";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -229,13 +230,109 @@ function LogoTitle() {
     );
 }
 
+const HeaderAdmin =({navigation,...props})=>{
+    return(
+        <LinearGradient colors={["#555555", "#171717"]} style={{
+            width: SCREEN_WIDTH,
+            paddingTop: Platform.OS ==="ios" ?  statusBarHeight-5 :  statusBarHeight - (SCREEN_WIDTH*10)
+        }}>
+            <StatusBar
+                animated={true}
+                backgroundColor="#555555"
+                barStyle={"light-content"}
+                showHideTransition={"slide"}
+                hidden={false} />
+            <View style={{height: SCREEN_WIDTH * .15, flexDirection: 'row', marginBottom: 8, marginTop: 8}}>
+                <View style={{
+                    flex: .3, justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    <TouchableOpacity
+                        onPress={() => navigation.toggleDrawer()}
+                        style={{
+                            width: SCREEN_WIDTH * .1,
+                            height: SCREEN_WIDTH * .1,
+                            borderRadius: 10,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            backgroundColor: 'white',
+                            marginLeft: 15,
+                        }}>
+                        <Feather name="menu" size={SCREEN_WIDTH * 0.07} color="black"/>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                    <View style={{width: SCREEN_WIDTH / 2, alignSelf: 'center'}}>
+                        <Image
+                            resizeMode={"cover"}
+                            style={{width: '100%', tintColor: 'white'}}
+                            source={require("~/assets/cornerstone-logo-300px.png")}
+                        />
+                    </View>
+                </View>
+                <View style={{flex: .3,
+                    justifyContent:'center',
+                    alignItems:'center'
+                }}>
+                    <View style={{flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                alert("notifications")
+                            }}
+                            style={{
+                                marginRight: 5,
+                            }}
+                        >
+                            <View style={{alignItems: 'flex-end'}}>
+                                <MaterialIcons name="notifications-none" size={SCREEN_WIDTH * 0.07} color="white"/>
+                                <View style={{
+                                    width: SCREEN_WIDTH * 0.04,
+                                    height:SCREEN_WIDTH * 0.04,
+                                    top: -5,
+                                    left: 15,
+                                    position: 'absolute',
+                                    borderRadius: 10,
+                                    backgroundColor: 'white'
+
+                                }}>
+                                    <Text style={{
+                                        top: -3,
+                                        textAlign: 'center',
+                                        color: 'black', fontSize: 10
+                                    }}>1</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate("Profile")
+                            }
+                            style={{
+                                marginRight: 15,
+                                alignItems:'center'
+                            }}
+                        >
+                            <Ionicons name="ios-person-circle-outline" size={SCREEN_WIDTH * 0.07} color="white"/>
+                        </TouchableOpacity>
+
+                    </View>
+                </View>
+            </View>
+        </LinearGradient>
+    )
+};
+
+
 const DrawerNavigator = () => {
     const {user} = useAuthUserContext()
     const {Navigator, Screen} = Drawer;
 
     return (
         <Navigator
-            screenOptions={({navigation}) => ({
+
+            /*screenOptions={({navigation}) => ({
                 headerTitleAlign: "center",
                 headerStyle: {
                     shadowColor: "#000",
@@ -307,35 +404,53 @@ const DrawerNavigator = () => {
 
                     </View>
                 )
-            })}
+            })}*/
             drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
             <Screen
                 name="Dashboard"
                 component={Dashboard}
+                options={{
+                    header: (props) => <HeaderAdmin {...props} />,
+                }}
             />
             <Screen
                 name="Profile"
                 component={ProfileScreen}
+                options={{
+                    header: (props) => <HeaderAdmin {...props} />,
+                }}
             />
             <Screen
                 name="Orders"
                 component={OrdersScreen}
+                options={{
+                    header: (props) => <HeaderAdmin {...props} />,
+                }}
             />
             {
                 user.role !== 3 &&
                 <Screen
                     name="Users"
                     component={UsersScreen}
+                    options={{
+                        header: (props) => <HeaderAdmin {...props} />,
+                    }}
                 />
             }
             <Screen
                 name="Notifications"
                 component={NotificationsScreen}
+                options={{
+                    header: (props) => <HeaderAdmin {...props} />,
+                }}
             />
             <Screen
                 name="Help"
                 component={HelpScreen}
+                options={{
+                    header: (props) => <HeaderAdmin {...props} />,
+                }}
             />
         </Navigator>
     );
