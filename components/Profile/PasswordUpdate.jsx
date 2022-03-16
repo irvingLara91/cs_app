@@ -17,7 +17,7 @@ const PasswordUpdate = ({navigation}) => {
 
     const onSubmit = async(data) => {
         const { newPassword, newPasswordConfirm, currentPassword } = data;
-        const verified = await authService.loginUser(user.email, currentPassword);
+        const verified = await authService.login(user.email, currentPassword);
 
         if (!verified.hasOwnProperty("errorCode")) {
             if (newPassword === newPasswordConfirm) {

@@ -113,7 +113,7 @@ export const rgx = {
 
 
 export const errorMessage = (codeError) => {
-    let error = ""
+    let error = codeError
 
     if (codeError === "auth/email-already-in-use") {
 
@@ -134,7 +134,6 @@ export const errorMessage = (codeError) => {
     }else if (codeError==="auth/wrong-password"){
         error="Incorrect user credentials"
     }
-
     return error
 };
 
@@ -207,3 +206,5 @@ export const FAKE_USER_DETAILS = {
 
 const barHeightFactor = Dimensions.get('window').height * .2 - 125;
 export const statusBarHeight = barHeightFactor > 22 ? barHeightFactor : 22;
+
+export const initialResponse = { success: false, error: false, message: "" }

@@ -1,8 +1,47 @@
-import { updatePassword, signInWithEmailAndPassword } from "firebase/auth";
+import { updatePassword, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import { auth } from "~/firebase";
 import userService from "./user";
+import { errorMessage, generateRandomPassword, initialResponse } from "~/utils/utils";
 
-const loginUser = (email, password) => {
+const createUser = ({
+  address = "",
+  city = "",
+  email,
+  firstName,
+  lastName,
+  password = generateRandomPassword(),
+  phoneNumber,
+  photo = "",
+  role = 1,
+  zipCode = "",
+}) => {
+  return createUserWithEmailAndPassword(auth, email, password)
+    .then(async (userCredential) => {
+      const userId = userCredential.user.uid;
+      const uploadResult = await userService.uploadUserPhoto(userId, photo);
+      const data = {
+        address: {
+          address,
+          city,
+          zipCode,
+        },
+        email,
+        firstName,
+        lastName,
+        phoneNumber,
+        photoURL: uploadResult,
+        role,
+        createdAt: new Date(),
+        orders: [],
+      };
+      return await userService.createUserDoc(userId, data);
+    })
+    .catch((error) => {
+      return { ...initialResponse, error: true, message: errorMessage(error.code) };
+    });
+};
+
+const login = (email, password) => {
   return signInWithEmailAndPassword(auth, email, password)
     .then(async (userCredential) => {
       const userDoc = await userService.getUser(userCredential.user.uid);
@@ -12,25 +51,27 @@ const loginUser = (email, password) => {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      // return { ...initialResponse, error: true, message: errorMessage(error.code) };
       return { errorCode, errorMessage };
     });
 };
 
 const updateUserPassword = async(newPassword) => {
-  const user = auth.currentUser;
+  const { currentUser } = auth;
   
-  return await updatePassword(user, newPassword).then(() => {
+  return await updatePassword(currentUser, newPassword).then(() => {
     return {
       success: true
     }
   }).catch((error) => {
-    return {
-      success: false,
-      msg: error
-    }
+    return { ...initialResponse, error: true, message: errorMessage(error.code) };
   });
 }
 
-const authService = { updateUserPassword, loginUser };
+const logout = async () => {
+  return await signOut(auth)
+}
+
+const authService = { createUser, login, updateUserPassword, logout };
 
 export default authService;

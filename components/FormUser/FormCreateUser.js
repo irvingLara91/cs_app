@@ -16,7 +16,7 @@ import ContainerAdmin from "~/components/common/ContainerAdmin";
 import * as ImagePicker from "expo-image-picker";
 import * as ImageManipulator from "expo-image-manipulator";
 import * as mime from "react-native-mime-types";
-import userService from "~/services/user";
+import authService from "~/services/auth";
 import Loading from "~/components/Loading/Loading";
 import CustomModal from "~/components/Modals/CustomModal";
 
@@ -53,7 +53,7 @@ const FormCreateUser = (props) => {
         } else {
             setLoading(true)
             setImageError(false)
-            const result = await userService.createUser({...data, photo: image.uri})
+            const result = await authService.createUser({...data, photo: image.uri})
             console.log({result})
             if (result.success) {
                 setCustomModalVisible(true)

@@ -32,7 +32,7 @@ export default function Login() {
         const { email, password } = data;
         setFetching(true);
 
-        const result = await authService.loginUser(email, password);
+        const result = await authService.login(email, password);
         if (result.hasOwnProperty("errorMessage")) {
             setModalVisible(true)
             setCustomModal({isError: true, message: errorMessage(result.errorCode)})
