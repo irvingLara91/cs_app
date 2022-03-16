@@ -3,7 +3,7 @@ import {Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {SCREEN_HEIGHT, textSizeRender} from "~/utils/utils";
 import {AntDesign, Feather} from "@expo/vector-icons";
 
-const CustomModal = ({isError = true, message = "Mensaje de hoy", setVisible, visible}) => {
+const CustomModal = ({isError = false, message = "Mensaje de hoy", setVisible, visible}) => {
 
 
     return (
