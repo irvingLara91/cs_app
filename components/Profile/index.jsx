@@ -108,9 +108,9 @@ const Profile = (props) => {
     //     return res
     // }
 
-    const handlePhotoURL = async (photoURL) => {
+    const handlePhotoURL = async (photoURL, userId = "") => {
         if (image) {
-            if (photoURL !== "") {
+            if (photoURL !== "" && photoURL.match(userId)) {
                 return await userService.updateUserPhoto(user.uid, image)
             } else {
                 return await userService.uploadUserPhoto(user.uid, image)
@@ -135,9 +135,8 @@ const Profile = (props) => {
             phoneNumber,
             orders,
             role,
-            photoURL: await handlePhotoURL(photoURL)
-        }
-
+            photoURL: await handlePhotoURL(photoURL, user.uid)
+        }  
         const updateResult = await userService.updateUser(user.uid, newData);
         if (updateResult.success) {
             await setUserDoc(newData)
