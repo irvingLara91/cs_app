@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
 	Center,
 	Heading,
@@ -14,6 +14,7 @@ import {textSizeRender} from "~/utils/utils";
 import CustomButton from "~/components/CustomButton/CustomButton";
 import styles from "~/components/Register/styles";
 import authService from "~/services/auth";
+import CustomModal from "~/components/Modals/CustomModal";
 
 const PasswordRecovery = () => {
 
@@ -42,12 +43,43 @@ const PasswordRecoveryForm = () => {
 		formState: {errors},
 	} = useForm();
 
+	/***
+	 * States de CustomModal
+	 * **/
+	const [modalVisible, setModalVisible] = useState(false)
+	const [message, setMessage] = useState("")
+	const [isError, setIsError] = useState(false)
+
+	/***
+	 * End States de CustomModal
+	 * **/
+
 	const onSubmit = async (values) => {
 		const result = await authService.passwordReset(values.email);
 		if (result.success) {
-			navigation.goBack();
+			//navigation.goBack();
+			setMessage(result.message)
+			setModalVisible(true)
+			setIsError(false)
+		}else {
+			setMessage(result.message)
+			setModalVisible(true)
+			setIsError(true)
 		}
 	};
+
+	const closeModal=()=>{
+		if (isError){
+			setMessage("")
+			setModalVisible(false)
+			setIsError(false)
+		}else {
+			navigation.goBack();
+			setMessage("")
+			setModalVisible(false)
+			setIsError(false)
+		}
+	}
 
 	return (
 		<VStack space={2} alignItems="center">
@@ -77,6 +109,11 @@ const PasswordRecoveryForm = () => {
 						  textColor={"#fff"}
 						  gradient={["#555555","#171717"]}
 						  borderRadius={10} />
+
+			{
+				modalVisible &&
+				<CustomModal message={message} visible={modalVisible} setVisible={closeModal} isError={isError}/>
+			}
 		</VStack>
 	);
 };

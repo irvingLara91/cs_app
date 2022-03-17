@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
 	Center,
 	Heading,
@@ -15,6 +15,9 @@ import ContainerBase from "~/components/common/ContainerBase";
 import {textSizeRender} from "~/utils/utils";
 import styles from "~/components/Register/styles";
 import CustomButton from "~/components/CustomButton/CustomButton";
+import {useNavigation} from "@react-navigation/native";
+import authService from "~/services/auth";
+import CustomModal from "~/components/Modals/CustomModal";
 
 const PasswordRecovery = () => {
 
@@ -37,15 +40,50 @@ const PasswordRecovery = () => {
 
 const PasswordRecoveryForm = () => {
 	const {textInput} = styles;
+	const navigation = useNavigation();
 	const {
 		control,
 		handleSubmit,
 		formState: {errors},
 	} = useForm();
+	/***
+	 * States de CustomModal
+	 * **/
+	const [modalVisible, setModalVisible] = useState(false)
+	const [message, setMessage] = useState("")
+	const [isError, setIsError] = useState(false)
 
-	const onSubmit = (values) => {
-		console.log({values});
+	/***
+	 * End States de CustomModal
+	 * **/
+
+	const onSubmit = async (values) => {
+		const result = await authService.passwordReset(values.email);
+		if (result.success) {
+			//console.log(result)
+			///navigation.goBack();
+			setMessage(result.message)
+			setModalVisible(true)
+			setIsError(false)
+		}else {
+			setMessage(result.message)
+			setModalVisible(true)
+			setIsError(true)
+		}
 	};
+
+	const closeModal=()=>{
+		if (isError){
+			setMessage("")
+			setModalVisible(false)
+			setIsError(false)
+		}else {
+			navigation.goBack();
+			setMessage("")
+			setModalVisible(false)
+			setIsError(false)
+		}
+	}
 
 	return (
 		<VStack space={2} alignItems="center">
@@ -76,6 +114,10 @@ const PasswordRecoveryForm = () => {
 						  textColor={"#fff"}
 						  gradient={["#555555","#171717"]}
 						  borderRadius={10} />
+			{
+				modalVisible &&
+				<CustomModal message={message} visible={modalVisible} setVisible={closeModal} isError={isError}/>
+			}
 		</VStack>
 	);
 };
