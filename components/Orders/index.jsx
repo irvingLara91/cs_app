@@ -9,6 +9,7 @@ import ordersService from "~/services/orders";
 import {useAuthUserContext} from "~/context/authUser";
 import Loading from "~/components/Loading/Loading";
 import {useIsFocused} from "@react-navigation/native";
+import CustomButton from "~/components/CustomButton/CustomButton";
 
 const Orders = ({navigation}) => {
     const isFocused = useIsFocused();
@@ -79,11 +80,12 @@ const Orders = ({navigation}) => {
             <View style={{flex: 0, paddingVertical: 25}}>
                 <Center>
                     <Box w="full" maxW="300">
-                        <Button bgColor="dark.50"
-                                borderRadius="none"
-                                onPress={() => navigate({name: screens.NEW_ORDER})}>
-                            New Order
-                        </Button>
+
+                        <CustomButton onPress={() => navigate({name: screens.NEW_ORDER})}
+                                      title={" New Order"}
+                                      textColor={"#fff"}
+                                      gradient={["#555555", "#171717"]}
+                                      borderRadius={10}/>
                     </Box>
                 </Center>
             </View>

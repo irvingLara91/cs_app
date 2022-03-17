@@ -17,7 +17,7 @@ const OrderDetails = ({route}) => {
     }, []);
 
     return (
-        <ScrollView>
+        <ScrollView style={{backgroundColor:"white"}}>
             <Stack p="5">
                 <Box w="full" borderWidth="1" borderRadius="lg">
                     <Center>
