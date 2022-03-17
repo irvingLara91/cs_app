@@ -2,11 +2,12 @@ import React from "react";
 import {Dimensions, View} from "react-native";
 import {KeyboardAwareScrollView} from "react-native-keyboard-aware-scroll-view";
 
-const ContainerBase = ({...props}) => {
+const ContainerBaseV2 = ({backgroundColor="#F4F4F4",...props}) => {
 
 	return (
 		<View
 			style={{
+				backgroundColor:backgroundColor,
 				width: Dimensions.get("window").width,
 				flex: 1
 			}}
@@ -29,4 +30,4 @@ const ContainerBase = ({...props}) => {
 		</View>
 	);
 };
-export default ContainerBase;
+export default ContainerBaseV2;

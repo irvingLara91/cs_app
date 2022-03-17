@@ -6,15 +6,16 @@ import gravestoneMedia from "~/assets/gravestone-media.png";
 import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import {useAuthUserContext} from "~/context/authUser";
 import {useIsFocused} from "@react-navigation/native";
-import {SCREEN_WIDTH} from "~/utils/utils";
+import {errorMessage, SCREEN_WIDTH} from "~/utils/utils";
 import userService, {uploadUserPhoto} from "~/services/user";
 import Loading from "~/components/Loading/Loading";
 import * as ImagePicker from "expo-image-picker";
 import * as mime from "react-native-mime-types";
 import * as ImageManipulator from "expo-image-manipulator";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import CustomModal from "~/components/Modals/CustomModal";
 
-const ButtonImage=(props)=>{
+const ButtonImage = (props) => {
     return (
         <IconButton
             w={"40px"}
@@ -54,19 +55,30 @@ const ButtonImage=(props)=>{
 }
 const Profile = (props) => {
     const isFocused = useIsFocused();
-    const {user,setUserDoc,setUserParam} = useAuthUserContext();
+    const {user, setUserDoc, setUserParam} = useAuthUserContext();
     const [profile, setProfile] = useState(null)
     const [firstName, setFirstName] = useState(user && user.userDoc.firstName)
     const [lastName, setLastName] = useState(user && user.userDoc.lastName)
-    const [image,setImage] = useState(null)
-    const [loadig, setLoading] = useState(false)
+    const [image, setImage] = useState(null)
+    const [loading, setLoading] = useState(false)
+
+    /***
+     * States de CustomModal
+     * **/
+    const [modalVisible, setModalVisible] = useState(false)
+    const [message, setMessage] = useState("")
+    const [isError, setIsError] = useState(false)
+
+    /***
+     * End States de CustomModal
+     * **/
 
     useEffect(() => {
         console.log(user.userDoc)
         if (isFocused) {
             setProfile(user.userDoc)
         }
-    }, [isFocused,user])
+    }, [isFocused, user])
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -96,9 +108,9 @@ const Profile = (props) => {
     //     return res
     // }
 
-    const handlePhotoURL = async (photoURL) => {
+    const handlePhotoURL = async (photoURL, userId = "") => {
         if (image) {
-            if (photoURL !== "") {
+            if (photoURL !== "" && photoURL.match(userId)) {
                 return await userService.updateUserPhoto(user.uid, image)
             } else {
                 return await userService.uploadUserPhoto(user.uid, image)
@@ -108,8 +120,8 @@ const Profile = (props) => {
 
     const handleSubmit = async (data, param) => {
         setLoading(true)
-        const { address, city, zipCode, email, firstName, lastName, phoneNumber } = data;
-        const { orders, role, photoURL } = user.userDoc;
+        const {address, city, zipCode, email, firstName, lastName, phoneNumber} = data;
+        const {orders, role, photoURL} = user.userDoc;
 
         const newData = {
             address: {
@@ -123,22 +135,32 @@ const Profile = (props) => {
             phoneNumber,
             orders,
             role,
-            photoURL: await handlePhotoURL(photoURL)
-        }
+            photoURL: await handlePhotoURL(photoURL, user.uid)
+        }  
+        const updateResult = await userService.updateUser(user.uid, newData);
+        if (updateResult.success) {
+            await setUserDoc(newData)
+            setTimeout(() => {
+                setImage(null)
+                setLoading(false)
+                setMessage("Update profile successfully.")
+                setModalVisible(true)
+                setIsError(false)
+            }, 500);
+        } else {
+            setTimeout(() => {
+                setImage(null)
+                setLoading(false)
+                setMessage("Failed to update profile.")
+                setModalVisible(true)
+                setIsError(true)
+            }, 500);
 
-       const updateResult = await userService.updateUser(user.uid, newData);
-        if (updateResult.success){
-            setUserDoc(newData)
-            setImage(null)
-            setLoading(false)
-        }else {
-            setImage(null)
-            setLoading(false)
         }
     }
 
     return (
-        <ContainerBaseV2>
+        <ContainerBaseV2 backgroundColor={"white"}>
             <ScrollView>
                 <Center mt={5} mb={SCREEN_WIDTH * .5}>
                     <Stack w="full" maxW="300">
@@ -147,7 +169,8 @@ const Profile = (props) => {
                             {
                                 profile ?
                                     <Box bgColor="muted.300" padding="3" borderRadius="lg">
-                                        <Image size={"lg"} source={{uri: image ? image :profile.photoURL}} alt="gravestone picture"/>
+                                        <Image size={"lg"} source={{uri: image ? image : profile.photoURL}}
+                                               alt="gravestone picture"/>
                                         <ButtonImage pickImage={pickImage}/>
                                     </Box>
                                     :
@@ -164,14 +187,21 @@ const Profile = (props) => {
                         <Divider mt="5" mb="5"/>
                         <Box>
                             <Form
-                                setFirstName={setFirstName} setLastName={setLastName} profile={profile} onSubmit={handleSubmit}/>
+                                setFirstName={setFirstName} setLastName={setLastName} profile={profile}
+                                onSubmit={handleSubmit}/>
                         </Box>
                     </Stack>
                 </Center>
             </ScrollView>
             {
-                loadig &&
-                <Loading loading={loadig} text={"Loading..."} color={"white"}/>
+                loading &&
+                <Loading loading={loading} text={"Loading..."} color={"white"}/>
+            }
+
+            {
+            modalVisible &&
+            <CustomModal message={message} visible={modalVisible} setVisible={setModalVisible} isError={isError}/>
+
             }
         </ContainerBaseV2>
     );

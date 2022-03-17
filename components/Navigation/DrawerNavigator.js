@@ -4,7 +4,7 @@ import {
     createDrawerNavigator,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import {Feather, MaterialIcons} from "@expo/vector-icons";
+import {Feather, Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {
     Box,
@@ -50,7 +50,7 @@ const getIcon = (screenName) => {
 };
 
 function CustomDrawerContent(props) {
-    const {LogOut,user} = useAuthUserContext()
+    const {LogOut, user} = useAuthUserContext()
 
     return (
         <DrawerContentScrollView {...props} safeArea>
@@ -108,9 +108,10 @@ function CustomDrawerContent(props) {
                             }}
                         />
 
-                        <Text bold color="primary_black.700" style={{fontSize:textSizeRender(5),fontFamily:"Roboto_500Medium"}} pt={5}>
-                            {user && user.userDoc&& user.userDoc.firstName+" "}
-                            {user && user.userDoc&& user.userDoc.lastName}
+                        <Text bold color="primary_black.700"
+                              style={{fontSize: textSizeRender(5), fontFamily: "Roboto_500Medium"}} pt={5}>
+                            {user && user.userDoc && user.userDoc.firstName + " "}
+                            {user && user.userDoc && user.userDoc.lastName}
                         </Text>
                     </Box>
                     <Divider mb={4}/>
@@ -134,7 +135,7 @@ function CustomDrawerContent(props) {
                                             <Icon
                                                 color={
                                                     index === props.state.index ? "primary_black.900" : "primary_black.400"
-                                             }
+                                                }
                                                 size="7"
                                                 as={<MaterialCommunityIcons name={getIcon(name)}/>}
                                             />
@@ -185,7 +186,7 @@ function CustomDrawerContent(props) {
 
 function LogoTitle() {
     return (
-        <View style={{flex: 1,justifyContent:'center'}}>
+        <View style={{flex: 1, justifyContent: 'center'}}>
             <View style={{width: SCREEN_WIDTH / 2}}>
                 <Image
                     resizeMode={"contain"}
@@ -198,18 +199,18 @@ function LogoTitle() {
     );
 }
 
-const HeaderClient =({navigation,...props})=>{
-    return(
+const HeaderClient = ({navigation, ...props}) => {
+    return (
         <LinearGradient colors={["#555555", "#171717"]} style={{
             width: SCREEN_WIDTH,
-            paddingTop: Platform.OS ==="ios" ?  statusBarHeight-5 :  statusBarHeight - (SCREEN_WIDTH*10)
+            paddingTop: Platform.OS === "ios" ? statusBarHeight - 5 : statusBarHeight - (SCREEN_WIDTH * 10)
         }}>
             <StatusBar
                 animated={true}
                 backgroundColor="#555555"
                 barStyle={"light-content"}
                 showHideTransition={"slide"}
-                hidden={false} />
+                hidden={false}/>
             <View style={{height: SCREEN_WIDTH * .15, flexDirection: 'row', marginBottom: 8, marginTop: 8}}>
                 <View style={{
                     flex: .3, justifyContent: 'center',
@@ -239,7 +240,26 @@ const HeaderClient =({navigation,...props})=>{
                         />
                     </View>
                 </View>
-                <View style={{flex: .3}}>
+                <View style={{
+                    flex: .3,
+                    justifyContent: 'center',
+                    alignItems: 'center'
+                }}>
+                    <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate("Help")
+                            }
+                            style={{
+                                marginRight: 15,
+                                alignItems: 'center'
+                            }}
+                        >
+                            <MaterialCommunityIcons name={"help-circle-outline"}size={SCREEN_WIDTH * 0.09} color="white"/>
+                        </TouchableOpacity>
+
+                    </View>
+
                 </View>
             </View>
         </LinearGradient>

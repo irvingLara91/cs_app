@@ -23,24 +23,39 @@ export default function Login() {
      * States de CustomModal
      * **/
     const [modalVisible, setModalVisible] = useState(false)
-    const [customModal, setCustomModal] = useState({})
+    const [message, setMessage] = useState("")
+    const [isError, setIsError] = useState(false)
     /***
      * End States de CustomModal
      * **/
 
+    const closeModal=(val)=>{
+        setMessage("")
+        setIsError(false)
+        setModalVisible(false)
+    }
+
     const onLogin = async(data) => {
+        setFetching(true)
         const { email, password } = data;
-        setFetching(true);
 
         const result = await authService.login(email, password);
         if (result.hasOwnProperty("errorMessage")) {
-            setModalVisible(true)
-            setCustomModal({isError: true, message: errorMessage(result.errorCode)})
+            setTimeout(() => {
+                setFetching(false)
+                setModalVisible(true)
+                setMessage(errorMessage(result.errorCode))
+                setIsError(true)
+            }, 500);
         } else {
-            setUser({...result, role: 1, isFirstTime : false});
-            setData("user", {...result, role: 1, isFirstTime : false})
+            setTimeout(() => {
+                setFetching(false)
+                setUser({...result, role: 1, isFirstTime : false});
+                setData("user", {...result, role: 1, isFirstTime : false})
+            }, 500);
+
         }
-        setFetching(false)
+
     }
 
     return (
@@ -69,7 +84,7 @@ export default function Login() {
             }
             {
                 modalVisible &&
-                <CustomModal message={customModal.message} visible={modalVisible} setVisible={setModalVisible} isError={customModal.isError} />
+                <CustomModal message={message} visible={modalVisible} setVisible={closeModal} isError={isError} />
             }
         </ContainerBase>
     );

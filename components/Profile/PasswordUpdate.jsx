@@ -3,31 +3,63 @@ import {useForm, Controller} from "react-hook-form";
 import {Center, Stack, IconButton, FormControl, Input, Button, Box} from "native-base";
 import {MaterialIcons} from "@expo/vector-icons";
 
-import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {errorMessage, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
 import authService from "~/services/auth";
 import {useAuthUserContext} from "~/context/authUser";
+import Loading from "~/components/Loading/Loading";
+import CustomModal from "~/components/Modals/CustomModal";
 
+const defaultValues = {
+    input: ""
+};
 const PasswordUpdate = ({navigation}) => {
-    const { user } = useAuthUserContext();
-    const {control, handleSubmit, formState: {errors}, setError} = useForm();
+    const {user} = useAuthUserContext();
+    const {control,reset, handleSubmit, formState: {errors}, setError} = useForm();
     const [showCurrentPassword, setShowCurrentPassword] = useState(false);
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showNewPasswordConfirmation, setShowNewPasswordConfirmation] = useState(false);
+    const [loading, setLoading] = useState(false);
+    /***
+     * States de CustomModal
+     * **/
+    const [modalVisible, setModalVisible] = useState(false)
+    const [message, setMessage] = useState("")
+    /***
+     * End States de CustomModal
+     * **/
 
-    const onSubmit = async(data) => {
-        const { newPassword, newPasswordConfirm, currentPassword } = data;
+    const resetData=()=>{
+        reset({ defaultValues })
+    }
+
+    const onSubmit = async (data) => {
+        setLoading(true)
+        const {newPassword, newPasswordConfirm, currentPassword} = data;
         const verified = await authService.login(user.email, currentPassword);
-
         if (!verified.hasOwnProperty("errorCode")) {
             if (newPassword === newPasswordConfirm) {
-               const result = await authService.updateUserPassword(newPassword);
-               if (result.success) {
-                   //trigger success 
-               } else {
-                   // trigger error alert
-               }
+                const result = await authService.updateUserPassword(newPassword);
+                if (result.success) {
+                    //trigger success
+                    setTimeout(() => {
+                        setLoading(false)
+                        setModalVisible(true)
+                        setMessage("Password updated successfully.")
+                        resetData()
+                    }, 500);
+                } else {
+                    // trigger error alert
+                    setTimeout(() => {
+                        setLoading(false)
+                        setModalVisible(true)
+                        setMessage("There was an error, please try again.")
+                    }, 500);
+                }
             } else {
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
                 setError("newPassword", {
                     type: "manual",
                     message: "Password mismatch",
@@ -38,11 +70,14 @@ const PasswordUpdate = ({navigation}) => {
                 });
             }
         } else {
+            setTimeout(() => {
+                setLoading(false)
+            }, 500);
             setError("currentPassword", {
                 type: "manual",
                 message: "Incorrect password",
             });
-        }        
+        }
     };
 
     return (
@@ -186,6 +221,14 @@ const PasswordUpdate = ({navigation}) => {
                     </Button>
                 </Stack>
             </Center>
+            {
+                loading &&
+                <Loading loading={loading} color={"white"}/>
+            }
+            {
+                modalVisible &&
+                <CustomModal message={message} visible={modalVisible} setVisible={setModalVisible}/>
+            }
         </ContainerBaseV2>
     );
 };

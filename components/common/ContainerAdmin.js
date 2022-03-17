@@ -5,7 +5,7 @@ import {Center, Divider} from "native-base";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 
-const ContainerAdmin = ({isList = false, callApi, title = "", icon = null, actions = null,componentTitle=null, ...props}) => {
+const ContainerAdmin = ({backgroundColor="#F4F4F4",isList = false, callApi, title = "", icon = null, actions = null,componentTitle=null, ...props}) => {
     const [refreshing, setRefreshing] = useState(false)
 
     const _onRefresh = () => {
@@ -24,7 +24,8 @@ const ContainerAdmin = ({isList = false, callApi, title = "", icon = null, actio
         <View
             style={{
                 flex: 1,
-                width: SCREEN_WIDTH
+                width: SCREEN_WIDTH,
+                backgroundColor:backgroundColor
             }}
         >
             <View

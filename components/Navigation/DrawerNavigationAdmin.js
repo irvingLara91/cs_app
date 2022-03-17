@@ -21,7 +21,9 @@ import {
 import {Dimensions, Image, Platform, StatusBar, TouchableOpacity} from "react-native";
 import Dashboard from "../../screens/admin/DashboardScreen";
 import {useAuthUserContext} from "~/context/authUser";
-import ProfileScreen from "~/screens/admin/ProfileScreen";
+//import ProfileScreen from "~/screens/admin/ProfileScreen";
+import ProfileScreen from "~/components/Profile";
+
 import OrdersScreen from "~/screens/admin/OrdersScreen";
 import UsersScreen from "~/screens/admin/UsersScreen";
 import NotificationsScreen from "~/screens/admin/NotificationsScreen";
