@@ -182,27 +182,6 @@ export const ORDERS_FAKE_DATA =  [
     },
 ];
 
-export const FAKE_ORDER_DETAIL = {
-    date: "12-03-2022",
-    media: "~/assets/gravestone-media.png",
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    address: "724 echo ave, Romeoville, IL, 60446",
-    additionalInstructions: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-    status: {code: 1, msg: "Order received"}
-};
-
-export const FAKE_USER_DETAILS = {
-    fullName: "Oscar",
-    lastName:"Fuentes",
-    phone: "5554095303",
-    email: "me@cornernstone.com",
-    rol:3,
-    city: "chi",
-    zipCode: "60446",
-    password: "enctrypted password",
-    address: "724 Echo ave,"
-};
-
 
 const barHeightFactor = Dimensions.get('window').height * .2 - 125;
 export const statusBarHeight = barHeightFactor > 22 ? barHeightFactor : 22;
