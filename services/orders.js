@@ -9,7 +9,7 @@ import {
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { db, gravestoneStorageRef, cardStorageRef } from "~/firebase";
-import { generateOrderId, initialResponse, ORDERS_FAKE_DATA} from "../utils/utils";
+import { generateOrderId, initialResponse } from "../utils/utils";
 
 
 const getOrder = async (orderId) => {
