@@ -4,33 +4,20 @@ import {
   doc,
   setDoc,
   updateDoc,
+  getDoc,
 } from "firebase/firestore";
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { db, gravestoneStorageRef, cardStorageRef } from "~/firebase";
-import {FAKE_ORDER_DETAIL, generateOrderId, ORDERS_FAKE_DATA} from "../utils/utils";
+import { generateOrderId, initialResponse } from "../utils/utils";
 
-const getOrders = (userId) => {
-  // FAKE API CALL
-  return new Promise((resolve, reject) => {
-    const orders = ORDERS_FAKE_DATA.map((o) => o);
-    try {
-      resolve(orders);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
 
-const getOrderDetails = (orderId) => {
-  return new Promise((resolve, reject) => {
-    const details = FAKE_ORDER_DETAIL;
-    try {
-      resolve(details);
-    } catch (error) {
-      reject(error);
-    }
-  });
+const getOrder = async (orderId) => {
+  const orderRef = doc(db, "orders", orderId);
+  const docSnap = await getDoc(orderRef);
+  if (docSnap.exists()) {
+    return {...initialResponse, success: true, message: docSnap.data() }
+  } else return {...initialResponse, error: true, message: "Document doesn't exist"}
 };
 
 const getOrdersAssigned = async (ordersIds = []) => {
@@ -133,8 +120,7 @@ const createOrder = async (userId, data, orders) => {
 };
 
 const ordersService = {
-  getOrders,
-  getOrderDetails,
+  getOrder,
   getOrdersAssigned,
   getAllOrders,
   createOrder,
