@@ -13,6 +13,7 @@ import {Dimensions} from "react-native";
 import {useAuthUserContext} from "~/context/authUser";
 import {useIsFocused} from "@react-navigation/native";
 import Loading from "~/components/Loading/Loading";
+import ContainerBase from "~/components/common/ContainerBase";
 
 export default function Home({navigation, route}) {
     const {user} = useAuthUserContext()
@@ -89,48 +90,48 @@ export default function Home({navigation, route}) {
     ];
 
     return (
-        <View style={{flex: 1}}>
-            <View style={{flex: 1}}>
-				<Center pb="5">
-					<Stack mt={0} space={4} w="75%" maxW="300px">
-						<Carousel
-							data={data}
-						/>
-					</Stack>
-					<Heading>Your orders</Heading>
-				</Center>
-                <ScrollView
-					refreshControl={
-						<RefreshControl
-							tintColor={'rgba(0,0,0,.4)'}
-							refreshing={refreshing}
-							onRefresh={_onRefresh.bind(this)}
-						/>
-					}
+			<View style={{flex: 1,backgroundColor:'white'}}>
+				<View style={{flex: 1}}>
+					<Center pb="5">
+						<Stack mt={0} space={4} w="75%" maxW="300px">
+							<Carousel
+								data={data}
+							/>
+						</Stack>
+						<Heading>Your orders</Heading>
+					</Center>
+					<ScrollView
+						refreshControl={
+							<RefreshControl
+								tintColor={'rgba(0,0,0,.4)'}
+								refreshing={refreshing}
+								onRefresh={_onRefresh.bind(this)}
+							/>
+						}
 
-				>
-                    <Center>
-                        {
-                            (Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders}/> : <NoOrders/>
-                        }
-                    </Center>
-                </ScrollView>
-            </View>
-			<View style={{flex: 0, paddingVertical: 20}}>
-				<Center>
-					<Box w="full" maxW="300">
-						<Button bgColor="dark.50"
-								borderRadius="none"
-								onPress={() => navigate({name: screens.NEW_ORDER})}>
-							New Order
-						</Button>
-					</Box>
-				</Center>
+					>
+						<Center>
+							{
+								(Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders}/> : <NoOrders/>
+							}
+						</Center>
+					</ScrollView>
+				</View>
+				<View style={{flex: 0, paddingVertical: 20}}>
+					<Center>
+						<Box w="full" maxW="300">
+							<Button bgColor="dark.50"
+									borderRadius="none"
+									onPress={() => navigate({name: screens.NEW_ORDER})}>
+								New Order
+							</Button>
+						</Box>
+					</Center>
+				</View>
+				{
+					loading &&
+					<Loading loading={loading} color={"white"} text={"Loading..."}/>
+				}
 			</View>
-			{
-				loading &&
-				<Loading loading={loading} color={"white"} text={"Loading..."}/>
-			}
-        </View>
     );
 }

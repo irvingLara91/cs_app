@@ -117,6 +117,8 @@ const OrdersScreen = (props) => {
                 borderRadius: 5
             }}>
                 <View style={{
+                    borderWidth:1,
+                    borderColor:'#BFBDBD',
                     flexDirection: "row",
                     backgroundColor: 'white',
                     padding: 15,

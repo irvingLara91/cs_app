@@ -22,7 +22,8 @@ const Orders = ({navigation}) => {
         setLoading(true)
         setRefreshing(true)
         try {
-            getOrders().then(r => {});
+            getOrders().then(r => {
+            });
         } catch (e) {
         }
         setTimeout(() => {
@@ -57,7 +58,7 @@ const Orders = ({navigation}) => {
     }, [isFocused])
 
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: 'white'}}>
             <View style={{flex: 1}}>
                 <ScrollView
                     refreshControl={

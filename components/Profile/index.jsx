@@ -161,7 +161,7 @@ const Profile = (props) => {
     }
 
     return (
-        <ContainerBaseV2>
+        <ContainerBaseV2 backgroundColor={"white"}>
             <ScrollView>
                 <Center mt={5} mb={SCREEN_WIDTH * .5}>
                     <Stack w="full" maxW="300">
