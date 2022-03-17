@@ -7,13 +7,16 @@ import {
 	VStack,
 } from "native-base";
 import {TextInput} from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import {useForm, Controller} from "react-hook-form";
 import ContainerBase from "~/components/common/ContainerBase";
 import {textSizeRender} from "~/utils/utils";
 import CustomButton from "~/components/CustomButton/CustomButton";
 import styles from "~/components/Register/styles";
+import authService from "~/services/auth";
 
 const PasswordRecovery = () => {
+
 	return (
 		<ContainerBase backgroundColor={"white"} screenName={"LOGIN"} >
 			<Center>
@@ -31,6 +34,7 @@ const PasswordRecovery = () => {
 
 const PasswordRecoveryForm = () => {
 	const {textInput} = styles;
+	const navigation = useNavigation();
 
 	const {
 		control,
@@ -38,8 +42,11 @@ const PasswordRecoveryForm = () => {
 		formState: {errors},
 	} = useForm();
 
-	const onSubmit = (values) => {
-		console.log({values});
+	const onSubmit = async (values) => {
+		const result = await authService.passwordReset(values.email);
+		if (result.success) {
+			navigation.goBack();
+		}
 	};
 
 	return (
