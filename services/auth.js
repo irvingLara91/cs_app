@@ -1,4 +1,4 @@
-import { updatePassword, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from "firebase/auth";
+import { updatePassword, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "~/firebase";
 import userService from "./user";
 import { errorMessage, generateRandomPassword, initialResponse } from "~/utils/utils";
@@ -68,10 +68,22 @@ const updateUserPassword = async(newPassword) => {
   });
 }
 
+const passwordReset = async(email) => {
+  return await sendPasswordResetEmail(auth, email).then(() => {
+    return {
+      success: true,
+      message: "An email with a link for recovery has been sent."
+    }
+  }).catch((error) => {
+    return { ...initialResponse, error: true, message: errorMessage(error.code) }
+  })
+
+}
+
 const logout = async () => {
   return await signOut(auth)
 }
 
-const authService = { createUser, login, updateUserPassword, logout };
+const authService = { createUser, login, updateUserPassword, logout, passwordReset };
 
 export default authService;
