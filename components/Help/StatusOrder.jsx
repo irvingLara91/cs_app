@@ -12,7 +12,6 @@ const StatusOrden = () => {
 	return (
 		<Stack w="full" h={"full"} backgroundColor={"#FFFFFF"}>
 			<Center>
-				<Header screenName={"Help"} />
 				<Heading
 					pt={2}
 					fontFamily={"Roboto_700Bold"}

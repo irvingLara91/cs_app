@@ -37,7 +37,7 @@ const PostSplash = ({navigation}) => {
                         <Image alt="image" source={CSLogo}/>
                     </Box>
                 </Stack>
-                <Stack mt={60} space={4} w="75%" maxW="300px">
+                <Stack mt={5} space={4} w="75%" maxW="300px">
                     <Carousel
                         data={data}
                     />
