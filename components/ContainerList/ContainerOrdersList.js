@@ -6,7 +6,7 @@ import {Divider, Image} from "native-base";
 import {useNavigation} from "@react-navigation/native";
 import screens from "~/constants/screens";
 
-const ContainerOrdersList = ({data = null, ...props}) => {
+const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
     const navigation = useNavigation()
     const renderItem = (item, index) => (
         <TouchableOpacity
@@ -82,7 +82,7 @@ const ContainerOrdersList = ({data = null, ...props}) => {
                         }
                     </View>
                     <View style={{flex: 0}}>
-                        <TouchableOpacity>
+                        <TouchableOpacity onPress={() => onDelete(item.orderId)}>
                             <Feather name="trash-2" size={24} color="black"/>
                         </TouchableOpacity>
                     </View>

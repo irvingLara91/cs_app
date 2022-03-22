@@ -19,6 +19,7 @@ import {NewOrderProvider} from "./context/newOrder";
 import theme from "~/theme";
 import {LogBox, StatusBar} from "react-native";
 import {AuthUserProvider} from "~/context/authUser";
+import {ConfirmationProvider} from "~/context/Confirmation";
 import Layout from "~/components/container/Layout";
 
 LogBox.ignoreAllLogs(true);
@@ -41,15 +42,17 @@ export default function App() {
     return (
         <NativeBaseProvider theme={theme}>
             <AuthUserProvider>
-                <NewOrderProvider>
-                    <StatusBar
-                        animated={true}
-                        backgroundColor={"#fff"}
-                        barStyle={"dark-content"}
-                        showHideTransition={"slide"}
-                        hidden={false} />
-                   <Layout fontsLoaded={fontsLoaded}/>
-                </NewOrderProvider>
+                <ConfirmationProvider>
+                    <NewOrderProvider>
+                        <StatusBar
+                            animated={true}
+                            backgroundColor={"#fff"}
+                            barStyle={"dark-content"}
+                            showHideTransition={"slide"}
+                            hidden={false} />
+                    <Layout fontsLoaded={fontsLoaded}/>
+                    </NewOrderProvider>
+                </ConfirmationProvider>
             </AuthUserProvider>
         </NativeBaseProvider>
     );
