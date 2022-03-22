@@ -47,11 +47,17 @@ const updateUserPhoto = async(userId, photo) => {
 }
 
 
-const createUserDoc = async (userId, data) => {
+const createUserDoc = async (userId, data = {}) => {
+  const userData = {
+    userDoc: {
+      ...data
+    },
+    userId
+  }
   const docRef = doc(db, "users", userId);
   return await setDoc(docRef, data)
     .then(() => {
-      return { success: true, message: "user created successfully." };
+      return { success: true, message: userData };
     })
     .catch(() => {
       return { ...initialResponse, error: true, message: errorMessage(error.code) };
