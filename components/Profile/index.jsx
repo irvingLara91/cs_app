@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {ScrollView} from "react-native";
+import {ScrollView,View} from "react-native";
 import {Stack, Box, Image, Center, Divider, Text, IconButton, Icon} from "native-base";
 import Form from "./Form";
 import gravestoneMedia from "~/assets/gravestone-media.png";
@@ -14,43 +14,45 @@ import * as mime from "react-native-mime-types";
 import * as ImageManipulator from "expo-image-manipulator";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import CustomModal from "~/components/Modals/CustomModal";
+import {LinearGradient} from "expo-linear-gradient";
 
 const ButtonImage = (props) => {
     return (
-        <IconButton
-            w={"40px"}
-            top={"60px"}
-            left={"70px"}
-            position={"absolute"}
-            icon={<Icon as={MaterialCommunityIcons} name="pencil"/>}
-            borderRadius="full"
-            onPress={() => {
-                props.pickImage()
-            }}
-            _icon={{
-                color: "red.500",
-                size: "sm",
-            }}
-            _hover={{
-                bg: "red.500:alpha.30",
-            }}
-            _pressed={{
-                bg: "primary_black.100:alpha.30",
-                _icon: {
-                    name: "pencil-outline",
-                },
-                _ios: {
+            <IconButton
+                bg={"primary_white.50"}
+                w={"40px"}
+                top={"0px"}
+                left={"70px"}
+                position={"absolute"}
+                icon={<Icon as={MaterialCommunityIcons} name="pencil"/>}
+                borderRadius="full"
+                onPress={() => {
+                    props.pickImage()
+                }}
+                _icon={{
+                    color: "primary_black.500",
+                    size: "sm",
+                }}
+                _hover={{
+                    bg: "primary_black.100",
+                }}
+                _pressed={{
+                    bg: "primary_black.100",
+                    _icon: {
+                        name: "pencil-outline",
+                    },
+                    _ios: {
+                        _icon: {
+                            size: "sm",
+                        },
+                    },
+                }}
+                _ios={{
                     _icon: {
                         size: "sm",
                     },
-                },
-            }}
-            _ios={{
-                _icon: {
-                    size: "sm",
-                },
-            }}
-        />
+                }}
+            />
     )
 }
 const Profile = (props) => {
@@ -162,35 +164,34 @@ const Profile = (props) => {
     return (
         <ContainerBaseV2 backgroundColor={"white"}>
             <ScrollView>
-                <Center mt={5} mb={SCREEN_WIDTH * .5}>
-                    <Stack w="full" maxW="300">
-                        <Center mt="5">
-
+                <Center mb={SCREEN_WIDTH * .5}>
+                    <View>
+                        <LinearGradient colors={["#555555","#171717"]} style={{alignItems:'center',paddingVertical:20}}>
                             {
                                 profile ?
-                                    <Box bgColor="muted.300" padding="3" borderRadius="lg">
-                                        <Image size={"lg"} source={{uri: image ? image : profile.photoURL}}
+                                    <View>
+                                        <Image borderWidth={1} style={{borderColor:"white"}}  borderRadius={SCREEN_WIDTH } size={"lg"} source={{uri: image ? image : profile.photoURL}}
                                                alt="gravestone picture"/>
                                         <ButtonImage pickImage={pickImage}/>
-                                    </Box>
+                                    </View>
                                     :
-                                    <Box bgColor="muted.300" pt="7" pb="7" pl="7" pr="7" borderRadius="lg">
+                                    <Box bgColor="muted.300" pt="7" pb="7" pl="7" pr="7" borderRadius={100}>
                                         <Image source={gravestoneMedia} alt="gravestone picture"/>
                                         <ButtonImage pickImage={pickImage}/>
                                     </Box>
 
                             }
-                            <Text fontSize={20}>
+                            <Text color={"white"} mt={5} fontSize={20}>
                                 {firstName} {lastName}
                             </Text>
-                        </Center>
+                        </LinearGradient>
                         <Divider mt="5" mb="5"/>
-                        <Box>
+                        <View style={{paddingHorizontal:SCREEN_WIDTH*.15}}>
                             <Form
                                 setFirstName={setFirstName} setLastName={setLastName} profile={profile}
                                 onSubmit={handleSubmit}/>
-                        </Box>
-                    </Stack>
+                        </View>
+                    </View>
                 </Center>
             </ScrollView>
             {

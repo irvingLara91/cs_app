@@ -7,23 +7,23 @@ const customStyles = {
     currentStepIndicatorSize:40,
     separatorStrokeWidth: 5,
     currentStepStrokeWidth: 3,
-    stepStrokeCurrentColor: 'black',
+    stepStrokeCurrentColor: '#00B93F',
     stepStrokeWidth: 3,
-    stepStrokeFinishedColor: 'black',
+    stepStrokeFinishedColor: '#00B93F',
     stepStrokeUnFinishedColor: "#868686",
-    separatorFinishedColor: 'black',
+    separatorFinishedColor: '#00B93F',
     separatorUnFinishedColor: '#868686',
-    stepIndicatorFinishedColor: 'black',
+    stepIndicatorFinishedColor: '#00B93F',
     stepIndicatorUnFinishedColor: '#868686',
     stepIndicatorCurrentColor: '#868686',
     stepIndicatorLabelFontSize: 11,
     currentStepIndicatorLabelFontSize: 11,
     stepIndicatorLabelCurrentColor: '#868686',
-    stepIndicatorLabelFinishedColor: 'black',
+    stepIndicatorLabelFinishedColor: '#00B93F',
     stepIndicatorLabelUnFinishedColor: '#868686',
     labelColor: '#868686',
     labelSize: 11,
-    currentStepLabelColor: 'black'
+    currentStepLabelColor: '#00B93F'
 }
 
 const LineOrderStatus = ({labels = ["Order Shipped", "Order Delivery", "In process", "Delivered"], status = 0}) => {

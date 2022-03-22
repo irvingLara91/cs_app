@@ -69,6 +69,16 @@ export const roles = [
     }
 ];
 
+export const longName =(name,lastname)=>{
+    let fullName=name+" "+lastname;
+    if (fullName.length>30){
+        fullName =fullName.substr(0,12)+"..."
+    }else {
+        fullName = fullName
+    }
+    return fullName;
+}
+
 export const statusCode = (status) => {
     let statusCode = ""
     switch (status) {

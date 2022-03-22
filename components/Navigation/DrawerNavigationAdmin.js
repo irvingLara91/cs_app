@@ -28,7 +28,7 @@ import OrdersScreen from "~/screens/admin/OrdersScreen";
 import UsersScreen from "~/screens/admin/UsersScreen";
 import NotificationsScreen from "~/screens/admin/NotificationsScreen";
 import HelpScreen from "~/screens/admin/HelpScreen";
-import {statusBarHeight, textSizeRender} from "~/utils/utils";
+import {longName, statusBarHeight, textSizeRender} from "~/utils/utils";
 import {LinearGradient} from "expo-linear-gradient";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -84,66 +84,89 @@ function CustomDrawerContent(props) {
     return (
         <DrawerContentScrollView {...props} safeArea>
             <View style={{height: Platform.OS === "ios" ? (SCREEN_HEIGHT - 51) : SCREEN_HEIGHT}}>
-                <View style={{flex: 1}}>
-                    <Box my="2" mx="1" px="4">
-                        {
-                            user && user.userDoc ?
-                                <Avatar
-                                    bg="indigo.500"
-                                    size="xl"
-                                    source={{
-                                        uri: user.userDoc.photoURL
+                <View style={{flex: 1,width:'100%'}}>
+                    <LinearGradient colors={["#858C93", "#5E6268"]} style={{
+                        top: -SCREEN_WIDTH * .15,
+                        height: SCREEN_WIDTH * .5,
+                        justifyContent: 'center'
+                    }}>
+                        <View style={{
+                            width:'100%',
+                            marginTop: SCREEN_WIDTH * .09,
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            justifyContent: "center"
+                        }}>
+                            <View style={{flex:0,marginLeft:20}}>
+                                {
+                                    user && user.userDoc ?
+                                        <Avatar
+                                            style={{borderColor: "white", borderWidth: 1.5}}
+                                            bg="indigo.500"
+                                            size={SCREEN_WIDTH * .18}
+                                            source={{
+                                                uri: user.userDoc.photoURL
+                                            }}
+                                        />
+                                        :
+                                        <Avatar
+                                            style={{borderColor: "white", borderWidth: 1.5}}
+                                            bg="indigo.500"
+                                            size={SCREEN_WIDTH * .18}
+                                            source={{
+                                                uri: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+                                            }}
+                                        />
+                                }
+                                <IconButton
+                                    bg={"primary_white.50"}
+                                    w={"34px"}
+                                    style={{borderColor: 'white', borderWidth: 1}}
+                                    top={"-10px"}
+                                    left={"40px"}
+                                    position={"absolute"}
+                                    icon={<Icon as={MaterialCommunityIcons} name="pencil"/>}
+                                    borderRadius="full"
+                                    onPress={() => props.navigation.navigate("Profile")}
+                                    _icon={{
+                                        color: "primary_black.500",
+                                        size: "xs",
+                                    }}
+                                    _hover={{
+                                        bg: "red.500:alpha.30",
+                                    }}
+                                    _pressed={{
+                                        bg: "primary_black.100:alpha.30",
+                                        _icon: {
+                                            name: "pencil-outline",
+                                        },
+                                        _ios: {
+                                            _icon: {
+                                                size: "xs",
+                                            },
+                                        },
+                                    }}
+                                    _ios={{
+                                        _icon: {
+                                            size: "xs",
+                                        },
                                     }}
                                 />
-                                :
-                            <Avatar
-                                bg="indigo.500"
-                                size="xl"
-                                source={{
-                                    uri: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                                }}
-                            />
-                        }
-                        <IconButton
-                            w={"40px"}
-                            top={"60px"}
-                            left={"70px"}
-                            position={"absolute"}
-                            icon={<Icon as={MaterialCommunityIcons} name="pencil"/>}
-                            borderRadius="full"
-                            onPress={() => props.navigation.navigate("Profile")}
-                            _icon={{
-                                color: "red.500",
-                                size: "sm",
-                            }}
-                            _hover={{
-                                bg: "red.500:alpha.30",
-                            }}
-                            _pressed={{
-                                bg: "primary_black.100:alpha.30",
-                                _icon: {
-                                    name: "pencil-outline",
-                                },
-                                _ios: {
-                                    _icon: {
-                                        size: "sm",
-                                    },
-                                },
-                            }}
-                            _ios={{
-                                _icon: {
-                                    size: "sm",
-                                },
-                            }}
-                        />
-
-                        <Text bold color="primary_black.700" style={{fontSize:textSizeRender(5),fontFamily:"Roboto_500Medium"}} pt={5}>
-                            {user && user.userDoc&& user.userDoc.firstName+" "}
-                            {user && user.userDoc&& user.userDoc.lastName}
-                        </Text>
-                    </Box>
-                    <Divider mb={4}/>
-                    <VStack divider={<Divider/>} space="4">
+                            </View>
+                            <View style={{flex:1,width:'100%'}}>
+                                <Text bold color="primary_black.700" style={{
+                                    color: "white",
+                                    marginLeft: 10,
+                                    fontSize: textSizeRender(4.5), fontFamily: "Roboto_700Bold"
+                                }} pt={5}>
+                                    {user && user.userDoc &&
+                                        longName(user.userDoc.firstName, user.userDoc.lastName)
+                                    }
+                                </Text>
+                            </View>
+                        </View>
+                    </LinearGradient>
+                    <VStack  top={-SCREEN_WIDTH * .15} divider={<Divider/>} space="4">
                         <VStack space="3">
                             {props.state.routeNames.map((name, index) => (
                                 <View key={index}>
@@ -187,8 +210,7 @@ function CustomDrawerContent(props) {
                         </VStack>
                     </VStack>
                 </View>
-
-                <View style={{flex: 0, backgroundColor: '#F5F5F5', justifyContent: 'flex-end'}}>
+                <LinearGradient colors={["#555555","#171717"]} style={{flex: 0, justifyContent: 'flex-end'}}>
                     <Pressable
                         px="5"
                         py="3"
@@ -199,19 +221,19 @@ function CustomDrawerContent(props) {
                         <HStack space="7" alignItems="center">
                             <Icon
                                 color={
-                                    "primary_black.400"
+                                    "primary_white.50"
                                 }
                                 size="7"
                                 as={<MaterialCommunityIcons name={getIcon("LogOut")}/>}
                             />
                             <Text
                                 fontWeight="500"
-                                color={"primary_black.400"}>
+                                color={"primary_white.50"}>
                                 Log out
                             </Text>
                         </HStack>
                     </Pressable>
-                </View>
+                </LinearGradient>
             </View>
         </DrawerContentScrollView>
     );

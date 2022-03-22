@@ -15,11 +15,14 @@ import {MaterialIcons} from "@expo/vector-icons";
 
 import screens from "~/constants/screens";
 import styles from "./styles";
+
 import CustomButton from "~/components/CustomButton/CustomButton";
+import {TextInput} from "react-native";
+import {textSizeRender} from "~/utils/utils";
 
 const Form = ({profile = null, ...props}) => {
     const {onSubmit} = props;
-    const {flexSpaceBetween} = styles;
+    const {flexSpaceBetween, textInput} = styles;
     const navigation = useNavigation();
     const {control, setValue, handleSubmit, reset, formState: {errors}} = useForm();
 
@@ -40,29 +43,29 @@ const Form = ({profile = null, ...props}) => {
         }
     }, [profile]);
 
-   /* const updateIcon = (name, val) => (
-        <IconButton
-            onPress={
-					name.substr(0, 7) === "address" ?
-						profile?.address?.[name.substr(8)] !== val && handleSubmit((data) => onSubmit(data, {
-							name,
-							val
-						}))
-						:
-						profile?.[name] !== val && handleSubmit((data) => onSubmit(data, {name, val}))
-		}
-            variant="outlined"
-            _icon={{
-                as: MaterialIcons,
-                name: name.substr(0, 7) === "address" ?
-					profile?.address?.[name.substr(8)] !== val+"" ? "check" : ""
-					:
-					profile?.[name] !== val ? "check" : "",
-                color: "black",
-                size: 4
-            }}
-        />
-    )*/
+    /* const updateIcon = (name, val) => (
+         <IconButton
+             onPress={
+                     name.substr(0, 7) === "address" ?
+                         profile?.address?.[name.substr(8)] !== val && handleSubmit((data) => onSubmit(data, {
+                             name,
+                             val
+                         }))
+                         :
+                         profile?.[name] !== val && handleSubmit((data) => onSubmit(data, {name, val}))
+         }
+             variant="outlined"
+             _icon={{
+                 as: MaterialIcons,
+                 name: name.substr(0, 7) === "address" ?
+                     profile?.address?.[name.substr(8)] !== val+"" ? "check" : ""
+                     :
+                     profile?.[name] !== val ? "check" : "",
+                 color: "black",
+                 size: 4
+             }}
+         />
+     )*/
 
 
     return (
@@ -73,8 +76,8 @@ const Form = ({profile = null, ...props}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-                        <Input
-                            //InputRightElement={updateIcon("firstName", value)}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => {
@@ -97,8 +100,8 @@ const Form = ({profile = null, ...props}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-                        <Input
-                           /// InputRightElement={updateIcon("lastName", value)}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => {
@@ -121,8 +124,8 @@ const Form = ({profile = null, ...props}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-                        <Input
-                            //InputRightElement={updateIcon("phoneNumber", value)}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
@@ -142,7 +145,9 @@ const Form = ({profile = null, ...props}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-                        <Input
+                        <TextInput
+                            editable={false} selectTextOnFocus={false}
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
@@ -164,9 +169,8 @@ const Form = ({profile = null, ...props}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-                        <Input
-                           // InputRightElement={updateIcon("address.address", value)}
-                            //InputRightElement={profile?.address?.address !== value && updateIcon()}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
@@ -187,9 +191,9 @@ const Form = ({profile = null, ...props}) => {
                     <Controller
                         control={control}
                         render={({field: {onChange, onBlur, value}}) => (
-                            <Input
-								//InputRightElement={updateIcon("address.city", value)}
-								variant="outline"
+                            <TextInput
+                                style={textInput}
+                                variant="outline"
                                 onBlur={onBlur}
                                 onChangeText={(text) => onChange(text)}
                                 value={value}
@@ -203,13 +207,16 @@ const Form = ({profile = null, ...props}) => {
                         {errors?.city?.message}
                     </FormControl.ErrorMessage>
                 </FormControl>
-                <FormControl isRequired isInvalid={"zipCode" in errors} style={{width: "48%"}}>
+                <FormControl
+
+                    isRequired isInvalid={"zipCode" in errors} style={{width: "48%"}}>
                     <FormControl.Label>Zip code</FormControl.Label>
                     <Controller
+                        style={textInput}
                         control={control}
                         render={({field: {onChange, onBlur, value}}) => (
-                            <Input
-								//InputRightElement={updateIcon("address.zipCode", value)}
+                            <TextInput
+                                style={textInput}
                                 variant="outline"
                                 onBlur={onBlur}
                                 onChangeText={(text) => onChange(text)}
@@ -231,23 +238,32 @@ const Form = ({profile = null, ...props}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-                        <Input
-
-                            InputRightElement={<IconButton
+                        <View
+                            style={[textInput, {flexDirection: 'row', justifyContent: "center", alignItems: "center"}]}>
+                            <TextInput
+                                style={{
+                                    flex: 1,
+                                    alignItems: "center",
+                                    fontSize: textSizeRender(5), marginLeft: 4, marginRight: 5, justifyContent: "center"
+                                }}
+                                editable={false} selectTextOnFocus={false}
+                                secureTextEntry={true}
+                                type="password"
+                                name={"password"}
+                                variant="outline"
+                                onBlur={onBlur}
+                                onChangeText={(text) => onChange(text)}
+                                value={value}
+                            />
+                            <IconButton
                                 onPress={() => navigation.navigate({name: screens.PASSWORD_UPDATE})} variant="outlined"
                                 _icon={{
                                     as: MaterialIcons,
                                     name: "edit",
                                     color: "black",
                                     size: 4
-                                }}/>}
-                            type="password"
-                            variant="outline"
-                            onBlur={onBlur}
-                            onChangeText={(text) => onChange(text)}
-                            value={value}
-                            isDisabled={true}
-                        />
+                                }}/>
+                        </View>
                     )}
                     name="password"
                     rules={{required: "Field is required", minLength: 3}}
@@ -257,13 +273,13 @@ const Form = ({profile = null, ...props}) => {
                     {errors?.password?.message}
                 </FormControl.ErrorMessage>
             </FormControl>
-                <Box w="full" mt={5} maxW="full">
-                    <CustomButton  onPress={handleSubmit(onSubmit)}
-                                  title={"Save change"}
-                                  textColor={"#fff"}
-                                  gradient={["#555555", "#171717"]}
-                                  borderRadius={10}/>
-                </Box>
+            <Box w="full" mt={5} maxW="full">
+                <CustomButton onPress={handleSubmit(onSubmit)}
+                              title={"Save change"}
+                              textColor={"#fff"}
+                              gradient={["#555555", "#171717"]}
+                              borderRadius={10}/>
+            </Box>
         </VStack>
     );
 };

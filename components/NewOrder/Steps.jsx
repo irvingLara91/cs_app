@@ -5,6 +5,7 @@ import { Heading, Text, Center } from "native-base";
 
 import { getStepData } from "./helpers";
 import { useNewOrderContext } from "~/context/newOrder";
+import {textSizeRender} from "~/utils/utils";
 
 const Steps = () => {
 	const { navigate } = useNavigation();
@@ -19,9 +20,9 @@ const Steps = () => {
 	return (
 		<Center pt="10">
 			<Center maxW="250">
-				<Text color={currentStep.color} fontSize="20" >{currentStep.step}/{totalSteps}</Text>
-				<Heading color={currentStep.color} fontWeight="bold" fontSize="18" >{currentStep.data.title}</Heading>
-				<Text color={currentStep.color} fontSize="10">{currentStep.data.description}</Text>
+				<Text fontFamily={"Roboto_700Bold"} color={currentStep.color} fontSize={textSizeRender(5)} >{currentStep.step}/{totalSteps}</Text>
+				<Heading fontFamily={"Roboto_700Bold"} color={currentStep.color} fontSize={textSizeRender(5.5)}>{currentStep.data.title}</Heading>
+				<Text fontFamily={"Roboto_400Regular"} color={currentStep.color} fontSize={textSizeRender(2.8)}>{currentStep.data.description}</Text>
 				{
 					currentStep.data.help !== null && (
 						<TouchableHighlight onPress={() => console.log("navigate(currentStep.data.help)")}>

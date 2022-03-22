@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from "react";
-import {Stack, Center, Divider, Text, Box, Heading, Image, Flex, View, ScrollView} from "native-base";
+import {View, StyleSheet, Image} from "react-native";
+import {Stack, Center, Divider, Text, Box, Heading, Flex, ScrollView} from "native-base";
 import Status from "./Status";
 import ordersService from "~/services/orders";
 import moment from "moment";
+import {LinearGradient} from "expo-linear-gradient";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 const OrderDetails = ({route}) => {
 
@@ -17,46 +20,127 @@ const OrderDetails = ({route}) => {
     }, []);
 
     return (
-        <ScrollView style={{backgroundColor:"white"}}>
+        <ScrollView style={{backgroundColor: "white"}}>
             <Stack p="5">
-                <Box w="full" borderWidth="1" borderRadius="lg">
+                <LinearGradient colors={["#555555", "#171717"]} style={{padding: 10, borderRadius: 10}}>
                     <Center>
-                        <Text>Order:</Text>
-                        <Text fontSize="24" fontWeight="bold">{route.params.orderId}</Text>
-                        <Text>{moment(details?.createdAt?.seconds * 1000, "", "en").format('MM/DD/YYYY')}</Text>
+                        <Text color={"white"} fontFamily={"Roboto_500Medium"}
+                              fontSize={textSizeRender(4.5)}>Order:</Text>
+                        <Text color={"white"} fontFamily={"Roboto_700Bold"}
+                              fontSize={textSizeRender(6.5)}>{route.params.orderId}</Text>
+                        <Text color={"white"} fontFamily={"Roboto_400Regular"}
+                              fontSize={textSizeRender(4)}>{moment(details?.createdAt?.seconds * 1000, "", "en").format('MM-DD-YYYY')}</Text>
                     </Center>
-                </Box>
+                </LinearGradient>
+                <Divider mt={5}/>
                 <Flex direction="column">
-                    <Heading mt="5" mb="5">Order Details</Heading>
-                    <Flex direction="row" w="full" justify="space-between" align="center" borderWidth={1} borderRadius="lg"
-                        p="5">
-                        <Text fontWeight="bold">Gravestone Picture</Text>
-                        <Box bgColor="muted.300" pt="5" pb="5" pl="10" pr="10" borderRadius="lg">
-                            <Image source={{uri: details?.gravestone?.image}} w="20" h="20" alt="gravestone picture"/>
-                        </Box>
-                    </Flex>
-                    <Box mt="5">
-                        <Text fontWeight="bold">Gravestone text</Text>
-                        <Text>{details?.gravestone?.text}</Text>
-                    </Box>
-                    <Box mt="5">
-                        <Text fontWeight="bold">Additional instructions</Text>
-                        <Text>{details?.gravestone?.additionalInformation}</Text>
-                    </Box>
-                    <Box mt="5">
-                        <Text fontWeight="bold">Gravestone address</Text>
-                        <Text>{`${details?.gravestone?.address.address} ${details?.gravestone?.address.address2 ? details?.gravestone?.address.address2 : ""}, ${details?.gravestone?.address.city}, ${details?.gravestone?.address.zipCode}`}</Text>
-                    </Box>
+                    <Heading mt="5" fontSize={textSizeRender(6.5)} fontFamily={"Roboto_700Bold"} mb="5">Order
+                        Specifications</Heading>
+
+                    <View style={styles.cardImage}>
+                        <View style={{flex: 1}}>
+                            <Text fontSize={textSizeRender(4)} fontFamily="Roboto_700Bold">Gravestone Picture</Text>
+                        </View>
+
+                        <View style={{flex: 0}}>
+                            <Image
+                                style={{
+                                    height: SCREEN_WIDTH * .28,
+                                    width: SCREEN_WIDTH * .4,
+                                    borderRadius: SCREEN_WIDTH * .03,
+                                    resizeMode: "cover"
+                                }}
+                                source={{uri: details?.gravestone?.image}}/>
+                        </View>
+                    </View>
+
+                    <View style={styles.CardInfo}>
+                        <View style={{
+                            width: '100%',
+                            marginTop: 10
+                        }}>
+                            <Text fontSize={textSizeRender(4.2)} fontFamily="Roboto_700Bold">Gravestone text</Text>
+                            <Text
+                                fontSize={textSizeRender(3.2)}
+                                fontFamily={"Roboto_400Regular"}>{details?.gravestone?.text}</Text>
+                        </View>
+                        <View style={{
+                            width: '100%',
+                            marginTop: 10
+                        }}>
+                            <Text fontSize={textSizeRender(4.2)} fontFamily="Roboto_700Bold">Additional
+                                instructions</Text>
+                            <Text
+                                fontSize={textSizeRender(3.2)}
+                                fontFamily={"Roboto_400Regular"}>{details?.gravestone?.additionalInformation}</Text>
+                        </View>
+
+                        <View style={{
+                            width: '100%',
+                            marginTop: 10,
+                        }}>
+                            <Text fontSize={textSizeRender(4.2)} fontFamily="Roboto_700Bold">Gravestone address</Text>
+                            <Text
+                                fontSize={textSizeRender(3.2)}
+                                fontFamily={"Roboto_400Regular"}>{
+                                details && details.gravestone &&  details.gravestone.address &&
+                                `${details?.gravestone?.address.address}${details?.gravestone?.address.address2 ? details?.gravestone?.address.address2 : ""}, ${details?.gravestone?.address.city}, ${details?.gravestone?.address.zipCode}`
+                            }</Text>
+                        </View>
+                    </View>
                 </Flex>
-                <Divider mt="5"/>
-                <Box mt="5">
-                    <Status code={details?.statusCode} />
-                </Box>
-                <Divider mt="2"/>
+                <View style={{
+                    width: '100%',
+                    marginTop: SCREEN_WIDTH * .001,
+                    marginBottom:50
+                }}>
+
+                    <Status code={details?.statusCode}/>
+                </View>
 
             </Stack>
         </ScrollView>
     );
 };
+
+const styles = StyleSheet.create({
+    cardImage: {
+        alignItems: "center",
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+        borderColor: "#C4C4C4",
+        borderWidth: 1,
+        justifyContent: 'space-between',
+        flexDirection: "row",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0, height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        marginVertical: 5
+    },
+    CardInfo: {
+        marginTop: SCREEN_WIDTH * .04,
+        alignItems: "center",
+        paddingHorizontal: 15,
+        paddingVertical: 15,
+        borderColor: "#C4C4C4",
+        borderWidth: 1,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0, height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
+        elevation: 8,
+        borderRadius: 10,
+        backgroundColor: 'white',
+        marginVertical: 5
+    }
+})
 
 export default OrderDetails;
