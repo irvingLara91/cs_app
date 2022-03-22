@@ -5,11 +5,12 @@ import {
   setDoc,
   updateDoc,
   getDoc,
+  deleteDoc
 } from "firebase/firestore";
 import { uploadBytes, getDownloadURL } from "firebase/storage";
 
 import { db, gravestoneStorageRef, cardStorageRef } from "~/firebase";
-import { generateOrderId, initialResponse } from "../utils/utils";
+import { generateOrderId, initialResponse, errorMessage } from "../utils/utils";
 
 
 const getOrder = async (orderId) => {
@@ -119,11 +120,45 @@ const createOrder = async (userId, data, orders) => {
     });
 };
 
+
+const removeOrderFromUsers = async (orderId) => {
+  const usersRef = collection(db, "users");
+  const querySnapshot = await getDocs(usersRef);
+  querySnapshot.forEach(async (document) => {
+    const docId = document.id;
+    const data = document.data();
+    const { orders } = data;
+    const isIncluded = orders.find((id) => id === orderId);
+    let newOrders = orders;
+    const docRef = doc(db, "users", docId);
+    if (isIncluded) {
+      newOrders = newOrders.filter((order) => order !== orderId);
+      await updateDoc(docRef, {
+        orders: newOrders,
+      })
+        .then(() => {
+          return { ...initialResponse, success: true, message: "Order removed from Doc"};
+        })
+        .catch((error) => {
+          return { ...initialResponse, success: false, message: errorMessage(error.code) };
+        });
+    }
+  });
+}
+
+const deleteOrder = async (orderId) => {
+  // remove order from users doc
+  await removeOrderFromUsers(orderId)
+
+  return await deleteDoc(doc(db, "orders", orderId)).then(() => { return {...initialResponse, success: true} }).catch((error) => { return {...initialResponse, error: true, message: errorMessage(error.code)}})
+}
+
 const ordersService = {
   getOrder,
   getOrdersAssigned,
   getAllOrders,
   createOrder,
+  deleteOrder
 };
 
 export default ordersService;

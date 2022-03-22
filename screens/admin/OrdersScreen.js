@@ -102,6 +102,7 @@ const OrdersScreen = (props) => {
         </View>
     </View>)
 
+
     return (
         <ContainerAdmin
             isList={true}
@@ -139,6 +140,11 @@ const OrdersScreen = (props) => {
         >
 
             <OrdersAdmin
+                removeOrder={(orderId) => {
+                    const newOrders = orders.filter((order) => order.orderId !== orderId);
+                    setOrders(newOrders)
+                    setOrdersOrigin(newOrders)
+                }}
                 data={orders}
             />
         </ContainerAdmin>
