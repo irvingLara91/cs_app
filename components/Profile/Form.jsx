@@ -15,6 +15,7 @@ import {MaterialIcons} from "@expo/vector-icons";
 
 import screens from "~/constants/screens";
 import styles from "./styles";
+import CustomButton from "~/components/CustomButton/CustomButton";
 
 const Form = ({profile = null, ...props}) => {
     const {onSubmit} = props;
@@ -257,11 +258,11 @@ const Form = ({profile = null, ...props}) => {
                 </FormControl.ErrorMessage>
             </FormControl>
                 <Box w="full" mt={5} maxW="full">
-                    <Button bgColor="dark.50"
-                            borderRadius={10}
-                            onPress={handleSubmit(onSubmit)}>
-                        Save change
-                    </Button>
+                    <CustomButton  onPress={handleSubmit(onSubmit)}
+                                  title={"Save change"}
+                                  textColor={"#fff"}
+                                  gradient={["#555555", "#171717"]}
+                                  borderRadius={10}/>
                 </Box>
         </VStack>
     );

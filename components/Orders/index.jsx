@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {RefreshControl, View} from "react-native"
+import {RefreshControl, Text, View} from "react-native"
 import {Center, Box, ScrollView, Button} from "native-base";
 import OrdersCommon from "~/components/common/Orders";
 import NoOrders from "~/components/common/NoOrders";
@@ -9,6 +9,8 @@ import ordersService from "~/services/orders";
 import {useAuthUserContext} from "~/context/authUser";
 import Loading from "~/components/Loading/Loading";
 import {useIsFocused} from "@react-navigation/native";
+import CustomButton from "~/components/CustomButton/CustomButton";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 const Orders = ({navigation}) => {
     const isFocused = useIsFocused();
@@ -59,6 +61,9 @@ const Orders = ({navigation}) => {
 
     return (
         <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={{marginHorizontal:SCREEN_WIDTH*.09,paddingVertical:20}}>
+                <Text style={{fontSize:textSizeRender(6),fontFamily:"Roboto_700Bold"}}>Your orders</Text>
+            </View>
             <View style={{flex: 1}}>
                 <ScrollView
                     refreshControl={
@@ -79,11 +84,12 @@ const Orders = ({navigation}) => {
             <View style={{flex: 0, paddingVertical: 25}}>
                 <Center>
                     <Box w="full" maxW="300">
-                        <Button bgColor="dark.50"
-                                borderRadius="none"
-                                onPress={() => navigate({name: screens.NEW_ORDER})}>
-                            New Order
-                        </Button>
+
+                        <CustomButton onPress={() => navigate({name: screens.NEW_ORDER})}
+                                      title={" New Order"}
+                                      textColor={"#fff"}
+                                      gradient={["#555555", "#171717"]}
+                                      borderRadius={10}/>
                     </Box>
                 </Center>
             </View>

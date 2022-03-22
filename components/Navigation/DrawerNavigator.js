@@ -4,7 +4,7 @@ import {
     createDrawerNavigator,
     DrawerContentScrollView,
 } from "@react-navigation/drawer";
-import {Feather, Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {Feather, FontAwesome, Ionicons, MaterialIcons} from "@expo/vector-icons";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import {
     Box,
@@ -199,7 +199,7 @@ function LogoTitle() {
     );
 }
 
-const HeaderClient = ({navigation, ...props}) => {
+const HeaderClient = ({navigation, title = null, ...props}) => {
     return (
         <LinearGradient colors={["#555555", "#171717"]} style={{
             width: SCREEN_WIDTH,
@@ -233,11 +233,24 @@ const HeaderClient = ({navigation, ...props}) => {
 
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <View style={{width: SCREEN_WIDTH / 2, alignSelf: 'center'}}>
-                        <Image
-                            resizeMode={"cover"}
-                            style={{width: '100%', tintColor: 'white'}}
-                            source={require("~/assets/cornerstone-logo-300px.png")}
-                        />
+                        {
+                            title ?
+                                <Text style={{
+                                    fontSize: textSizeRender(5.5),
+                                    textAlign: "center",
+                                    color: "white",
+                                    fontFamily: "Roboto_500Medium"
+                                }}>
+                                    {title}
+                                </Text>
+                                :
+                                <Image
+                                    resizeMode={"cover"}
+                                    style={{width: '100%', tintColor: 'white'}}
+                                    source={require("~/assets/cornerstone-logo-300px.png")}
+                                />
+                        }
+
                     </View>
                 </View>
                 <View style={{
@@ -252,10 +265,12 @@ const HeaderClient = ({navigation, ...props}) => {
                             }
                             style={{
                                 marginRight: 15,
-                                alignItems: 'center'
-                            }}
-                        >
-                            <MaterialCommunityIcons name={"help-circle-outline"}size={SCREEN_WIDTH * 0.09} color="white"/>
+                                alignItems: 'center',
+                                backgroundColor: 'white',
+                                width: SCREEN_WIDTH * 0.09,
+                                borderRadius: SCREEN_WIDTH * 0.09
+                            }}>
+                            <FontAwesome name="question" size={SCREEN_WIDTH * 0.09} color="black"/>
                         </TouchableOpacity>
 
                     </View>
@@ -271,35 +286,6 @@ const DrawerNavigator = () => {
     const {Navigator, Screen} = Drawer;
     return (
         <Navigator
-            /*screenOptions={({navigation}) => ({
-                headerTitleAlign: "center",
-                headerStyle: {
-                    shadowColor: "#000",
-                    shadowOffset: {
-                        width: 0,
-                        height: 0.6,
-                    },
-                    shadowOpacity: 0.2,
-                    shadowRadius: 0.1,
-                    elevation: 3,
-                    backgroundColor: "white",
-                    height:
-                        Platform.OS === "android"
-                            ? SCREEN_WIDTH * 0.19
-                            : SCREEN_WIDTH * 0.24,
-                },
-                headerLeft: () => (
-                    <TouchableOpacity
-                        onPress={() => navigation.toggleDrawer()}
-                        style={{
-                            marginLeft: 15,
-                        }}
-                    >
-                        <Feather name="menu" size={SCREEN_WIDTH * 0.07} color="black"/>
-                    </TouchableOpacity>
-                ),
-                headerTitle: (props) => <LogoTitle {...props} />,
-            })}*/
             drawerContent={(props) => <CustomDrawerContent {...props} />}
         >
             <Screen
@@ -313,21 +299,21 @@ const DrawerNavigator = () => {
                 name="Orders"
                 component={Orders}
                 options={{
-                    header: (props) => <HeaderClient {...props} />,
+                    header: (props) => <HeaderClient title={"Your orders"} {...props} />,
                 }}
             />
             <Screen
                 name="Profile"
                 component={Profile}
                 options={{
-                    header: (props) => <HeaderClient {...props} />,
+                    header: (props) => <HeaderClient title={"My Profile"} {...props} />,
                 }}
             />
             <Screen
                 name="Help"
                 component={Help}
                 options={{
-                    header: (props) => <HeaderClient {...props} />,
+                    header: (props) => <HeaderClient title={"Help"} {...props} />,
                 }}
 
             />

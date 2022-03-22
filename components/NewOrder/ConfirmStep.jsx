@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { TouchableHighlight } from "react-native";
-import { Text, Box, Center, Button, Flex, VStack, Image } from "native-base";
+import {Text, Box, Center, Button, Flex, VStack, Image, View} from "native-base";
 import Steps from "./Steps";
 
 import DemoImage from "~/assets/image.png"; 
@@ -10,6 +10,7 @@ import { useAuthUserContext } from "~/context/authUser";
 import { useNewOrderContext } from "~/context/newOrder";
 import ordersService from "~/services/orders";
 import Loading from "~/components/Loading/Loading";
+import CustomButton from "~/components/CustomButton/CustomButton";
 
 const ConfirmStep = ({ navigation, route }) => {
 	const { navigate } = navigation;
@@ -51,12 +52,13 @@ const ConfirmStep = ({ navigation, route }) => {
 	};
 
 	return (
+		<View style={{flex: 1, backgroundColor: 'white'}}>
 		<Center>
-			<VStack space={5} maxW="85%">
+			<VStack space={5}  maxW="85%" backgroundColor={"white"}>
 				<Steps />
 				<Box>
-					<Flex p="3" borderWidth={1} borderColor="#E8E8E8" direction="row" alignItems="center" justify="space-between">
-						<Text fontSize={12}>
+					<Flex p="3" borderWidth={1} borderRadius={5} borderColor="#E8E8E8" backgroundColor={"#F0F0F0"} direction="row" alignItems="center" justify="space-between">
+						<Text fontFamily={"Roboto_500Medium"} fontSize={12}>
 							1. Gravestone picture
 						</Text>
 						<TouchableHighlight onPress={() => navigate({ name: screens.NEW_ORDER_STEP_1, params: { referer:  route} })}>
@@ -68,8 +70,8 @@ const ConfirmStep = ({ navigation, route }) => {
 					</Center>
 				</Box>
 				<Box>
-					<Flex p="3" borderWidth={1} borderColor="#E8E8E8" direction="row" alignItems="center" justify="space-between">
-						<Text fontSize={12}>
+					<Flex p="3" borderWidth={1}borderRadius={5} borderColor="#E8E8E8" backgroundColor={"#F0F0F0"} direction="row" alignItems="center" justify="space-between">
+						<Text fontFamily={"Roboto_500Medium"} fontSize={12}>
 							2. Gravestone details
 						</Text>
 						<TouchableHighlight onPress={() => navigate({ name: screens.NEW_ORDER_STEP_1, params: { referer:  route} })}>
@@ -77,31 +79,39 @@ const ConfirmStep = ({ navigation, route }) => {
 						</TouchableHighlight>
 					</Flex>
 					<VStack space={3} mt="3">
-						<Text fontSize="10" fontWeight="bold">Text</Text>
+						<Text fontFamily={"Roboto_500Medium"} fontSize="10" fontWeight="bold">Text</Text>
 						<Text fontSize="10">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 						</Text>
 					</VStack>
 					<VStack space={3} mt="3">
-						<Text fontSize="10" fontWeight="bold">Additional information</Text>
+						<Text fontFamily={"Roboto_500Medium"} fontSize="10" fontWeight="bold">Additional information</Text>
 						<Text fontSize="10">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 						</Text>
 					</VStack>
 					<VStack space={3} mt="3">
-						<Text fontSize="10" fontWeight="bold">Address</Text>
+						<Text fontFamily={"Roboto_500Medium"} fontSize="10" fontWeight="bold">Address</Text>
 						<Text fontSize="10">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
 						</Text>
 					</VStack>
 				</Box>
-				<Button mt="5" borderRadius="none" bgColor="dark.50" onPress={onConfirm} >Confirm order</Button>
+				<View>
+					<CustomButton onPress={onConfirm}
+								  title={"Confirm order"}
+								  textColor={"#fff"}
+								  gradient={["#555555","#171717"]}
+								  borderRadius={10} />
+				</View>
+
 			</VStack>
 			{
 				loading &&
 				<Loading loading={loading} color={"white"} text={"Loading..."}/>
 			}
 		</Center>
+		</View>
 	);
 };
 

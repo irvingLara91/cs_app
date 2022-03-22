@@ -12,7 +12,6 @@ const HowCardPhoto = () => {
 	return (
 		<Stack w="full" h={"full"} backgroundColor={"#FFFFFF"}>
 			<Center>
-				<Header screenName={"Help"} />
 				<Heading pt={2} fontFamily={"Roboto_700Bold"} size="xl" textAlign={"center"}>
           How to take a credit card photo?
 				</Heading>
