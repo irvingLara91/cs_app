@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, Platform, Dimensions, Image } from "react-nativ
 import { Camera as ExpoCamera } from "expo-camera";
 import { IconButton, Center, Box, Button } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
+import {TouchableOpacity} from "react-native";
 
 const { height, width } = Dimensions.get("window");
 
@@ -106,13 +107,20 @@ export default function Camera({ onConfirm }) {
 					<View style={[styles.cameraView, {marginTop: imagePadding, marginBottom: imagePadding}]}>
 						<Image source={{uri: picture.uri}} style={{flex:1, width, height }} />
 						<Center>
-							<Center direction="row" style={{overFlow: "hidden",position: "absolute", display:"flex", width: "100%", height: 165, textAlign: "center", marginBottom: imagePadding, alignItems: "center", flexDirection: "row"}}>
-								<Button _text={{fontWeight: "bold"}} size="1/3" bg="white" mr="1" onPress={cancelPicture}>
-                  Back
-								</Button>
-								<Button _text={{fontWeight: "bold"}} size="1/3" bg="white" onPress={() => onConfirm(picture)}>
-                  Accept
-								</Button>
+							<Center direction="row" style={{
+								overFlow: "red",position: "absolute", display:"flex", width: "100%", height: 165, textAlign: "center", marginBottom: imagePadding, alignItems: "center", flexDirection: "row"}}>
+								<TouchableOpacity onPress={cancelPicture} style={{
+									width:"35%",
+									backgroundColor: '#E0E0E0',padding:20,borderBottomLeftRadius:10,borderTopLeftRadius:10}}>
+									<Text style={{textAlign:'center',fontFamily: "Roboto_700Bold"}}>Back</Text>
+								</TouchableOpacity>
+
+
+								<TouchableOpacity  onPress={() => onConfirm(picture)} style={{
+									width:"35%",
+									backgroundColor: '#858C93',padding:20,borderBottomRightRadius:10,borderTopRightRadius:10}}>
+									<Text style={{textAlign:'center',fontFamily: "Roboto_700Bold"}}>Accept</Text>
+								</TouchableOpacity>
 							</Center>
 						</Center>
 					</View>

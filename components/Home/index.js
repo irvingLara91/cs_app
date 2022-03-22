@@ -118,7 +118,7 @@ export default function Home({navigation, route}) {
                 <Center>
                     <Box w="full" maxW="300">
                         <CustomButton  onPress={() => navigate({name: screens.NEW_ORDER})}
-                                       title={"Register"}
+                                       title={"New Order"}
                                        textColor={"#fff"}
                                        gradient={["#555555", "#171717"]}
                                        borderRadius={10}/>

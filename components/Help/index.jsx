@@ -33,10 +33,10 @@ const Help = () => {
 								borderColor="coolGray.300"
 								bg={
 									isPressed
-										? "coolGray.200"
+										? "primary_white"
 										: isHovered
-											? "coolGray.200"
-											: "coolGray.100"
+											? "primary_white"
+											: "primary_white"
 								}
 								p="5"
 								style={{
@@ -73,10 +73,10 @@ const Help = () => {
 								borderColor="coolGray.300"
 								bg={
 									isPressed
-										? "coolGray.200"
+										? "primary_white"
 										: isHovered
-											? "coolGray.200"
-											: "coolGray.100"
+											? "primary_white"
+											: "primary_white"
 								}
 								p="5"
 								style={{
@@ -113,10 +113,10 @@ const Help = () => {
 								borderColor="coolGray.300"
 								bg={
 									isPressed
-										? "coolGray.200"
+										? "primary_white"
 										: isHovered
-											? "coolGray.200"
-											: "coolGray.100"
+											? "primary_white"
+											: "primary_white"
 								}
 								p="5"
 								style={{
@@ -151,10 +151,10 @@ const Help = () => {
 								borderColor="coolGray.300"
 								bg={
 									isPressed
-										? "coolGray.200"
+										? "primary_white"
 										: isHovered
-											? "coolGray.200"
-											: "coolGray.100"
+											? "primary_white"
+											: "primary_white"
 								}
 								p="5"
 								style={{
@@ -190,10 +190,10 @@ const Help = () => {
 								borderColor="coolGray.300"
 								bg={
 									isPressed
-										? "coolGray.200"
+										? "primary_white"
 										: isHovered
-											? "coolGray.200"
-											: "coolGray.100"
+											? "primary_white"
+											: "primary_white"
 								}
 								p="5"
 								style={{
