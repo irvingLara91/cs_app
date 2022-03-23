@@ -48,7 +48,10 @@ const ContainerUsersList = ({data = [], loading = false, action = null}) => {
                 </View>
                 <View style={[styles.containerUser, {justifyContent: "center"}]}>
                     <Text style={styles.textDate}>
-                        {item.timestamp && moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')}
+                        {item.createdAt ?
+                            moment(item.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                            :
+                            item.timestamp && moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')}
                     </Text>
                 </View>
                 <View style={[styles.containerUser, {justifyContent: "center"}]}>
