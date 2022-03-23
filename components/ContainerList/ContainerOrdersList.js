@@ -142,8 +142,8 @@ const styles = StyleSheet.create({
         borderColor: "#C4C4C4",
         borderWidth: 1,
         marginBottom: 20,
-        height: SCREEN_WIDTH / (Platform.OS === "ios" ? 3 : 3.5),
-        borderRadius: 5,
+        height: SCREEN_WIDTH / 3,
+        borderRadius: 15,
         backgroundColor: 'white',
         shadowColor: "#000",
         shadowOffset: {
