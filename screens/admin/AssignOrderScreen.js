@@ -109,7 +109,6 @@ const AssignOrderScreen = (props) => {
 
 
     return (
-        <View>
             <ContainerAdmin
                 title={"Order"}
                 actions={actions}
@@ -117,7 +116,7 @@ const AssignOrderScreen = (props) => {
             >
                 <View style={{
                     paddingHorizontal: SCREEN_WIDTH * .05,
-                    marginBottom: SCREEN_WIDTH / 3.5
+                    marginBottom: SCREEN_WIDTH / 2.5
                 }}>
                     <LinearGradient colors={["#555555","#171717"]} style={styles.card}>
                         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
@@ -149,17 +148,17 @@ const AssignOrderScreen = (props) => {
                     <CustomerData user={selected}/>
                     <OrderInfo gravestone={order && order.gravestone && order.gravestone} />
                 </View>
+                {
+                    visibleUserPicker &&
+                    <UserPickerModal visible={visibleUserPicker}
+                                     options={users_fake}
+                                     selected={selected}
+                                     setSelected={setSelected}
+                                     setVisible={setVisibleUserPicker}
+                                     title={"Select user"}/>
+                }
+
             </ContainerAdmin>
-            {
-                visibleUserPicker &&
-                <UserPickerModal visible={visibleUserPicker}
-                                 options={users_fake}
-                                 selected={selected}
-                                 setSelected={setSelected}
-                                 setVisible={setVisibleUserPicker}
-                                 title={"Select user"}/>
-            }
-        </View>
 
     )
 };
