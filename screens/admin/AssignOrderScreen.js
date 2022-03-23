@@ -165,14 +165,11 @@ const AssignOrderScreen = (props) => {
 
 const styles = StyleSheet.create({
     card: {
-        flex: 1, backgroundColor: 'white',
-        borderColor: 'black',
         borderRadius: 10,
         paddingHorizontal: 20,
         alignItems: 'center',
         height: SCREEN_WIDTH / 5,
         flexDirection: 'row',
-        borderWidth: 1,
         marginBottom: 10,
     }
 });
