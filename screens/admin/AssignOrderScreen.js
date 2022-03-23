@@ -73,7 +73,7 @@ const AssignOrderScreen = (props) => {
                 </LinearGradient>
             </TouchableOpacity>
             {
-                user.role === 2 &&
+                user.userDoc.role === 2 &&
                 <TouchableOpacity
                     onPress={()=>{
                     }}
@@ -141,7 +141,7 @@ const AssignOrderScreen = (props) => {
                         </View>
                     </LinearGradient>
                     {
-                        user.role === 2 &&
+                        user.userDoc.role === 2 &&
                         <AssignOrderTo selected={selected} setVisibleUserPicker={setVisibleUserPicker}/>
                     }
 

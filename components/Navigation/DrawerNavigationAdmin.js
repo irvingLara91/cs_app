@@ -447,7 +447,7 @@ const DrawerNavigator = () => {
                 }}
             />
             {
-                user.role !== 3 &&
+                user.userDoc.role === 2 &&
                 <Screen
                     name="Users"
                     component={UsersScreen}
