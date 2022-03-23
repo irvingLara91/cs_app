@@ -11,6 +11,7 @@ import CustomerData from "~/components/AssignOrder/CustomerData";
 import OrderInfo from "~/components/AssignOrder/OrderInfo";
 import Screens from "~/constants/screens";
 import {useRoute} from "@react-navigation/native";
+import {LinearGradient} from "expo-linear-gradient";
 
 const users_fake = [
     {
@@ -19,7 +20,7 @@ const users_fake = [
         lastName: "Lara",
         phoneNumber: 9991501069,
         email: "irvinglara9115@gmail.com",
-        image: "https://random.imagecdn.app/250/150"
+        photoURL: "https://random.imagecdn.app/250/150"
     }
     , {
         id: 2,
@@ -27,7 +28,7 @@ const users_fake = [
         lastName: "Lopez",
         phoneNumber: 555555555,
         email: "victor@gmail.com",
-        image: "https://random.imagecdn.app/150/150"
+        photoURL: "https://random.imagecdn.app/150/150"
     }
     , {
         id: 3,
@@ -35,14 +36,13 @@ const users_fake = [
         lastName: " Jiménez",
         phoneNumber: 9999999999,
         email: "carlos@gmail.com",
-        image: "https://random.imagecdn.app/150/150"
+        photoURL: "https://random.imagecdn.app/150/150"
     }
 ]
 const AssignOrderScreen = (props) => {
     const {order} = useRoute().params ?? {};
 
 
-    console.log(order)
 
     const {user} = useAuthUserContext()
     const [visibleUserPicker, setVisibleUserPicker] = useState(false)
@@ -52,47 +52,51 @@ const AssignOrderScreen = (props) => {
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
             <TouchableOpacity
                 onPress={()=>{
-
                 }}
                 style={{
-                    width: "45%",
-                    flexDirection: 'row',
+                    width: "50%",
+                    height: SCREEN_WIDTH*.09,
+                }}>
+                <LinearGradient colors={["#858C93","#5E6268"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
                     marginRight: 2,
                     alignItems: 'center',
-                    backgroundColor: 'white',
                     padding: 10,
-                    borderRadius: 20
+                    borderRadius: 17
                 }}>
-                <View style={{flex: 1}}>
-                    <Text style={{
-                        textAlign: 'center',
-                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'black'
-                    }}>Save changes</Text>
-                </View>
+                        <Text style={{
+                            textAlign: 'center',
+                            fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
+                        }}>Save changes</Text>
+                </LinearGradient>
             </TouchableOpacity>
-
             {
-                user.role === 2 &&
+                user.role !== 2 &&
                 <TouchableOpacity
                     onPress={()=>{
-
                     }}
                     style={{
-                        width: "45%",
-                        flexDirection: 'row',
+                        marginLeft:4,
+                        width: "50%",
+                        height: SCREEN_WIDTH*.09,
+
+                    }}>
+                    <LinearGradient colors={["#555555","#171717"]} style={{
+                        width: "100%",
+                        height: '100%',
+                        justifyContent: 'center',
                         marginRight: 2,
                         alignItems: 'center',
-                        backgroundColor: 'black',
                         padding: 10,
-                        borderRadius: 20
+                        borderRadius: 17
                     }}>
-                    <View style={{flex: 1}}>
                         <Text style={{
-                            color:"white",
                             textAlign: 'center',
-                            fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2)
+                            fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
                         }}>Delete order</Text>
-                    </View>
+                    </LinearGradient>
                 </TouchableOpacity>
             }
 
@@ -115,23 +119,30 @@ const AssignOrderScreen = (props) => {
                     paddingHorizontal: SCREEN_WIDTH * .05,
                     marginBottom: SCREEN_WIDTH / 3.5
                 }}>
-                    <View style={styles.card}>
+                    <LinearGradient colors={["#555555","#171717"]} style={styles.card}>
                         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                            <Text style={{fontFamily: "Roboto_500Medium", fontSize: textSizeRender(3)}}>Order: </Text>
-                            <Text style={{fontFamily: "Roboto_700Bold", fontSize: textSizeRender(5)}}>{order && order.orderId}</Text>
+                            <Text style={{color:"white",fontFamily: "Roboto_700Bold", fontSize: textSizeRender(4)}}>Order: </Text>
+                            <Text style={{color:"white",fontFamily: "Roboto_900Black", fontSize: textSizeRender(6)}}>{order && order.orderId}</Text>
                         </View>
                         <View style={{flex: 1, alignItems: "flex-end", justifyContent: 'center'}}>
                             <Text style={{
-                                color: "#646464",
+                                color: "#F4FCC2",
                                 fontFamily: "Roboto_500Medium",
                                 fontSize: textSizeRender(3.5)
                             }}>
-                                {order.timestamp && moment(order.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')}
+
+                                {
+                                    order.createdAt ? moment(order.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                        :
+                                        order.timestamp ? moment(order.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                            :
+                                            "No date"
+                                }
                             </Text>
                         </View>
-                    </View>
+                    </LinearGradient>
                     {
-                        user.role === 2 &&
+                        user.role !== 2 &&
                         <AssignOrderTo selected={selected} setVisibleUserPicker={setVisibleUserPicker}/>
                     }
 

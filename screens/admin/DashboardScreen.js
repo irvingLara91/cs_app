@@ -24,7 +24,7 @@ const DashboardScreen = (props) => {
     }, [])
 
     return (
-        <ContainerAdmin isList={true} callApi={getOrders} title={"Dashboard Cornerstone"}>
+        <ContainerAdmin isDashboard={true} isList={true} callApi={getOrders} title={"Dashboard Cornerstone"}>
             <DashboardAdmin data={orders}/>
         </ContainerAdmin>
     )

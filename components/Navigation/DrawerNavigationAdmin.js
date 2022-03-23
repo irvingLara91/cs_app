@@ -247,20 +247,6 @@ function CustomDrawerContent(props) {
     );
 }
 
-function LogoTitle() {
-    return (
-        <View style={{flex: 1,justifyContent:'center'}}>
-            <View style={{width: SCREEN_WIDTH / 2, alignSelf: 'center'}}>
-                <Image
-                    resizeMode={"contain"}
-                    style={{width: '100%'}}
-                    source={require("~/assets/cornerstone-logo-300px.png")}
-                />
-            </View>
-
-        </View>
-    );
-}
 
 const HeaderAdmin =({navigation,...props})=>{
     return(
@@ -325,13 +311,13 @@ const HeaderAdmin =({navigation,...props})=>{
                                     left: 15,
                                     position: 'absolute',
                                     borderRadius: 10,
-                                    backgroundColor: 'white'
+                                    backgroundColor: 'red'
 
                                 }}>
                                     <Text style={{
                                         top: -3,
                                         textAlign: 'center',
-                                        color: 'black', fontSize: 10
+                                        color: 'white', fontSize: 10
                                     }}>1</Text>
                                 </View>
                             </View>

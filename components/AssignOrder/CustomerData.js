@@ -12,12 +12,12 @@ const CustomerData = ({user=null,props}) => {
             <View style={{marginTop:10}}>
                 <Text style={styles.textTitle}>Name</Text>
                 <View style={styles.inputImage}>
-                    {user && user.image?
+                    {user && user.photoURL?
                         <Image
                             alt="User list"
                             size={8} mr={2} resizeMode={"cover"} borderRadius={100}
                             source={{
-                                uri: user.image
+                                uri: user.photoURL
                             }}/>
                         :
                         <View style={{
@@ -81,20 +81,38 @@ const styles=StyleSheet.create({
         alignItems: 'center',
         marginTop: 8,
         marginBottom: 10,
-        borderRadius: Dimensions.get("window").height * .055,
+        borderColor:"#C4C4C4",
+        borderWidth:1,
+        borderRadius: Dimensions.get("window").height * .01,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0, height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 3.65,
+        elevation: 8,
     },
     input: {
         height: Dimensions.get("window").height * .055,
         justifyContent: 'center',
         marginTop: 8,
         marginBottom: 10,
-        borderRadius: Dimensions.get("window").height * .055,
+        borderColor:"#C4C4C4",
+        borderWidth:1,
+        borderRadius: Dimensions.get("window").height * .01,
         paddingVertical: 10,
         paddingHorizontal: 20,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0, height: 4,
+        },
+        shadowOpacity: 0.30,
+        shadowRadius: 3.65,
+        elevation: 8,
     },
 });
 export default CustomerData;

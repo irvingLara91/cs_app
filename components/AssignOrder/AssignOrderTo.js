@@ -27,7 +27,7 @@ const AssignOrderTo=({setVisibleUserPicker,selected})=>{
 const styles = StyleSheet.create({
     card: {
         flex: 1, backgroundColor: 'white',
-        borderColor: 'black',
+        borderColor: '#BFBFBF',
         borderRadius: 10,
         paddingHorizontal: 20,
         alignItems: 'center',
@@ -53,8 +53,8 @@ const styles = StyleSheet.create({
         marginVertical: 0,
         padding: 5,
         color: "#544E4E",
-        fontFamily: "Roboto_500Medium",
-        fontSize: textSizeRender(3)
+        fontFamily: "Roboto_400Regular",
+        fontSize: textSizeRender(3.2)
     },
 });
 export default AssignOrderTo;

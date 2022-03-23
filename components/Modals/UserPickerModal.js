@@ -68,13 +68,13 @@ const UserPickerModal = ({
                                                     padding: 10,
                                                 }}>
                                                     <View style={{flex:0}}>
-                                                        {opt.image ?
+                                                        {opt.photoURL ?
                                                             <Image
                                                                 alt="user"
                                                                 borderRadius={100}
                                                                 size={8} resizeMode={"cover"}
                                                                 source={{
-                                                                    uri: opt.image
+                                                                    uri: opt.photoURL
                                                                 }}/>
                                                             :
                                                             <Image

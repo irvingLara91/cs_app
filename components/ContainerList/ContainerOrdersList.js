@@ -1,8 +1,8 @@
-import {Platform, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Platform, StyleSheet, Text,Image, TouchableOpacity, View} from "react-native";
 import {SCREEN_WIDTH, statusCode, textSizeRender} from "~/utils/utils";
 import {AntDesign, Feather} from "@expo/vector-icons";
 import moment from "moment";
-import {Divider, Image} from "native-base";
+import {Divider,} from "native-base";
 import {useNavigation} from "@react-navigation/native";
 import screens from "~/constants/screens";
 
@@ -11,75 +11,107 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
     const renderItem = (item, index) => (
         <TouchableOpacity
             onPress={() => {
-                navigation.navigate(screens.ASSIGN_ORDER_TO,{order:item});
+                navigation.navigate(screens.ASSIGN_ORDER_TO, {order: item});
             }}
             key={index} style={styles.containerCard}>
-            <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
+            <View style={{flexDirection: 'row', paddingVertical: 9, paddingHorizontal: 10}}>
                 <View style={{flex: 1, justifyContent: 'center'}}>
                     <Text style={{
-                        color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_400Regular'
-                    }}>No.<Text style={{color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'}}
+                        color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'
+                    }}>Order: <Text style={{color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'}}
                     >{item.orderId ? item.orderId : ""}
                     </Text>
                     </Text>
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <AntDesign name="calendar" size={24} color="black"/>
-
+                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                    <AntDesign name="calendar" size={textSizeRender(4)} color={"#FF0000"}/>
                     <Text style={styles.textDate}>
                         {
-                            item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                            item.createdAt ? moment(item.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
                                 :
-                                "No date"
+                                item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                    :
+                                    "No date"
                         }
                     </Text>
                 </View>
             </View>
-            <Divider/>
+            <Divider bg={"primary_black.900"}/>
             <View style={{flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 20}}>
                 <View style={{flex: .8}}>
-                    <Text style={{fontSize: textSizeRender(4)}}>{item.client.firstName && item.client.firstName}</Text>
-                    <Text style={{fontSize: textSizeRender(4)}}>{item.client.lastName && item.client.lastName}</Text>
+                    <Text style={{
+                        fontFamily: 'Roboto_700Bold',
+                        fontSize: textSizeRender(4)
+                    }}>{item.client.firstName && item.client.firstName}</Text>
+                    <Text style={{
+                        fontFamily: 'Roboto_700Bold',
+                        fontSize: textSizeRender(4)
+                    }}>{item.client.lastName && item.client.lastName}</Text>
                 </View>
 
                 <View style={{flex: 1, alignItems: 'center'}}>
                     <View style={{
                         width: '70%',
-                        backgroundColor: 'black',
+                        backgroundColor: '#00A811',
                         alignItems: 'center',
                         padding: 5,
-                        borderRadius: 10
+                        borderRadius: 5
                     }}>
                         <Text
-                            style={{color: 'white', fontSize: textSizeRender(2.6)}}>{statusCode(item.statusCode)}</Text>
+                            style={{
+                                fontFamily: 'Roboto_700Bold',
+                                color: 'white', fontSize: textSizeRender(2.6)
+                            }}>{statusCode(item.statusCode)}</Text>
                     </View>
 
                 </View>
 
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{flex: 1, alignItems: 'center'}}>
-                        {item.card ?
-                            <Image
-                                alt="Order list"
-                                size={10} resizeMode={"cover"}
-                                borderRadius={100}
-                                source={{
-                                    uri: item.card
-                                }}/>
-                            :
-                            <View style={{
-                                width: 38,
-                                justifyContent: 'center',
-                                backgroundColor: "#C4C4C4",
-                                borderRadius: 100,
-                                padding: 4
-                            }}>
+                        <View style={{
+                            height:51,
+                            width:51,
+                            justifyContent:'center',
+                            alignItems:'center',
+                            borderColor: "#ffffff",
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            backgroundColor: 'white',
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0, height: 4,
+                            },
+                            shadowOpacity: 0.30,
+                            shadowRadius: 2.65,
+                            elevation: 8,
+                        }}>
+                            {item.card ?
                                 <Image
-                                    alt="Order list"
-                                    size={8} resizeMode={"contain"}
-                                    source={require("../../assets/image.png")}/>
-                            </View>
-                        }
+                                    style={{
+                                        justifyContent:'center',
+                                        alignItems:'center',
+                                        height:48,
+                                        width:48,
+                                    }}
+                                    resizeMode={"cover"}
+                                    borderRadius={100}
+                                    source={{
+                                        uri: item.card
+                                    }}/>
+                                :
+                                <View style={{
+                                    width: 38,
+                                    justifyContent: 'center',
+                                    backgroundColor: "#C4C4C4",
+                                    borderRadius: 100,
+                                    padding: 4
+                                }}>
+                                    <Image
+                                        size={8} resizeMode={"contain"}
+                                        source={require("../../assets/image.png")}/>
+                                </View>
+                            }
+                        </View>
                     </View>
                     <View style={{flex: 0}}>
                         <TouchableOpacity onPress={() => onDelete(item.orderId)}>
@@ -107,6 +139,8 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
 
 const styles = StyleSheet.create({
     containerCard: {
+        borderColor: "#C4C4C4",
+        borderWidth: 1,
         marginBottom: 20,
         height: SCREEN_WIDTH / (Platform.OS === "ios" ? 3 : 3.5),
         borderRadius: 5,
@@ -119,7 +153,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         elevation: 8,
     }, textDate: {
-        marginLeft: 10, fontSize: textSizeRender(3.5), fontFamily: 'Roboto_400Regular'
+        marginLeft: 10, fontSize: textSizeRender(3), fontFamily: 'Roboto_400Regular'
     }, emptyMessageStyle: {
         textAlign: 'center', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'
     }

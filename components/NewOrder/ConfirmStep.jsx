@@ -44,9 +44,7 @@ const ConfirmStep = ({navigation, route}) => {
             client: userDocRest,
             statusCode: 1
         }
-        console.log("data:::",user.uid ? user.uid :user.userId,data)
         const result = await ordersService.createOrder(user.uid ? user.uid :user.userId , data, userDoc.orders);
-        console.log({result})
         if (result.success) {
             addOrderToUserContext(result.order.orderId)
             navigate(screens.NEW_ORDER_PLACED);

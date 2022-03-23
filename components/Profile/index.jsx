@@ -76,7 +76,7 @@ const Profile = (props) => {
      * **/
 
     useEffect(() => {
-        console.log(user.userDoc)
+        //console.log(user.userDoc)
         if (isFocused) {
             setProfile(user.userDoc)
         }
@@ -142,8 +142,7 @@ const Profile = (props) => {
         const updateResult = await userService.updateUser(user.uid ? user.uid :user.userId, newData);
         if (updateResult.success) {
             setTimeout(() => {
-                console.log("newData",newData)
-                 setUserDoc(newData)
+                setUserDoc(newData)
                 setImage(null)
                 setLoading(false)
                 setMessage("Update profile successfully.")
