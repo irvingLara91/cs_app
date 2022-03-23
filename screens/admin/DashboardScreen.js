@@ -16,6 +16,8 @@ const DashboardScreen = (props) => {
         }
         if (result && result.length > 0) {
             setOrders(result)
+        }else {
+            setOrders([])
         }
     }
 
