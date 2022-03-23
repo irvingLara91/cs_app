@@ -31,7 +31,7 @@ const ContainerDashboardOrdersList = ({data = null, ...props}) => {
                                 source={require("../../assets/image.png")}/>
                     }
                 </View>
-                <View style={{flex: 1, alignItems:'left',paddingHorizontal:10}}>
+                <View style={{flex: 1, paddingHorizontal:10}}>
                     <View style={{flexDirection: 'row',flex:.2, alignItems: 'center'}}>
                         <AntDesign name="calendar" size={textSizeRender(4)} color={"#FF0000"}/>
                         <Text style={styles.textDate}>
@@ -57,15 +57,14 @@ const ContainerDashboardOrdersList = ({data = null, ...props}) => {
                     <View style={{width:'100%'}}>
                         <CustomButton onPress={() => {navigation.navigate(screens.ASSIGN_ORDER_TO, {order: item})}}
                                       title={"View order"}
-                                      heightButton={36}
+                                      heightButton={30}
                                       textColor={"#fff"}
                                       gradient={["#838B95", "#4A4E54"]}
                                       borderRadius={10}/>
                     </View>
 
                 </View>
-
-            </View>
+                </View>
         </View>);
 
 

@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         alignItems: 'center',
-        padding: 10,
         shadowColor: "rgba(100,100,100,.75)",
         shadowOffset: {
             width: 0,
@@ -56,7 +55,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
-        textAlign: 'center',
         justifyContent:'center',
     },
 })
