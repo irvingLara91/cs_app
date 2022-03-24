@@ -67,9 +67,10 @@ const Form = () => {
 
 
     const onSubmit = (data) => {
+
         const {additionalInformation, gravestoneText} = data;
         setOrderData((prevState) => {
-            ///console.log("preV::",prevState)
+            console.log("preV::",prevState)
             return {
                 ...prevState,
                 gravestone: {

@@ -28,7 +28,7 @@ const GravestoneStep = ({ navigation }) => {
 		});
 		let address_struct = "";
 		if (place && place.length > 0) {
-			address_struct = `${place[0].street ? place[0]?.street : ""} ${place[0].streetNumber?place[0].streetNumber:""},${place[0].district?place[0].district:""},${place[0].city?place[0].city:""},${place[0].region?place[0].region:""},${place[0].country?place[0].country:""},${place[0].postalCode?place[0].postalCode:""}`
+			address_struct = `${place[0].street ? place[0]?.street : ""}${place[0].streetNumber?" "+place[0].streetNumber:""},${place[0].district?place[0].district:""},${place[0].city?place[0].city:""},${place[0].region?place[0].region:""},${place[0].country?place[0].country:""},${place[0].postalCode?place[0].postalCode:""}`
 		}
 
 		console.log(address_struct)
@@ -53,9 +53,9 @@ const GravestoneStep = ({ navigation }) => {
 	const handleConfirmation = (picture) => {
 		const addressState = address_;
 		const addressSplitted = errorMsg ? "" :  addressState.split(",");
-		const address = errorMsg ? "" : addressSplitted[0];
-		const address2 = errorMsg ? "" : addressSplitted[1];
-		const city = errorMsg ? "" : addressSplitted[2];
+		const address = errorMsg ? "" : addressSplitted[0] ? addressSplitted[0] : "";
+		const address2 = errorMsg ? "" : addressSplitted[1]? addressSplitted[1]: "";
+		const city = errorMsg ? "" : addressSplitted[2] ? addressSplitted[2]: "";
 		const zipCode = errorMsg ? "" : addressSplitted[addressSplitted.length - 1];
 		setOrderData((prevState) => {
 			return {
