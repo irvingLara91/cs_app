@@ -17,7 +17,7 @@ const OrderInfo = ({gravestone = null}) => {
                     <Text style={{
                         fontFamily: "Roboto_400Regular",
                         fontSize: textSizeRender(3)
-                    }}>{gravestone && gravestone.address?.address}</Text>
+                    }}>{gravestone && gravestone?.text}</Text>
                 </View>
             </View>
             <View style={styles.card}>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         flex: 1,
         backgroundColor: 'white',
-        borderColor: 'black',
+        borderColor: '#7A7A7A',
         borderRadius: 10,
         justifyContent: 'center',
         height: "auto",

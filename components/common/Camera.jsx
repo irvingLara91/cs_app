@@ -86,7 +86,8 @@ export default function Camera({ onConfirm }) {
 
 	const takePicture = async() => {
 		if (camera) {
-			const photo = await camera.takePictureAsync();
+			const options = {quality: 0.5};
+			const photo = await camera.takePictureAsync(options);
 			setPicture(photo);
 		}
 	};

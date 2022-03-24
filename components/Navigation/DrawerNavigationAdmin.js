@@ -30,6 +30,7 @@ import NotificationsScreen from "~/screens/admin/NotificationsScreen";
 import HelpScreen from "~/screens/admin/HelpScreen";
 import {longName, statusBarHeight, textSizeRender} from "~/utils/utils";
 import {LinearGradient} from "expo-linear-gradient";
+import gravestoneMedia from "~/assets/gravestone-media.png";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -99,7 +100,7 @@ function CustomDrawerContent(props) {
                         }}>
                             <View style={{flex:0,marginLeft:20}}>
                                 {
-                                    user && user.userDoc ?
+                                    user && user.userDoc && user.userDoc?.photoURL ?
                                         <Avatar
                                             style={{borderColor: "white", borderWidth: 1.5}}
                                             bg="indigo.500"
@@ -109,14 +110,21 @@ function CustomDrawerContent(props) {
                                             }}
                                         />
                                         :
-                                        <Avatar
-                                            style={{borderColor: "white", borderWidth: 1.5}}
-                                            bg="indigo.500"
-                                            size={SCREEN_WIDTH * .18}
-                                            source={{
-                                                uri: "https://images.unsplash.com/photo-1614289371518-722f2615943d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
-                                            }}
-                                        />
+                                        <View style={{
+                                            backgroundColor:'white',
+                                            justifyContent:'center',
+                                            alignItems:'center',
+                                            height:SCREEN_WIDTH * .18,
+                                            width:SCREEN_WIDTH * .18,
+                                            borderRadius:100,
+                                            borderColor: "white", borderWidth: 1.5
+                                        }}>
+                                            <Avatar
+                                                bg="primary_white.50"
+                                                size={"90%"}
+                                                source={gravestoneMedia}
+                                            />
+                                        </View>
                                 }
                                 <IconButton
                                     bg={"primary_white.50"}
@@ -239,20 +247,6 @@ function CustomDrawerContent(props) {
     );
 }
 
-function LogoTitle() {
-    return (
-        <View style={{flex: 1,justifyContent:'center'}}>
-            <View style={{width: SCREEN_WIDTH / 2, alignSelf: 'center'}}>
-                <Image
-                    resizeMode={"contain"}
-                    style={{width: '100%'}}
-                    source={require("~/assets/cornerstone-logo-300px.png")}
-                />
-            </View>
-
-        </View>
-    );
-}
 
 const HeaderAdmin =({navigation,...props})=>{
     return(
@@ -317,13 +311,13 @@ const HeaderAdmin =({navigation,...props})=>{
                                     left: 15,
                                     position: 'absolute',
                                     borderRadius: 10,
-                                    backgroundColor: 'white'
+                                    backgroundColor: 'red'
 
                                 }}>
                                     <Text style={{
                                         top: -3,
                                         textAlign: 'center',
-                                        color: 'black', fontSize: 10
+                                        color: 'white', fontSize: 10
                                     }}>1</Text>
                                 </View>
                             </View>
@@ -453,7 +447,7 @@ const DrawerNavigator = () => {
                 }}
             />
             {
-                user.role !== 3 &&
+                user.userDoc.role === 2 &&
                 <Screen
                     name="Users"
                     component={UsersScreen}

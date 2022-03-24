@@ -4,6 +4,7 @@ import userService from "./user";
 import { errorMessage, generateRandomPassword, initialResponse } from "~/utils/utils";
 
 const createUser = ({
+  isRegister=true,
   address = "",
   city = "",
   email,
@@ -34,7 +35,7 @@ const createUser = ({
         createdAt: new Date(),
         orders: [],
       };
-      return await userService.createUserDoc(userId, data);
+      return await userService.createUserDoc(userId, data,isRegister);
     })
     .catch((error) => {
       return { ...initialResponse, error: true, message: errorMessage(error.code) };

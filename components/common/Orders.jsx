@@ -5,16 +5,12 @@ import Order from "./Order";
 const Orders = ({orders}) => {
 
 	return (
-		<Center>
-			<Box rounded="xl">
-				<Stack space={2} maxW="300px">
+				<Stack space={2}  maxW="320px">
 					{
 						orders.map((order) => <Order key={order.orderId} {...order} />)
 					}
 				</Stack>
-			</Box>
-		</Center>
-	); 
+	);
 };
 
 export default Orders;

@@ -76,7 +76,7 @@ const Profile = (props) => {
      * **/
 
     useEffect(() => {
-        console.log(user.userDoc)
+        //console.log(user.userDoc)
         if (isFocused) {
             setProfile(user.userDoc)
         }
@@ -113,9 +113,9 @@ const Profile = (props) => {
     const handlePhotoURL = async (photoURL, userId = "") => {
         if (image) {
             if (photoURL !== "" && photoURL.match(userId)) {
-                return await userService.updateUserPhoto(user.uid, image)
+                return await userService.updateUserPhoto(user.uid ? user.uid :user.userId, image)
             } else {
-                return await userService.uploadUserPhoto(user.uid, image)
+                return await userService.uploadUserPhoto(user.uid ? user.uid :user.userId, image)
             }
         } else return photoURL;
     }
@@ -137,12 +137,12 @@ const Profile = (props) => {
             phoneNumber,
             orders,
             role,
-            photoURL: await handlePhotoURL(photoURL, user.uid)
+            photoURL: await handlePhotoURL(photoURL, user.uid ? user.uid :user.userId)
         }  
-        const updateResult = await userService.updateUser(user.uid, newData);
+        const updateResult = await userService.updateUser(user.uid ? user.uid :user.userId, newData);
         if (updateResult.success) {
-            await setUserDoc(newData)
             setTimeout(() => {
+                setUserDoc(newData)
                 setImage(null)
                 setLoading(false)
                 setMessage("Update profile successfully.")
@@ -168,9 +168,16 @@ const Profile = (props) => {
                     <View>
                         <LinearGradient colors={["#555555","#171717"]} style={{alignItems:'center',paddingVertical:20}}>
                             {
-                                profile ?
+                                image ?
                                     <View>
-                                        <Image borderWidth={1} style={{borderColor:"white"}}  borderRadius={SCREEN_WIDTH } size={"lg"} source={{uri: image ? image : profile.photoURL}}
+                                        <Image borderWidth={1} style={{borderColor:"white"}}  borderRadius={SCREEN_WIDTH } size={"lg"} source={{uri: image}}
+                                               alt="gravestone picture"/>
+                                        <ButtonImage pickImage={pickImage}/>
+                                    </View>
+                                    :
+                                profile?.photoURL ?
+                                    <View>
+                                        <Image borderWidth={1} style={{borderColor:"white"}}  borderRadius={SCREEN_WIDTH } size={"lg"} source={{uri:profile.photoURL}}
                                                alt="gravestone picture"/>
                                         <ButtonImage pickImage={pickImage}/>
                                     </View>

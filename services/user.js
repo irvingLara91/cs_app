@@ -47,21 +47,33 @@ const updateUserPhoto = async(userId, photo) => {
 }
 
 
-const createUserDoc = async (userId, data = {}) => {
-  const userData = {
-    userDoc: {
-      ...data
-    },
-    userId
+const createUserDoc = async (userId, data = {},isRegister=true) => {
+  if (isRegister){
+    const userData = {
+      userDoc: {
+        ...data
+      },
+      userId
+    }
+    const docRef = doc(db, "users", userId);
+    return await setDoc(docRef, data)
+        .then(() => {
+          return { success: true, message: userData };
+        })
+        .catch(() => {
+          return { ...initialResponse, error: true, message: errorMessage(error.code) };
+        });
+  }else {
+    const docRef = doc(db, "users", userId);
+    return await setDoc(docRef, data)
+        .then(() => {
+          return { success: true,   message: "user created successfully." };
+        })
+        .catch(() => {
+          return { ...initialResponse, error: true, message: errorMessage(error.code) };
+        });
   }
-  const docRef = doc(db, "users", userId);
-  return await setDoc(docRef, data)
-    .then(() => {
-      return { success: true, message: userData };
-    })
-    .catch(() => {
-      return { ...initialResponse, error: true, message: errorMessage(error.code) };
-    });
+
 };
 
 const getUsers = async () => {

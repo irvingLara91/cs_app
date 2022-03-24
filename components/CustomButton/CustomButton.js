@@ -12,7 +12,7 @@ const GradientBtn =({title,styled,gradient,borderRadius})=>{
     );
 }
 
-const CustomButton =({disabled=false,title="",onPress,gradient,textColor="",borderRadius=0})=>{
+const CustomButton =({heightButton=50,disabled=false,title="",onPress,gradient,textColor="",borderRadius=0})=>{
 
     const [colorText, setColorText] = useState(textColor ? textColor :'white')
     const [text, setText] = useState(title)
@@ -22,7 +22,7 @@ const CustomButton =({disabled=false,title="",onPress,gradient,textColor="",bord
 
             <TouchableOpacity
                 style={{
-                    height: 50,
+                    height: heightButton,
                     width: "100%",
                 }}
                 onPress={onPress}
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
         height: "100%",
         width: "100%",
         alignItems: 'center',
-        padding: 10,
         shadowColor: "rgba(100,100,100,.75)",
         shadowOffset: {
             width: 0,
@@ -56,7 +55,6 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.20,
         shadowRadius: 1.41,
-        textAlign: 'center',
         justifyContent:'center',
     },
 })

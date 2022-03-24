@@ -18,7 +18,7 @@ const ContainerNotifications = ({data = [], action = null}) => {
             borderRadius: 10, backgroundColor: 'white', marginVertical: 5, padding: 20
         }}>
             <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: SCREEN_WIDTH * .05}}>
-                <AntDesign name="calendar" size={24} color="black"/>
+                <AntDesign name="calendar" size={24} color="red"/>
                 <Text style={styles.textDate}>{moment(item.date, "", "es").format('DD/MM/YYYY')}</Text>
             </View>
             <View style={{flexDirection: 'row'}}>

@@ -67,26 +67,15 @@ const Form = () => {
 
 
     const onSubmit = (data) => {
-        const {additionalInformation, address: addressState, gravestoneText} = data;
-        const addressSplitted = addressState.split(",");
-        const address = addressSplitted[0];
-        const address2 = addressSplitted[1];
-        const city = addressSplitted[2];
-        const zipCode = addressSplitted[addressSplitted.length - 1];
-
+        const {additionalInformation, gravestoneText} = data;
         setOrderData((prevState) => {
+            ///console.log("preV::",prevState)
             return {
                 ...prevState,
                 gravestone: {
                     ...prevState.gravestone,
                     additionalInformation,
                     text: gravestoneText,
-                    address: {
-                        address,
-                        address2,
-                        city,
-                        zipCode: isNumber(zipCode) ? zipCode : ""
-                    }
                 }
             }
         })
@@ -138,7 +127,7 @@ const Form = () => {
                     {errors?.additionalInformation?.message}
                 </FormControl.ErrorMessage>
             </FormControl>
-            <FormControl isRequired isInvalid={"address" in errors}>
+            {/*<FormControl isRequired isInvalid={"address" in errors}>
                 <FormControl.Label>Address</FormControl.Label>
                 {
 
@@ -200,7 +189,7 @@ const Form = () => {
                 <FormControl.ErrorMessage>
                     {errors?.address?.message}
                 </FormControl.ErrorMessage>
-            </FormControl>
+            </FormControl>*/}
 
             <CustomButton onPress={handleSubmit(onSubmit)}
                           title={"Continue"}

@@ -18,7 +18,7 @@ import OrderPlaced from "~/components/NewOrder/OrderPlaced";
 
 import screens from "~/constants/screens";
 import {Dimensions, Image, Platform, Text, StatusBar, TouchableOpacity} from "react-native";
-import {Feather, FontAwesome, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
+import {Feather, FontAwesome, Ionicons, MaterialCommunityIcons, MaterialIcons} from "@expo/vector-icons";
 import {View} from "native-base";
 import {useAuthUserContext} from "~/context/authUser";
 import LoginClientScreen from "./screens/client/LoginAuth/index"
@@ -145,6 +145,115 @@ const HeaderClient = ({noBack=false,navigation, title, ...props}) => {
 
                     </View>
 
+                </View>
+            </View>
+        </LinearGradient>
+    )
+};
+
+const HeaderAdmin = ({noBack=false,navigation, title, ...props}) => {
+    return (
+        <LinearGradient colors={["#555555", "#171717"]} style={{
+            width: SCREEN_WIDTH,
+            paddingTop: Platform.OS === "ios" ? statusBarHeight - 5 : statusBarHeight - (SCREEN_WIDTH * 10)
+        }}>
+            <StatusBar
+                animated={true}
+                backgroundColor="#555555"
+                barStyle={"light-content"}
+                showHideTransition={"slide"}
+                hidden={false}/>
+            <View style={{height: SCREEN_WIDTH * .15, flexDirection: 'row', marginBottom: 8, marginTop: 8}}>
+                <View style={{
+                    flex: .3, justifyContent: 'center',
+                    alignItems: 'center',
+                }}>
+                    {
+                        !noBack &&
+                        <TouchableOpacity
+                            onPress={() => navigation.goBack()}
+                            style={{
+                                width: SCREEN_WIDTH * .1,
+                                height: SCREEN_WIDTH * .1,
+                                borderRadius: 10,
+                                justifyContent: 'center',
+                                alignSelf: 'center',
+                                backgroundColor: 'white',
+                                marginLeft: 15,
+                            }}>
+                            <MaterialIcons name="keyboard-arrow-left" size={textSizeRender(10)} color="black"/>
+                        </TouchableOpacity>
+                    }
+
+                </View>
+
+                <View style={{flex: 1, justifyContent: 'center'}}>
+                    <View style={{width: SCREEN_WIDTH / 2, alignSelf: 'center'}}>
+                        {
+                            title ?
+                                <Text style={{
+                                    fontSize: textSizeRender(Platform.OS === "ios" ?5.5:4.4),
+                                    textAlign: "center",
+                                    color: "white",
+                                    fontFamily: "Roboto_500Medium"
+                                }}>
+                                    {title}
+                                </Text>
+                                :
+                                <Image
+                                    resizeMode={"cover"}
+                                    style={{width: '100%', tintColor: 'white'}}
+                                    source={require("~/assets/cornerstone-logo-300px.png")}
+                                />
+                        }
+                    </View>
+                </View>
+                <View style={{flex: .3,
+                    justifyContent:'center',
+                    alignItems:'center'
+                }}>
+                    <View style={{flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                alert("notifications")
+                            }}
+                            style={{
+                                marginRight: 5,
+                            }}
+                        >
+                            <View style={{alignItems: 'flex-end'}}>
+                                <MaterialIcons name="notifications-none" size={SCREEN_WIDTH * 0.07} color="white"/>
+                                <View style={{
+                                    width: SCREEN_WIDTH * 0.04,
+                                    height:SCREEN_WIDTH * 0.04,
+                                    top: -5,
+                                    left: 15,
+                                    position: 'absolute',
+                                    borderRadius: 10,
+                                    backgroundColor: 'red'
+
+                                }}>
+                                    <Text style={{
+                                        textAlign: 'center',
+                                        color: 'white', fontSize: 10
+                                    }}>1</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate("Profile")
+                            }
+                            style={{
+                                marginRight: 15,
+                                alignItems:'center'
+                            }}
+                        >
+                            <Ionicons name="ios-person-circle-outline" size={SCREEN_WIDTH * 0.07} color="white"/>
+                        </TouchableOpacity>
+
+                    </View>
                 </View>
             </View>
         </LinearGradient>
@@ -300,26 +409,33 @@ const NavigationAdmin = () => {
                 <Screen
                     name={screens.PASSWORD_UPDATE}
                     component={PasswordUpdate}
-                    options={backButton}
+                    options={{
+                        header: (props) => <HeaderAdmin {...props} />,
+                    }}
                 />
 
                 <Screen
                     name={screens.CREATE_USER}
                     component={CreateUserScreen}
-                    options={backButton}
+                    options={{
+                        header: (props) => <HeaderAdmin {...props} />,
+                    }}
                 />
                 <Screen
                     name={screens.UPDATE_USER}
                     component={UpdateUserScreen}
-                    options={backButton}
+                    options={{
+                        header: (props) => <HeaderAdmin {...props} />,
+                    }}
                 />
 
                 <Screen
                     name={screens.ASSIGN_ORDER_TO}
                     component={AssignOrderScreen}
-                    options={backButton}
+                    options={{
+                        header: (props) => <HeaderAdmin {...props} />,
+                    }}
                 />
-
 
             </Navigator>
         </NavigationContainer>

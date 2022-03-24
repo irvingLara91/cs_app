@@ -53,8 +53,8 @@ const FormCreateUser = (props) => {
         } else {
             setLoading(true)
             setImageError(false)
-            const result = await authService.createUser({...data, photo: image.uri})
-            console.log({result})
+            const result = await authService.createUser({...data, isRegister: false, photo: image.uri})
+            //console.log({result})
             if (result.success) {
                 setCustomModalVisible(true)
                 setCustomModal({isError: false, message: result.message})

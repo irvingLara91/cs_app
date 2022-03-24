@@ -5,7 +5,17 @@ import {Center, Divider} from "native-base";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
 
-const ContainerAdmin = ({backgroundColor="#F4F4F4",isList = false, callApi, title = "", icon = null, actions = null,componentTitle=null, ...props}) => {
+const ContainerAdmin = ({
+                            isDashboard = false,
+                            backgroundColor = "#F4F4F4",
+                            isList = false,
+                            callApi,
+                            title = "",
+                            icon = null,
+                            actions = null,
+                            componentTitle = null,
+                            ...props
+                        }) => {
     const [refreshing, setRefreshing] = useState(false)
 
     const _onRefresh = () => {
@@ -25,7 +35,7 @@ const ContainerAdmin = ({backgroundColor="#F4F4F4",isList = false, callApi, titl
             style={{
                 flex: 1,
                 width: SCREEN_WIDTH,
-                backgroundColor:backgroundColor
+                backgroundColor: backgroundColor
             }}
         >
             <View
@@ -53,7 +63,12 @@ const ContainerAdmin = ({backgroundColor="#F4F4F4",isList = false, callApi, titl
                             actions
                         }
                     </View>
-                    <Divider mb={3} mt={2} bg={"primary_black.900"}/>
+                    {
+                        !isDashboard ?
+                            <Divider mb={3} mt={2} bg={"primary_black.900"}/>
+                            :
+                            <View style={{marginTop: 3, marginBottom: 2}}/>
+                    }
                 </Center>
 
                 {
@@ -67,7 +82,7 @@ const ContainerAdmin = ({backgroundColor="#F4F4F4",isList = false, callApi, titl
                             scrollEventThrottle={16}
                             refreshControl={
                                 <RefreshControl
-                                    tintColor={ 'rgba(0,0,0,.4)'}
+                                    tintColor={'rgba(0,0,0,.4)'}
 
                                     refreshing={refreshing}
                                     onRefresh={_onRefresh.bind(this)}

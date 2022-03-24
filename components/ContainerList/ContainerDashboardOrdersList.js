@@ -5,64 +5,67 @@ import {AntDesign} from "@expo/vector-icons";
 import moment from "moment";
 import screens from "~/constants/screens";
 import {useNavigation} from "@react-navigation/native";
+import CustomButton from "~/components/CustomButton/CustomButton";
+import React from "react";
 
 const ContainerDashboardOrdersList = ({data = null, ...props}) => {
     const navigation = useNavigation()
 
-    const renderItem = (item, index) => (<View key={index} style={styles.containerCard}>
-        <View style={{flexDirection: 'row', paddingVertical: 5, paddingHorizontal: 10}}>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-                <Text style={{
-                    color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_400Regular'
-                }}>No.<Text style={{color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'}}
-                >{item.orderId ? item.orderId : ""}
-                </Text>
-                </Text>
-            </View>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <AntDesign name="calendar" size={24} color="black"/>
-                <Text style={styles.textDate}>
+    const renderItem = (item, index) => (
+        <View key={index} style={styles.containerCard}>
+            <View style={{flexDirection: 'row'}}>
+                <View style={{flex:0, alignItems:'center', paddingHorizontal:10}}>
                     {
-                        item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                        item.card ?
+                            <Image
+                                borderRadius={10}
+                                alt="Dashboard admin"
+                                size={SCREEN_WIDTH*.25} resizeMode={"cover"}
+                                source={{
+                                    uri: item.card
+                                }}/>
                             :
-                            "No date"
+                            <Image
+                                alt="Dashboard admin"
+                                size={"xl"} resizeMode={"contain"}
+                                source={require("../../assets/image.png")}/>
                     }
-                </Text>
-            </View>
-        </View>
-        <Divider/>
-        <View>
-            <View style={{flex: 1,alignItems:'center'}}>
-                {
-                    item.card ?
-                        <Image
-                            alt="Dashboard admin"
-                            size={"xl"} resizeMode={"contain"}
-                            source={{
-                                uri: item.card
-                            }}/>
-                        :
-                        <Image
-                            alt="Dashboard admin"
-                            size={"xl"} resizeMode={"contain"}
-                            source={require("../../assets/image.png")}/>
-                }
-            </View>
-            <View style={{flex: 0,alignItems:'center',paddingBottom: 20}}>
-                <TouchableOpacity
+                </View>
+                <View style={{flex: 1, paddingHorizontal:10}}>
+                    <View style={{flexDirection: 'row',flex:.2, alignItems: 'center'}}>
+                        <AntDesign name="calendar" size={textSizeRender(4)} color={"#FF0000"}/>
+                        <Text style={styles.textDate}>
+                            {
+                                item.createdAt ? moment(item.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                    :
 
-                    onPress={() => {
-                        navigation.navigate(screens.ASSIGN_ORDER_TO, {order: item});
-                    }}
-                >
-                    <Text style={{
-                        textDecorationLine: 'underline'
-                    }}>View order</Text>
-                </TouchableOpacity>
-            </View>
+                                    item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                        :
+                                        "No date"
+                            }
+                        </Text>
+                    </View>
+                    <View style={{flexDirection: 'row',flex:0, alignItems: 'center'}}>
+                        <Text style={{
+                            color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'
+                        }}>Order: <Text
+                            style={{color: 'black', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'}}
+                        >{item.orderId ? item.orderId : ""}
+                        </Text>
+                        </Text>
+                    </View>
+                    <View style={{width:'100%'}}>
+                        <CustomButton onPress={() => {navigation.navigate(screens.ASSIGN_ORDER_TO, {order: item})}}
+                                      title={"View order"}
+                                      heightButton={30}
+                                      textColor={"#fff"}
+                                      gradient={["#838B95", "#4A4E54"]}
+                                      borderRadius={10}/>
+                    </View>
 
-        </View>
-    </View>);
+                </View>
+                </View>
+        </View>);
 
 
     return (<View>
@@ -80,8 +83,9 @@ const ContainerDashboardOrdersList = ({data = null, ...props}) => {
 };
 const styles = StyleSheet.create({
     containerCard: {
+        paddingVertical:20,
         marginBottom: 20,
-        borderRadius: 5,
+        borderRadius: 15,
         backgroundColor: 'white',
         shadowColor: "#000",
         shadowOffset: {
@@ -91,7 +95,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4.65,
         elevation: 8,
     }, textDate: {
-        marginLeft: 10, fontSize: textSizeRender(3.5), fontFamily: 'Roboto_400Regular'
+        marginLeft: 10, fontSize: textSizeRender(3), fontFamily: 'Roboto_300Light'
     }, emptyMessageStyle: {
         textAlign: 'center', fontSize: textSizeRender(4), fontFamily: 'Roboto_700Bold'
     }

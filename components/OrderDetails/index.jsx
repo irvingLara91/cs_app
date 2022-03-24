@@ -84,7 +84,7 @@ const OrderDetails = ({route}) => {
                                 fontSize={textSizeRender(3.2)}
                                 fontFamily={"Roboto_400Regular"}>{
                                 details && details.gravestone &&  details.gravestone.address &&
-                                `${details?.gravestone?.address.address}${details?.gravestone?.address.address2 ? details?.gravestone?.address.address2 : ""}, ${details?.gravestone?.address.city}, ${details?.gravestone?.address.zipCode}`
+                                `${details?.gravestone?.address.address}, ${details?.gravestone?.address.address2 ? details?.gravestone?.address.address2 : ""}, ${details?.gravestone?.address.city}, ${details?.gravestone?.address.zipCode}`
                             }</Text>
                         </View>
                     </View>
