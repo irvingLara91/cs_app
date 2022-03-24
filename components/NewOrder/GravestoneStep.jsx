@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { TouchableHighlight,View, Dimensions } from "react-native";
 import { Box, Center, Text, Button, Image, Flex, Heading } from "native-base";
 import Steps from "./Steps";
@@ -9,19 +9,68 @@ import { useNewOrderContext } from "~/context/newOrder";
 import {LinearGradient} from "expo-linear-gradient";
 
 const { height } = Dimensions.get("window");
-
+import * as Location from 'expo-location';
+import {isNumber} from "~/utils/utils";
 const GravestoneStep = ({ navigation }) => {
 	const { setOrderData } = useNewOrderContext();
 	const { navigate } = navigation;
 	const [enableCamera, setEnableCamera] = useState(false);
-	
+
+	const [location, setLocation] = useState(null);
+	const [address_, setAddress] = useState(null);
+
+	const [errorMsg, setErrorMsg] = useState(null);
+
+	const getAddressPoint = async (location) => {
+		const place = await Location.reverseGeocodeAsync({
+			latitude: location.latitude,
+			longitude: location.longitude
+		});
+		let address_struct = "";
+		if (place && place.length > 0) {
+			address_struct = `${place[0].street ? place[0]?.street : ""} ${place[0].streetNumber?place[0].streetNumber:""},${place[0].district?place[0].district:""},${place[0].city?place[0].city:""},${place[0].region?place[0].region:""},${place[0].country?place[0].country:""},${place[0].postalCode?place[0].postalCode:""}`
+		}
+
+		console.log(address_struct)
+		setAddress(address_struct)
+	};
+
+
+	useEffect(() => {
+		(async () => {
+			let { status } = await Location.requestForegroundPermissionsAsync();
+			if (status !== 'granted') {
+				setErrorMsg('Permission to access location was denied');
+				return;
+			}
+			let location_ = await Location.getCurrentPositionAsync({accuracy: Location.Accuracy.Lowest});
+			setLocation(location_);
+			await getAddressPoint(location_.coords)
+		})();
+	}, []);
+
+
 	const handleConfirmation = (picture) => {
+		const addressState = address_;
+		const addressSplitted = errorMsg ? "" :  addressState.split(",");
+		const address = errorMsg ? "" : addressSplitted[0];
+		const address2 = errorMsg ? "" : addressSplitted[1];
+		const city = errorMsg ? "" : addressSplitted[2];
+		const zipCode = errorMsg ? "" : addressSplitted[addressSplitted.length - 1];
 		setOrderData((prevState) => {
 			return {
 				...prevState,
 				gravestone: {
 					...prevState.gravestone,
 					image: picture,
+					address: {
+						address,
+						address2,
+						city,
+						zipCode:errorMsg ? "" : isNumber(zipCode) ? zipCode : "",
+						latitude:errorMsg ? "" : location.coords.latitude,
+						longitude:errorMsg ? "" :location.coords.longitude
+					}
 				}
 			}
 		})

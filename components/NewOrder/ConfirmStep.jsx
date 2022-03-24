@@ -16,13 +16,15 @@ import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 const ConfirmStep = ({navigation, route}) => {
     const {navigate} = navigation;
     const {orderData} = useNewOrderContext();
-    const {user, setUser} = useAuthUserContext()
+    const {user, setUser,setNewOrder} = useAuthUserContext()
     const [loading, setLoading] = useState(false)
 
 
-
+console.log(user)
 
     const addOrderToUserContext = (orderId) => {
+        setNewOrder(user,orderId);
+        /*
         setUser((prevState) => {
             return {
                 ...prevState,
@@ -31,7 +33,7 @@ const ConfirmStep = ({navigation, route}) => {
                     orders: [...prevState.userDoc.orders, orderId]
                 }
             }
-        })
+        })*/
     }
 
     const onConfirm = async () => {
@@ -115,7 +117,7 @@ const ConfirmStep = ({navigation, route}) => {
 							<Text fontSize={textSizeRender(2.5)} fontFamily={"Roboto_400Regular"}>
 								{
 									orderData && orderData.gravestone && orderData.gravestone.address &&
-									`${orderData?.gravestone?.address.address}${orderData?.gravestone?.address.address2 ? orderData?.gravestone?.address.address2 : ""}, ${orderData?.gravestone?.address.city}, ${orderData?.gravestone?.address.zipCode}`
+									`${orderData?.gravestone?.address.address}, ${orderData?.gravestone?.address.address2 ? orderData?.gravestone?.address.address2 : ""}, ${orderData?.gravestone?.address.city}, ${orderData?.gravestone?.address.zipCode}`
 
 
 								}
