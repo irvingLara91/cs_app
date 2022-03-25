@@ -117,9 +117,7 @@ console.log(user)
 							<Text fontSize={textSizeRender(2.5)} fontFamily={"Roboto_400Regular"}>
 								{
 									orderData && orderData.gravestone && orderData.gravestone.address &&
-									`${orderData?.gravestone?.address.address}, ${orderData?.gravestone?.address.address2 ? orderData?.gravestone?.address.address2 : ""}, ${orderData?.gravestone?.address.city}, ${orderData?.gravestone?.address.zipCode}`
-
-
+                                    `${orderData?.gravestone?.address.address.trim()? orderData.gravestone.address.address+",":""}${orderData?.gravestone?.address.address2 ? orderData?.gravestone?.address.address2+", " : ""}${orderData?.gravestone?.address.city}, ${orderData?.gravestone?.address.zipCode}`
 								}
                             </Text>
                         </VStack>
