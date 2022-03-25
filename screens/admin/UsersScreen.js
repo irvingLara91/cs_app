@@ -9,11 +9,12 @@ import Screens from "~/constants/screens";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import userService from "~/services/user"
 import Loading from "~/components/Loading/Loading";
+import {LinearGradient} from "expo-linear-gradient";
 
 
 const TitleComponent = (props) => {
     return (
-        <View style={{
+        <LinearGradient colors={["#555555","#171717"]} style={{
             marginHorizontal: SCREEN_WIDTH * .05,
             flexDirection: "row",
             backgroundColor: '#EAEAEA',
@@ -32,7 +33,7 @@ const TitleComponent = (props) => {
             <View style={{flex: .5}}>
                 <Text style={styles.titleComponent}>Order</Text>
             </View>
-        </View>
+        </LinearGradient>
     )
 }
 
@@ -66,27 +67,25 @@ const UsersScreen = (props) => {
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
             <TouchableOpacity
-
                 onPress={() => {
                     navigation.navigate(Screens.CREATE_USER)
                 }}
-
                 style={{
-                    width: "45%",
-                    flexDirection: 'row',
-                    marginRight: 2,
-                    alignItems: 'center',
-                    backgroundColor: 'white',
-                    padding: 10,
-                    borderRadius: 10
+                    width: "50%",
+                    height: SCREEN_WIDTH*.09,
                 }}>
-                <View style={{flex: 1}}>
+                <LinearGradient colors={["#858C93","#5E6268"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
+                    marginRight: 2,
+                    borderRadius: 17
+                }}>
                     <Text style={{
                         textAlign: 'center',
-                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.5), color: 'black'
+                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
                     }}>Create user</Text>
-                </View>
-
+                </LinearGradient>
             </TouchableOpacity>
         </View>
     </View>)
@@ -115,6 +114,7 @@ const UsersScreen = (props) => {
 
 const styles = StyleSheet.create({
     titleComponent: {
+        color:"white",
         fontSize: textSizeRender(3),
         fontFamily: "Roboto_700Bold"
     }

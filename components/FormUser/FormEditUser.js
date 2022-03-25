@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Controller, useForm} from "react-hook-form";
-import {Text, TouchableOpacity, View, Image} from "react-native";
+import {Text, TouchableOpacity, View, Image,TextInput} from "react-native";
 import {Feather} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 import {roles, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
@@ -10,19 +10,21 @@ import * as mime from "react-native-mime-types";
 import * as ImageManipulator from "expo-image-manipulator";
 import ContainOrdersAssignedList from "~/components/ContainerList/ContainOrdersAssignedList";
 import ordersService from "~/services/orders";
+import {LinearGradient} from "expo-linear-gradient";
+import styles from "~/components/Register/styles";
 
 
 const ImgDefault = () => {
     return <Image
         style={{
-            width: 50,
-            height: 50,
+            width: 20,
+            height: 20,
             resizeMode: 'contain',
             borderRadius: 50,
             borderWidth: 3,
             borderColor: "#C4C4C4",
             backgroundColor: "#C4C4C4",
-            padding: 15
+            padding: 12
         }}
         defaultSource={require("../../assets/image.png")}
         source={require("../../assets/image.png")}/>
@@ -30,6 +32,7 @@ const ImgDefault = () => {
 
 
 const FormEditUser = (props) => {
+    const {textInput} = styles;
     const {control, setValue, handleSubmit, formState: {errors}} = useForm();
     const [image, setImage] = useState(null)
     const [orders, setOrders] = useState([])
@@ -93,55 +96,62 @@ const FormEditUser = (props) => {
 
     };
 
-    const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
+    const actions_ = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
             <TouchableOpacity
                 onPress={handleSubmit(onSubmit)}
-
                 style={{
-                    width: "45%",
-                    flexDirection: 'row',
+                    width: "50%",
+                    height: SCREEN_WIDTH * .09,
+                }}>
+                <LinearGradient colors={["#838B95", "#4A4E54"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
                     marginRight: 2,
                     alignItems: 'center',
-                    backgroundColor: 'white',
-                    padding: 0,
-                    borderRadius: 20
+                    padding: 10,
+                    borderRadius: 17
                 }}>
-                <View style={{flex: 1}}>
                     <Text style={{
-                        color: 'black',
                         textAlign: 'center',
-                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.5)
+                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
                     }}>Save change</Text>
-                </View>
+                </LinearGradient>
             </TouchableOpacity>
+
             <TouchableOpacity
-                onPress={() => {
+                onPress={()=>{
                     alert("delete")
                 }}
                 style={{
-                    width: "43%",
-                    flexDirection: 'row',
+                    marginLeft:5,
+                    width: "50%",
+                    height: SCREEN_WIDTH * .09,
+                }}>
+                <LinearGradient colors={["#555555", "#171717"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
                     marginRight: 2,
                     alignItems: 'center',
-                    backgroundColor: '#7E7B7B',
                     padding: 10,
-                    borderRadius: 20
+                    borderRadius: 17
                 }}>
-                <View style={{flex: 1}}>
                     <Text style={{
-                        color: 'white',
                         textAlign: 'center',
-                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.5)
-                    }}>Delete user</Text>
-                </View>
+                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
+                    }}>Delete</Text>
+                </LinearGradient>
             </TouchableOpacity>
         </View>
     </View>)
 
+
+
     return (
         <ContainerAdmin title={"User"} icon={<Feather name="users" size={30} color={"black"}/>}
-                        actions={actions}>
+                        actions={actions_}>
             <View style={{
                 paddingHorizontal: SCREEN_WIDTH * .05,
                 marginBottom: SCREEN_WIDTH / 3.5
@@ -159,11 +169,11 @@ const FormEditUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <View style={{
+                                    <View style={[textInput,{
                                         flexDirection: 'row',
                                         flex: 1,
                                         alignItems: 'center',
-                                    }}>
+                                    }]}>
                                         <TouchableOpacity
                                             style={{marginRight: 5}}
                                             onPress={() => {
@@ -175,14 +185,14 @@ const FormEditUser = (props) => {
                                                     <Center>
                                                         <Image
                                                             style={{
-                                                                width: 50,
-                                                                height: 50,
+                                                                width: 23,
+                                                                height: 23,
                                                                 resizeMode: 'cover',
                                                                 borderRadius: 50,
-                                                                borderWidth: 3,
-                                                                borderColor: "#C4C4C4",
+                                                                borderWidth: 2,
+                                                                borderColor: "#eeeeee",
                                                                 backgroundColor: "#C4C4C4",
-                                                                padding: 15
+                                                                padding: 13
                                                             }}
                                                             defaultSource={require("../../assets/image.png")}
                                                             source={{
@@ -194,12 +204,10 @@ const FormEditUser = (props) => {
 
                                             }
                                         </TouchableOpacity>
-                                        <Input
+                                        <TextInput
                                             flex={1}
-                                            height={SCREEN_WIDTH * .12}
-                                            backgroundColor='primary_white.50'
+                                            height={SCREEN_WIDTH * .09}
                                             pl={5}
-                                            variant="rounded"
                                             onBlur={onBlur}
                                             onChangeText={(text) => onChange(text)}
                                             value={value}
@@ -225,9 +233,8 @@ const FormEditUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <Input
-                                        height={SCREEN_WIDTH * .12}
-                                        backgroundColor='primary_white.50'
+                                    <TextInput
+                                        style={textInput}
                                         pl={5}
                                         variant="rounded"
                                         onBlur={onBlur}
@@ -254,10 +261,8 @@ const FormEditUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <Input
-                                        height={SCREEN_WIDTH * .12}
-                                        backgroundColor='primary_white.50'
-                                        pl={5}
+                                    <TextInput
+                                        style={textInput}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -284,10 +289,8 @@ const FormEditUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <Input
-                                        height={SCREEN_WIDTH * .12}
-                                        backgroundColor='primary_white.50'
-                                        pl={5}
+                                    <TextInput
+                                        style={textInput}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -303,26 +306,41 @@ const FormEditUser = (props) => {
                                 {errors?.phone?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <FormControl mb={3} isInvalid={"role" in errors}>
-                            <FormControl.Label
-                                _text={{
-                                    color: "primary_black.900",
-                                    fontFamily: "Roboto_700Bold",
-                                    fontSize: textSizeRender(4),
-                                }}>Role</FormControl.Label>
+                        <View style={{
+                            backgroundColor: '#F4F4F4',
+                            marginBottom: 10
+                        }}>
+                            <Text style={{
+                                color: "primary_black.900",
+                                fontFamily: "Roboto_700Bold",
+                                fontSize: textSizeRender(4)
+                            }}>Assign role</Text>
+                        </View>
+                        <FormControl
+                            style={{
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0, height: 4,
+                                },
+                                shadowOpacity: 0.30,
+                                shadowRadius: 2.65,
+                                elevation: 8,
+                            }}
+                            mb={3} isInvalid={"role" in errors}>
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
                                     <Select
                                         bg={"primary_white.50"}
-                                        pl={5}
+                                        borderRadius={8}
+                                        borderColor='#C4C4C4'
+                                        borderWidth={.5}
                                         selectedValue={value}
                                         onValueChange={(itemValue) => {
                                             onChange(itemValue);
                                         }}
                                         variant="rounded"
-                                        height={SCREEN_WIDTH * .12}
-
+                                        height={SCREEN_WIDTH * .11}
                                         _selectedItem={{
                                             bg: "primary_white.50",
                                             endIcon: <CheckIcon size={4}/>

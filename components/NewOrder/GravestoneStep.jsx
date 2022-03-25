@@ -51,8 +51,11 @@ const GravestoneStep = ({ navigation }) => {
 
 
 	const handleConfirmation = (picture) => {
+		if (!address_){
+			return false
+		}
 		const addressState = address_;
-		const addressSplitted = errorMsg ? "" :  addressState.split(",");
+		const addressSplitted = errorMsg ? "" : addressState ?  addressState.split(",") : "";
 		const address = errorMsg ? "" : addressSplitted[0] ? addressSplitted[0] : "";
 		const address2 = errorMsg ? "" : addressSplitted[1]? addressSplitted[1]: "";
 		const city = errorMsg ? "" : addressSplitted[2] ? addressSplitted[2]: "";

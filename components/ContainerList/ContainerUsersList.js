@@ -1,7 +1,6 @@
 import React from "react";
-import {ActivityIndicator, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Image, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {roleType, textSizeRender} from "~/utils/utils";
-import {Image} from "native-base";
 import moment from "moment";
 import {Feather} from "@expo/vector-icons";
 import screens from "~/constants/screens";
@@ -18,51 +17,84 @@ const ContainerUsersList = ({data = [], loading = false, action = null}) => {
             }}
             key={index} style={styles.containerRender}>
             <View style={styles.rowUser}>
-                <View style={styles.containerUser}>
-                    {item.photoURL && rgx.url.test(item.photoURL) ?
-                        <Image
-                            alt="IMG"
-                            size={8} mr={2} resizeMode={"contain"} borderRadius={100}
-                            source={{
-                                uri: item.photoURL
-                            }}/>
-                        :
+                <View style={[styles.containerUser,{flex:1.1}]}>
+                    <View style={{flex: 0, alignItems: 'center'}}>
                         <View style={{
-                            marginRight: 5,
-                            width: 40,
-                            justifyContent: 'center',
-                            backgroundColor: "#C4C4C4",
-                            borderRadius: 100,
-                            padding: 10
+                            height:51,
+                            width:51,
+                            justifyContent:'center',
+                            alignItems:'center',
+                            borderColor: "#ffffff",
+                            borderWidth: 1,
+                            borderRadius: 50,
+                            backgroundColor: 'white',
+                            shadowColor: "#000",
+                            shadowOffset: {
+                                width: 0, height: 4,
+                            },
+                            shadowOpacity: 0.30,
+                            shadowRadius: 2.65,
+                            elevation: 8,
                         }}>
-                            <Image
-                                alt="IMG"
-                                size={5} resizeMode={"contain"}
-                                source={require("../../assets/image.png")}/>
+                            {item.photoURL && rgx.url.test(item.photoURL) ?
+                                <Image
+                                    style={{
+                                        justifyContent:'center',
+                                        alignItems:'center',
+                                        height:48,
+                                        width:48,
+                                    }}
+                                    resizeMode={"cover"}
+                                    borderRadius={100}
+                                    source={{
+                                        uri: item.photoURL
+                                    }}/>
+                                :
+                                <View style={{
+                                    height:51,
+                                    width:51,
+                                    justifyContent: 'center',
+                                    backgroundColor: "#C4C4C4",
+                                    borderRadius: 100,
+                                    padding: 4
+                                }}>
+                                    <Image
+                                        style={{
+                                            justifyContent:'center',
+                                            alignSelf:'center',
+                                            height:40,
+                                            width:40,
+                                        }}
+                                        resizeMode={"cover"}
+                                        borderRadius={100}
+                                        source={require("../../assets/image.png")}/>
+                                </View>
+                            }
                         </View>
-                    }
-                    <Text style={styles.textName}>
+                    </View>
+                    <Text style={[styles.textName,{flex:1,marginLeft:5}]}>
                         {item.firstName && item.firstName.length > 10 ? item.firstName.substr(0, 8) + "...\n" : item.firstName + "\n"}
                         {item.lastName && item.lastName.length > 10 ? item.lastName.substr(0, 8) + "..." : item.lastName}
                     </Text>
                 </View>
-                <View style={[styles.containerUser, {justifyContent: "center"}]}>
+                <View style={[styles.containerUser, {justifyContent: "center",flex:.7}]}>
                     <Text style={styles.textDate}>
                         {item.createdAt ?
                             moment(item.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
                             :
-                            item.timestamp && moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')}
+                            item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                            : "    No date    "
+                        }
                     </Text>
                 </View>
-                <View style={[styles.containerUser, {justifyContent: "center"}]}>
+                <View style={[styles.containerUser, {justifyContent: "center",flex:.8}]}>
                     <View style={styles.containerRol}>
                         <Text style={styles.textRol}>
                             {roleType(item.role)}
                         </Text>
                     </View>
-
                 </View>
-                <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{flex: .5, flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{flex: 1, alignItems: 'center'}}>
                         <Text style={styles.textName}>
                             {item.orders && item.orders.length}
@@ -100,7 +132,6 @@ const styles = StyleSheet.create({
     containerUser: {
         flexDirection: 'row',
         alignItems: 'center',
-        flex: 1.5,
         margin: 1,
     },
     textName: {
@@ -130,11 +161,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 5,
         borderRadius: 10,
-        backgroundColor: 'black'
+        backgroundColor: '#F04747'
     },
     textRol: {
         color: 'white',
-        fontSize: textSizeRender(3),
+        fontSize: textSizeRender(2.5),
         fontFamily: 'Roboto_400Regular'
     },
     rowUser: {

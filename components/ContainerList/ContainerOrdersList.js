@@ -85,7 +85,7 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                             shadowRadius: 2.65,
                             elevation: 8,
                         }}>
-                            {item.card ?
+                            {!item.card ?
                                 <Image
                                     style={{
                                         justifyContent:'center',
@@ -100,14 +100,22 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                                     }}/>
                                 :
                                 <View style={{
-                                    width: 38,
+                                    height:51,
+                                    width:51,
                                     justifyContent: 'center',
                                     backgroundColor: "#C4C4C4",
                                     borderRadius: 100,
                                     padding: 4
                                 }}>
                                     <Image
-                                        size={8} resizeMode={"contain"}
+                                        style={{
+                                            justifyContent:'center',
+                                            alignSelf:'center',
+                                            height:40,
+                                            width:40,
+                                        }}
+                                        resizeMode={"cover"}
+                                        borderRadius={100}
                                         source={require("../../assets/image.png")}/>
                                 </View>
                             }

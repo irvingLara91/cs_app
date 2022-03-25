@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {TouchableOpacity, Text, View} from "react-native";
+import {TouchableOpacity, Text, View, TextInput} from "react-native";
 import {Controller, useForm} from "react-hook-form";
 import {
     Center,
@@ -19,14 +19,18 @@ import * as mime from "react-native-mime-types";
 import authService from "~/services/auth";
 import Loading from "~/components/Loading/Loading";
 import CustomModal from "~/components/Modals/CustomModal";
+import {LinearGradient} from "expo-linear-gradient";
+import styles from "~/components/Register/styles";
 
 const defaultValues = {
     select: 3,
     input: ""
 };
 const FormCreateUser = (props) => {
+    const {textInput} = styles;
+
     const [loading, setLoading] = useState(false)
-    const {control,register,reset, handleSubmit, formState: {errors}} = useForm();
+    const {control, register, reset, handleSubmit, formState: {errors}} = useForm();
     const [image, setImage] = useState(null)
     const [imageError, setImageError] = useState(false)
 
@@ -40,9 +44,9 @@ const FormCreateUser = (props) => {
      * **/
 
 
-    const resetData=()=>{
+    const resetData = () => {
         setImage(null)
-        reset({ defaultValues })
+        reset({defaultValues})
     }
 
 
@@ -59,7 +63,7 @@ const FormCreateUser = (props) => {
                 setCustomModalVisible(true)
                 setCustomModal({isError: false, message: result.message})
                 setLoading(false)
-               await resetData();
+                await resetData();
             } else if (result.error) {
                 setCustomModalVisible(true)
                 setCustomModal({isError: true, message: result.message})
@@ -73,32 +77,31 @@ const FormCreateUser = (props) => {
         }
     };
 
-
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
             <TouchableOpacity
                 onPress={handleSubmit(onSubmit)}
                 style={{
-                    width: "45%",
-                    flexDirection: 'row',
+                    width: "50%",
+                    height: SCREEN_WIDTH * .09,
+                }}>
+                <LinearGradient colors={["#555555", "#171717"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
                     marginRight: 2,
                     alignItems: 'center',
-                    backgroundColor: 'black',
                     padding: 10,
-                    borderRadius: 20
+                    borderRadius: 17
                 }}>
-                <View style={{flex: 1}}>
                     <Text style={{
-                        color: 'white',
                         textAlign: 'center',
-                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.5)
+                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
                     }}>Save user</Text>
-                </View>
-
+                </LinearGradient>
             </TouchableOpacity>
         </View>
     </View>)
-
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -115,7 +118,6 @@ const FormCreateUser = (props) => {
                 {format: result.type.split('/').pop(), base64: false});
             setImage(result);
             setImageError(false)
-            /// updateImageProfile(resizedImage)
         }
     };
 
@@ -141,10 +143,8 @@ const FormCreateUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <Input
-                                        height={SCREEN_WIDTH * .12}
-                                        backgroundColor='primary_white.50'
-                                        pl={5}
+                                    <TextInput
+                                        style={textInput}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -170,10 +170,8 @@ const FormCreateUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <Input
-                                        height={SCREEN_WIDTH * .12}
-                                        backgroundColor='primary_white.50'
-                                        pl={5}
+                                    <TextInput
+                                        style={textInput}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -199,10 +197,8 @@ const FormCreateUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <Input
-                                        height={SCREEN_WIDTH * .12}
-                                        backgroundColor='primary_white.50'
-                                        pl={5}
+                                    <TextInput
+                                        style={textInput}
                                         autoCapitalize='none'
                                         variant="rounded"
                                         onBlur={onBlur}
@@ -237,10 +233,8 @@ const FormCreateUser = (props) => {
                             <Controller
                                 control={control}
                                 render={({field: {onChange, onBlur, value}}) => (
-                                    <Input
-                                        height={SCREEN_WIDTH * .12}
-                                        backgroundColor='primary_white.50'
-                                        pl={5}
+                                    <TextInput
+                                        style={textInput}
                                         variant="rounded"
                                         onBlur={onBlur}
                                         onChangeText={(text) => onChange(text)}
@@ -249,33 +243,48 @@ const FormCreateUser = (props) => {
                                     />
                                 )}
                                 name="phoneNumber"
-                                rules={{required: "Field is required", minLength: 3,maxLength:12}}
+                                rules={{required: "Field is required", minLength: 3, maxLength: 12}}
                                 defaultValue=""
                             />
                             <FormControl.ErrorMessage>
                                 {errors?.phoneNumber?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <FormControl mb={3} isInvalid={"role" in errors}>
-                            <FormControl.Label
-                                _text={{
-                                    color: "primary_black.900",
-                                    fontFamily: "Roboto_700Bold",
-                                    fontSize: textSizeRender(4),
-                                }}>Assign role</FormControl.Label>
+
+                        <View style={{
+                            backgroundColor: '#F4F4F4',
+                            marginBottom: 10
+                        }}>
+                            <Text style={{
+                                color: "primary_black.900",
+                                fontFamily: "Roboto_700Bold",
+                                fontSize: textSizeRender(4)
+                            }}>Assign role</Text>
+                        </View>
+                        <FormControl
+                            style={{
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0, height: 4,
+                                },
+                                shadowOpacity: 0.30,
+                                shadowRadius: 2.65,
+                                elevation: 8,
+                            }}
+                            mb={3} isInvalid={"role" in errors}>
                             <Controller
                                 control={control}
                                 render={({field: {onChange, value}}) => (
                                     <Select
                                         bg={"primary_white.50"}
-                                        pl={5}
+                                        borderRadius={8}
+                                        borderColor='#C4C4C4'
+                                        borderWidth={.5}
                                         selectedValue={value}
                                         onValueChange={(itemValue) => {
                                             onChange(itemValue);
                                         }}
-                                        variant="rounded"
-                                        height={SCREEN_WIDTH * .12}
-
+                                        height={SCREEN_WIDTH * .11}
                                         _selectedItem={{
                                             bg: "primary_white.50",
                                             endIcon: <CheckIcon size={4}/>
@@ -304,25 +313,27 @@ const FormCreateUser = (props) => {
 
                         <View style={{
                             marginTop: 10,
-                            borderRadius: 5,
+                            borderRadius: 15,
                             borderWidth: 1,
-                            borderColor: 'black',
+                            borderColor: '#7A7A7A',
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: 'white',
-                            height: SCREEN_WIDTH / 2.1
+                            height: SCREEN_WIDTH / 2.8
                         }}>
 
                             <View style={{flex: 0, width: '100%'}}>
                                 <View style={{
                                     flexDirection: 'row',
-                                    orderBottomColor: 'black', borderBottomWidth: 1,
-                                    alignItems: 'center', paddingVertical: 10, paddingHorizontal: 20
+                                    borderColor: "#7A7A7A",
+                                    borderBottomWidth: 1,
+                                    alignItems: 'center', paddingVertical: 10,
+                                    paddingHorizontal: 20
                                 }}>
                                     <View style={{flex: 1}}>
                                         <Text
                                             style={{
-                                                fontFamily: "Roboto_700Bold", fontSize: textSizeRender(3),
+                                                fontFamily: "Roboto_700Bold", fontSize: textSizeRender(3.5),
                                             }}
                                         >Photo profile</Text>
                                     </View>
@@ -343,24 +354,49 @@ const FormCreateUser = (props) => {
                                 </View>
                             </View>
                             <View style={{flex: 1, justifyContent: 'center'}}>
-
                                 {
                                     image ?
-                                        <Center>
-                                            <Image alt="image" size="lg" resizeMode={"cover"} borderRadius={100}
-                                                   source={{
-                                                       uri: image.uri
-                                                   }}/>
-                                        </Center>
+                                        <View style={{
+                                            height:SCREEN_WIDTH*.19,
+                                            width: SCREEN_WIDTH*.19,
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            borderColor: "#ffffff",
+                                            borderWidth: 1,
+                                            borderRadius: 50,
+                                            backgroundColor: 'white',
+                                            shadowColor: "#000",
+                                            shadowOffset: {
+                                                width: 0, height: 4,
+                                            },
+                                            shadowOpacity: 0.30,
+                                            shadowRadius: 2.65,
+                                            elevation: 8,
+                                        }}>
+                                            <Image
+                                                alt="image"
+                                                style={{
+                                                    justifyContent: 'center',
+                                                    alignItems: 'center',
+                                                    height: SCREEN_WIDTH*.18,
+                                                    width: SCREEN_WIDTH*.18,
+                                                }}
+                                                resizeMode={"cover"}
+                                                borderRadius={100}
+                                                source={{
+                                                    uri: image.uri
+                                                }}/>
+
+                                        </View>
                                         :
                                         <View style={{
                                             alignItems: 'center',
                                             justifyContent: 'center',
                                             backgroundColor: "#C4C4C4",
                                             borderRadius: 100,
-                                            padding: 6
+                                            padding: 5
                                         }}>
-                                            <Image alt="image" size="lg" resizeMode={"cover"} borderRadius={100}
+                                            <Image alt="image" size="sm" resizeMode={"cover"} borderRadius={50}
                                                    source={require("../../assets/image.png")}/>
                                         </View>
 
@@ -384,7 +420,8 @@ const FormCreateUser = (props) => {
             {
 
                 customModalVisible &&
-                <CustomModal visible={customModalVisible} setVisible={setCustomModalVisible} message={customModal.message} isError={customModal.isError}/>
+                <CustomModal visible={customModalVisible} setVisible={setCustomModalVisible}
+                             message={customModal.message} isError={customModal.isError}/>
             }
 
         </ContainerAdmin>
