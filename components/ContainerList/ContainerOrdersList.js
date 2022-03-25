@@ -8,6 +8,8 @@ import screens from "~/constants/screens";
 
 const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
     const navigation = useNavigation()
+
+    console.log(data)
     const renderItem = (item, index) => (
         <TouchableOpacity
             onPress={() => {
@@ -61,7 +63,8 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                             style={{
                                 fontFamily: 'Roboto_700Bold',
                                 color: 'white', fontSize: textSizeRender(2.6)
-                            }}>{statusCode(item.statusCode)}</Text>
+                            }}>{statusCode(item.statusCode)}
+                        </Text>
                     </View>
 
                 </View>
@@ -85,7 +88,7 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                             shadowRadius: 2.65,
                             elevation: 8,
                         }}>
-                            {!item.card ?
+                            {item?.client?.photoURL?
                                 <Image
                                     style={{
                                         justifyContent:'center',
@@ -96,7 +99,7 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                                     resizeMode={"cover"}
                                     borderRadius={100}
                                     source={{
-                                        uri: item.card
+                                        uri: item?.client?.photoURL
                                     }}/>
                                 :
                                 <View style={{
