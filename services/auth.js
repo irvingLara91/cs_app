@@ -34,6 +34,7 @@ const createUser = ({
         role,
         createdAt: new Date(),
         orders: [],
+        userId
       };
       return await userService.createUserDoc(userId, data,isRegister);
     })

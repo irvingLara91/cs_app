@@ -5,6 +5,8 @@ import {SCREEN_WIDTH, statusCode, textSizeRender} from "~/utils/utils";
 import {AntDesign, Feather} from "@expo/vector-icons";
 import moment from "moment";
 import {LinearGradient} from "expo-linear-gradient";
+import {useConfirmationContext} from "~/context/Confirmation";
+import ordersService from "~/services/orders";
 
 const TitleComponent = (props) => {
     return (
@@ -31,6 +33,19 @@ const TitleComponent = (props) => {
 const array = [{id: 1, numberOrder: "1223", date: new Date(), status: 5}];
 const ContainOrdersAssignedList = ({data = null, orders = [], ...props}) => {
     const [user, setUser] = useState(data)
+    const confirm = useConfirmationContext();
+    const handleDelete = (orderId) => {
+        confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
+            .then(async() => {
+                const deleteResult = await ordersService.deleteOrder(orderId)
+                if (deleteResult.success) {
+                    props.removeOrder(orderId)
+                }
+            })
+            .catch((error) => {
+                return console.log(error);
+            })
+    }
 
 
     const renderItem = (item, index) => (<View key={index} style={styles.containerCard}>
@@ -53,7 +68,11 @@ const ContainOrdersAssignedList = ({data = null, orders = [], ...props}) => {
                         </View>
 
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={()=>{
+                        handleDelete(item.orderId)
+                    }}
+                    >
                         <Feather name="trash-2" size={textSizeRender(5)} color="black"/>
                     </TouchableOpacity>
                 </View>

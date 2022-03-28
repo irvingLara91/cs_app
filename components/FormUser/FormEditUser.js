@@ -12,6 +12,11 @@ import ContainOrdersAssignedList from "~/components/ContainerList/ContainOrdersA
 import ordersService from "~/services/orders";
 import {LinearGradient} from "expo-linear-gradient";
 import styles from "~/components/Register/styles";
+import userService from "~/services/user";
+import Loading from "~/components/Loading/Loading";
+import {useConfirmationContext} from "~/context/Confirmation";
+import {useNavigation} from "@react-navigation/native";
+import CustomModal from "~/components/Modals/CustomModal";
 
 
 const ImgDefault = () => {
@@ -32,12 +37,28 @@ const ImgDefault = () => {
 
 
 const FormEditUser = (props) => {
+    const confirm = useConfirmationContext();
+    const navigation = useNavigation();
+
+
     const {textInput} = styles;
-    const {control, setValue, handleSubmit, formState: {errors}} = useForm();
+    const {control,getValues, setValue, handleSubmit, formState: {errors}} = useForm();
     const [image, setImage] = useState(null)
+    const [imageUpdate, setImageUpdate] = useState(null)
+    const [ordersUpdate, setOrdersUpdate] = useState([])
     const [orders, setOrders] = useState([])
     const [imageError, setImageError] = useState(false)
+    const [loading, setLoading] = useState(false)
 
+    /***
+     * States de CustomModal
+     * **/
+    const [visible, setVisible] = useState(false)
+    const [isError, setIsError] = useState(false)
+    const [message, setMessage] = useState("")
+    /***
+     * End States de CustomModal
+     * **/
 
     const getOrders = async (array) => {
         ordersService.getOrdersAssigned(array).then(response=>{
@@ -47,6 +68,14 @@ const FormEditUser = (props) => {
             setOrders([])
         });
     };
+
+    const removeOrder=(orderId)=>{
+        const newOrders = orders.filter((order) => order.orderId !== orderId);
+        let  orderIndex = ordersUpdate.indexOf(orderId);
+        ordersUpdate.splice(orderIndex, 1);
+        setOrders(newOrders)
+        setOrdersUpdate(ordersUpdate)
+    }
 
     useEffect(() => {
         if (props.user) {
@@ -59,12 +88,12 @@ const FormEditUser = (props) => {
         setValue("firstName", user.firstName);
         setValue("lastName", user.lastName);
         setValue("email", user.email);
-        setValue("phone", user.phoneNumber);
+        setValue("phoneNumber", user.phoneNumber);
         setValue("role", user.role);
-        setImage(user.photoURL)
+        setImage(user.photoURL.trim() ? user.photoURL : null)
+        setOrdersUpdate(user.orders && user.orders.length > 0 ? user.orders : [])
         getOrders(user.orders && user.orders.length > 0 ? user.orders : [])
     }
-
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -80,19 +109,83 @@ const FormEditUser = (props) => {
                 result.uri, [{resize: {width: result.width / 2, height: result.height / 2}}],
                 {format: result.type.split('/').pop(), base64: false});
             setImage(result.uri);
+            setImageUpdate(result.uri)
             setImageError(false)
         }
     };
 
-    const onSubmit = (data) => {
-        if (image == null) {
+    const handlePhotoURL = async (photoURL, userId = "") => {
+        if (imageUpdate) {
+            if (photoURL !== "" && photoURL.match(userId)) {
+                return await userService.updateUserPhoto(userId, photoURL)
+            } else {
+                return await userService.uploadUserPhoto(userId, imageUpdate)
+            }
+        } else return photoURL;
+    }
+
+    const handleDeleteUser = (userId) => {
+        confirm({description: `You are about to delete user: ${getValues("firstName")} ${getValues("lastName")}`, title: "This action can not be undone"})
+            .then(async() => {
+                const deleteResult = await userService.deleteUser(userId)
+                if (deleteResult.success) {
+                    navigation.goBack()
+                }
+            })
+            .catch((error) => {
+                return console.log(error);
+            })
+    }
+
+    const onSubmit = async (data) => {
+        if (image == null && imageUpdate === null){
             setImageError(true)
             return
-        } else {
-            setImageError(false)
         }
+        setImageError(false)
+        setLoading(true)
+        const { email,role, firstName, lastName, phoneNumber} = data;
+        const newData = {
+            address: {
+                address:props.user.address.address,
+                city:props.user.address.city,
+                zipCode:props.user.address.zipCode
+            },
+            orders:ordersUpdate,
+            email,
+            firstName,
+            lastName,
+            phoneNumber,
+            role,
+            photoURL: await handlePhotoURL(image, props.user.userId)
+        }
+         await userService.updateUser(props.user.userId, newData).then(res=>{
+            console.log(res)
+            if (res.success) {
+                setTimeout(() => {
+                    setLoading(false);
+                    setVisible(true)
+                    setIsError(false)
+                    setMessage("User updated successfully.")
+                }, 500);
+            } else {
+                setTimeout(() => {
+                    setLoading(false);
+                    setVisible(true)
+                    setIsError(true)
+                    setMessage("Error has occurred, please try again later.")
+                }, 500);
 
-        console.log("submiting with ", data, image);
+            }
+        }).catch(e=>{
+            console.log("Error:",e)
+             setTimeout(() => {
+                 setLoading(false);
+                 setVisible(true)
+                 setIsError(true)
+                 setMessage("Error has occurred, please try again later.")
+             }, 500);
+        });
 
     };
 
@@ -122,7 +215,9 @@ const FormEditUser = (props) => {
 
             <TouchableOpacity
                 onPress={()=>{
-                    alert("delete")
+                    if (props.user.userId){
+                        handleDeleteUser(props.user.userId)
+                    }
                 }}
                 style={{
                     marginLeft:5,
@@ -146,8 +241,6 @@ const FormEditUser = (props) => {
             </TouchableOpacity>
         </View>
     </View>)
-
-
 
     return (
         <ContainerAdmin title={"User"} icon={<Feather name="users" size={30} color={"black"}/>}
@@ -278,7 +371,7 @@ const FormEditUser = (props) => {
                                 {errors?.email?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
-                        <FormControl mb={3} isInvalid={"phone" in errors}>
+                        <FormControl mb={3} isInvalid={"phoneNumber" in errors}>
                             <FormControl.Label
                                 _text={{
                                     color: "primary_black.900",
@@ -298,12 +391,12 @@ const FormEditUser = (props) => {
                                         keyboardType={"phone-pad"}
                                     />
                                 )}
-                                name="phone"
+                                name="phoneNumber"
                                 rules={{required: "Field is required", minLength: 3}}
                                 defaultValue=""
                             />
                             <FormControl.ErrorMessage>
-                                {errors?.phone?.message}
+                                {errors?.phoneNumber?.message}
                             </FormControl.ErrorMessage>
                         </FormControl>
                         <View style={{
@@ -368,8 +461,22 @@ const FormEditUser = (props) => {
                     </Stack>
                 </Center>
                 <Divider mb={5} bg={"primary_black.900"}/>
-                <ContainOrdersAssignedList user={props.user && props.user} orders={orders ? orders: []}/>
+                <ContainOrdersAssignedList
+                    removeOrder={(orderId) => {
+                        removeOrder(orderId)
+                    }}
+                    user={props.user && props.user} orders={orders ? orders: []}/>
             </View>
+            {
+                loading &&
+                <Loading loading={loading} text={"Update..."} color={"white"}/>
+            }
+            {
+
+                visible &&
+                <CustomModal visible={visible} setVisible={setVisible}
+                             message={message} isError={isError}/>
+            }
         </ContainerAdmin>
 
     )

@@ -101,7 +101,12 @@ const UsersScreen = (props) => {
                 marginBottom: SCREEN_WIDTH / 3.5
             }}>
 
-                <ContainerUsersList data={users} loading={loading}/>
+                <ContainerUsersList
+                    removeUser={(userId) => {
+                        const newUsers = users.filter((user) => user.userId !== userId);
+                        setUsers(newUsers)
+                    }}
+                    data={users} loading={loading}/>
 
             </View>
             {

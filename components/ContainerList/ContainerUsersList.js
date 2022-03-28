@@ -6,9 +6,24 @@ import {Feather} from "@expo/vector-icons";
 import screens from "~/constants/screens";
 import {useNavigation} from "@react-navigation/native";
 import {rgx} from "~/utils/utils";
+import {useConfirmationContext} from "~/context/Confirmation";
+import userService from "~/services/user"
 
-const ContainerUsersList = ({data = [], loading = false, action = null}) => {
+const ContainerUsersList = ({data = [], loading = false, action = null,...props}) => {
     const navigation = useNavigation();
+    const confirm = useConfirmationContext();
+    const handleDelete = (user) => {
+        confirm({description: `You are about to delete user: ${user.firstName} ${user.lastName}`, title: "This action can not be undone"})
+            .then(async() => {
+                const deleteResult = await userService.deleteUser(user.userId)
+                if (deleteResult.success) {
+                    props.removeUser(user.userId)
+                }
+            })
+            .catch((error) => {
+                return console.log(error);
+            })
+    }
 
     const renderItem = (item, index) => (
         <TouchableOpacity
@@ -102,6 +117,9 @@ const ContainerUsersList = ({data = [], loading = false, action = null}) => {
                     </View>
                     <View style={{flex: 0, alignItems: 'center'}}>
                         <TouchableOpacity onPress={() => {
+                            if (item.userId){
+                                handleDelete(item)
+                            }
                         }}>
                             <Feather name="trash-2" size={24} color="black"/>
                         </TouchableOpacity>
