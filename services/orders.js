@@ -22,13 +22,16 @@ const getOrder = async (orderId) => {
 };
 
 const getOrdersAssigned = async (ordersIds = []) => {
-  const assigned = [];
-  const all = await getAllOrders();
+  let assigned = [];
+  let   all = await getAllOrders();
   all.forEach((order) => {
     const { orderId } = order;
     if (ordersIds.includes(orderId)) {
       assigned.push(order);
     }
+  });
+  assigned =  assigned.sort(function(a,b) {
+    return new Date(b.createdAt.seconds) - new Date(a.createdAt.seconds);
   });
   return assigned;
 };

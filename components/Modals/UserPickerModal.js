@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {View, Modal, Text, StyleSheet, TouchableOpacity} from "react-native";
+import {View, Modal, Text,Image, StyleSheet, TouchableOpacity} from "react-native";
 import {SCREEN_HEIGHT, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import {AntDesign} from "@expo/vector-icons";
-import {Image, ScrollView} from "native-base";
+import { ScrollView} from "native-base";
 
 const UserPickerModal = ({
                              visible,
@@ -64,22 +64,29 @@ const UserPickerModal = ({
                                             >
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
-                                                    borderWidth: 1, borderColor: selected  ?  selected.id === opt.id ? "red": 'black': 'black' , borderRadius: 10,
+                                                    borderWidth: 1, borderColor: selected  ?  selected.userId === opt.userId ? "red": 'black': 'black' , borderRadius: 10,
                                                     padding: 10,
                                                 }}>
                                                     <View style={{flex:0}}>
-                                                        {opt.photoURL ?
+                                                        { opt && opt.photoURL.trim() ?
                                                             <Image
-                                                                alt="user"
+                                                                style={{
+                                                                    height:SCREEN_WIDTH *.15,
+                                                                    width:SCREEN_WIDTH *.15
+                                                                }}
                                                                 borderRadius={100}
-                                                                size={8} resizeMode={"cover"}
+                                                                 resizeMode={"cover"}
                                                                 source={{
                                                                     uri: opt.photoURL
                                                                 }}/>
                                                             :
                                                             <Image
-                                                                alt="user"
-                                                                size={8} resizeMode={"contain"}
+                                                                style={{
+                                                                    height:SCREEN_WIDTH *.15,
+                                                                    width:SCREEN_WIDTH *.15
+                                                                }}
+                                                                borderRadius={100}
+                                                                resizeMode={"cover"}
                                                                 source={require("../../assets/image.png")}/>
                                                         }
                                                     </View>
@@ -88,7 +95,7 @@ const UserPickerModal = ({
                                                     <Text style={{fontFamily:"Roboto_500Medium",fontSize: textSizeRender(3)}}>{opt.lastName}</Text>
                                                     </View>
                                                     {
-                                                        selected  ?  selected.id === opt.id ?
+                                                        selected  ?  selected.userId === opt.userId ?
                                                             <View style={{flex:.4,alignItems: 'flex-end'}}>
                                                                 <AntDesign name="check" size={24} color="black" />
                                                             </View>

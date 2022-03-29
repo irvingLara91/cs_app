@@ -9,12 +9,14 @@ import ordersService from "~/services/orders";
 import {useAuthUserContext} from "~/context/authUser";
 import TotalOrdersComponent from "~/components/TotalOrdersComponent/TotalOrdersComponent";
 import {LinearGradient} from "expo-linear-gradient";
+import {useIsFocused} from "@react-navigation/native";
 
 const OrdersScreen = (props) => {
     const {user} = useAuthUserContext();
+    const isFocused = useIsFocused();
+
     const [orders, setOrders] = useState([])
     const [ordersOrigin, setOrdersOrigin] = useState([])
-
 
     const getOrders = async () => {
         let result;
@@ -30,9 +32,12 @@ const OrdersScreen = (props) => {
         }
     }
 
+
     useEffect(async () => {
-        await getOrders();
-    }, [])
+        if (isFocused) {
+            await getOrders();
+        }
+    }, [isFocused])
 
     const [status, setStatus] = useState(null)
     const [short, setShort] = useState(null)

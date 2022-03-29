@@ -3,9 +3,11 @@ import ContainerAdmin from "~/components/common/ContainerAdmin";
 import DashboardAdmin from "~/components/DashboardAdmin/DashboardAdmin";
 import {useAuthUserContext} from "~/context/authUser";
 import ordersService from "~/services/orders";
+import {useIsFocused} from "@react-navigation/native";
 
 const DashboardScreen = (props) => {
     const {user} = useAuthUserContext()
+    const isFocused = useIsFocused();
     const [orders, setOrders] = useState([])
     const getOrders = async () => {
         let result;
@@ -21,9 +23,14 @@ const DashboardScreen = (props) => {
         }
     }
 
+
+
     useEffect(async () => {
-        await getOrders();
-    }, [])
+        if (isFocused) {
+            await getOrders();
+        }
+    }, [isFocused])
+
 
     return (
         <ContainerAdmin isDashboard={true} isList={true} callApi={getOrders} title={"Dashboard Cornerstone"}>

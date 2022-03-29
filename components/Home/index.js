@@ -16,6 +16,7 @@ import ContainerBase from "~/components/common/ContainerBase";
 import CarouselFull from "~/components/common/CarouselFull";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import CustomButton from "~/components/CustomButton/CustomButton";
+
 const ITEM_WIDTH = Math.round(SCREEN_WIDTH / 1.3);
 const ITEM_HEIGHT = Math.round(ITEM_WIDTH / 1.1);
 export default function Home({navigation, route}) {
@@ -69,6 +70,18 @@ export default function Home({navigation, route}) {
 
     if (user && user.isFirstTime) return <Welcome/>;
 
+    const limit = (array) => {
+        let orderArray = []
+        let max = 3
+        array.map((order, index) => {
+            if (index === max) {
+                return
+            }
+            orderArray.push(order)
+        });
+        return orderArray
+    }
+
     const data = [
         {
             img: "https://previews.123rf.com/images/quasargal/quasargal1507/quasargal150700847/42183591-monumentos-y-l%C3%A1pidas-en-el-cementerio-de-arlington-nacional-en-virginia-ee-uu-.jpg",
@@ -77,26 +90,26 @@ export default function Home({navigation, route}) {
         },
         {
             img: "https://previews.123rf.com/images/arinahabich/arinahabich1206/arinahabich120601603/14142672-endless-fila-di-lapidi-in-marmo-bianco-continua-collina-sopra-al-logan-fort-national-cemetery-a-denv.jpg",
-			title: "WELCOME \n" + "TO THE\nCORNERSTONE\nAPP",
+            title: "WELCOME \n" + "TO THE\nCORNERSTONE\nAPP",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },
         {
             img: "https://www.dignitymemorial.com/dfsmedia/042808e1630c49a48950d5077d6556eb/36387-50034/upright-monuments-collage",
-			title: "WELCOME \n" + "TO THE\nCORNERSTONE\nAPP",
+            title: "WELCOME \n" + "TO THE\nCORNERSTONE\nAPP",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },
     ];
 
     return (
-        <View style={{flex: 1, backgroundColor: 'white',marginTop:-ITEM_HEIGHT * .20}}>
+        <View style={{flex: 1, backgroundColor: 'white', marginTop: -ITEM_HEIGHT * .20}}>
             <View style={{flex: 1}}>
                 <Stack w="100%" top={ITEM_HEIGHT * .20}>
                     <CarouselFull
                         data={data}
                     />
                 </Stack>
-                <View style={{marginHorizontal:SCREEN_WIDTH*.09,paddingBottom:5}}>
-					<Text style={{fontSize:textSizeRender(6),fontFamily:"Roboto_700Bold"}}>Your orders</Text>
+                <View style={{marginHorizontal: SCREEN_WIDTH * .09, paddingBottom: 5}}>
+                    <Text style={{fontSize: textSizeRender(6), fontFamily: "Roboto_700Bold"}}>Your orders</Text>
                 </View>
                 <ScrollView
                     refreshControl={
@@ -109,19 +122,20 @@ export default function Home({navigation, route}) {
                 >
                     <Center>
                         {
-                            (Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders}/> : <NoOrders/>
+                            (Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={limit(orders)}/> :
+                                <NoOrders/>
                         }
                     </Center>
                 </ScrollView>
             </View>
-            <View style={{flex: 0, paddingVertical:Platform.OS==="ios"?22:15}}>
+            <View style={{flex: 0, paddingVertical: Platform.OS === "ios" ? 22 : 15}}>
                 <Center>
                     <Box w="full" maxW="300">
-                        <CustomButton  onPress={() => navigate({name: screens.NEW_ORDER})}
-                                       title={"New Order"}
-                                       textColor={"#fff"}
-                                       gradient={["#555555", "#171717"]}
-                                       borderRadius={10}/>
+                        <CustomButton onPress={() => navigate({name: screens.NEW_ORDER})}
+                                      title={"New Order"}
+                                      textColor={"#fff"}
+                                      gradient={["#555555", "#171717"]}
+                                      borderRadius={10}/>
                     </Box>
                 </Center>
 

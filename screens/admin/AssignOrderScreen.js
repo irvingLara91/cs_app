@@ -10,8 +10,11 @@ import AssignOrderTo from "~/components/AssignOrder/AssignOrderTo";
 import CustomerData from "~/components/AssignOrder/CustomerData";
 import OrderInfo from "~/components/AssignOrder/OrderInfo";
 import Screens from "~/constants/screens";
-import {useRoute} from "@react-navigation/native";
+import {useNavigation, useRoute} from "@react-navigation/native";
 import {LinearGradient} from "expo-linear-gradient";
+import {useConfirmationContext} from "~/context/Confirmation";
+import ordersService from "~/services/orders";
+import userService from "~/services/user";
 
 const users_fake = [
     {
@@ -41,12 +44,45 @@ const users_fake = [
 ]
 const AssignOrderScreen = (props) => {
     const {order} = useRoute().params ?? {};
-
-
-
+    const confirm = useConfirmationContext();
+    const navigation = useNavigation();
     const {user} = useAuthUserContext()
     const [visibleUserPicker, setVisibleUserPicker] = useState(false)
     const [selected, setSelected] = useState(order  ? order.client ? order.client :{}: {})
+    const [users, setUsers] = useState([])
+
+    useEffect(()=>{
+
+        console.log(selected)
+
+    },[selected])
+
+    const getUserDocs = () => {
+        try {
+            userService.getUsers().then(docs => {
+                setUsers(docs)
+            });
+        } catch (e) {
+            setUsers([])
+        }
+    };
+    useEffect(()=>{
+        getUserDocs()
+    },[])
+
+
+    const handleDelete = (orderId) => {
+        confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
+            .then(async() => {
+                const deleteResult = await ordersService.deleteOrder(orderId)
+                if (deleteResult.success) {
+                    navigation.goBack();
+                }
+            })
+            .catch((error) => {
+                return console.log(error);
+            })
+    }
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
@@ -76,6 +112,9 @@ const AssignOrderScreen = (props) => {
                 user.userDoc.role === 2 &&
                 <TouchableOpacity
                     onPress={()=>{
+                        if (order && order.orderId){
+                            handleDelete(order.orderId)
+                        }
                     }}
                     style={{
                         marginLeft:4,
@@ -104,8 +143,6 @@ const AssignOrderScreen = (props) => {
 
         </View>
     </View>)
-
-
 
 
     return (
@@ -151,7 +188,7 @@ const AssignOrderScreen = (props) => {
                 {
                     visibleUserPicker &&
                     <UserPickerModal visible={visibleUserPicker}
-                                     options={users_fake}
+                                     options={users}
                                      selected={selected}
                                      setSelected={setSelected}
                                      setVisible={setVisibleUserPicker}

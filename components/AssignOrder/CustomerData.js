@@ -1,7 +1,6 @@
 import React from "react";
-import {View, StyleSheet, Text, Dimensions} from "react-native";
+import {View, StyleSheet,Image, Text, Dimensions} from "react-native";
 import {textSizeRender} from "~/utils/utils";
-import {Image} from "native-base";
 
 const CustomerData = ({user=null,props}) => {
 
@@ -14,22 +13,33 @@ const CustomerData = ({user=null,props}) => {
                 <View style={styles.inputImage}>
                     {user && user.photoURL?
                         <Image
-                            alt="User list"
-                            size={8} mr={2} resizeMode={"cover"} borderRadius={100}
+                            style={{
+                                marginRight:10,
+                                height:30,
+                                width:30,
+                            }}
+                             resizeMode={"cover"} borderRadius={100}
                             source={{
                                 uri: user.photoURL
                             }}/>
                         :
                         <View style={{
                             marginRight: 5,
-                            alignItems: "center",
+                            alignSelf: "center",
                             backgroundColor: "#C4C4C4",
-                            borderRadius: 100,
-                            padding:8
+                            borderRadius: 50,
+                            height:30,
+                            width:30,
+                            justifyContent: 'center',
+                            padding:4
                         }}>
                             <Image
-                                alt="User list"
-                                size={5} resizeMode={"contain"}
+                                style={{
+                                    marginRight:10,
+                                    height:20,
+                                    width:20,
+                                }}
+                                resizeMode={"cover"} borderRadius={50}
                                 source={require("../../assets/image.png")}/>
                         </View>
                     }
