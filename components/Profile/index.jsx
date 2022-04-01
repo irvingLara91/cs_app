@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
-import {ScrollView,View} from "react-native";
-import {Stack, Box, Image, Center, Divider, Text, IconButton, Icon} from "native-base";
+import {ScrollView, View, Image} from "react-native";
+import {Stack, Box, Center, Divider, Text, IconButton, Icon} from "native-base";
 import Form from "./Form";
 import gravestoneMedia from "~/assets/gravestone-media.png";
 import ContainerBaseV2 from "~/components/common/ContainerBaseV2";
@@ -18,41 +18,41 @@ import {LinearGradient} from "expo-linear-gradient";
 
 const ButtonImage = (props) => {
     return (
-            <IconButton
-                bg={"primary_white.50"}
-                w={"40px"}
-                top={"0px"}
-                left={"70px"}
-                position={"absolute"}
-                icon={<Icon as={MaterialCommunityIcons} name="pencil"/>}
-                borderRadius="full"
-                onPress={() => {
-                    props.pickImage()
-                }}
-                _icon={{
-                    color: "primary_black.500",
-                    size: "sm",
-                }}
-                _hover={{
-                    bg: "primary_black.100",
-                }}
-                _pressed={{
-                    bg: "primary_black.100",
-                    _icon: {
-                        name: "pencil-outline",
-                    },
-                    _ios: {
-                        _icon: {
-                            size: "sm",
-                        },
-                    },
-                }}
-                _ios={{
+        <IconButton
+            bg={"primary_white.50"}
+            w={"40px"}
+            top={"0px"}
+            left={"70px"}
+            position={"absolute"}
+            icon={<Icon as={MaterialCommunityIcons} name="pencil"/>}
+            borderRadius="full"
+            onPress={() => {
+                props.pickImage()
+            }}
+            _icon={{
+                color: "primary_black.500",
+                size: "sm",
+            }}
+            _hover={{
+                bg: "primary_black.100",
+            }}
+            _pressed={{
+                bg: "primary_black.100",
+                _icon: {
+                    name: "pencil-outline",
+                },
+                _ios: {
                     _icon: {
                         size: "sm",
                     },
-                }}
-            />
+                },
+            }}
+            _ios={{
+                _icon: {
+                    size: "sm",
+                },
+            }}
+        />
     )
 }
 const Profile = (props) => {
@@ -137,9 +137,10 @@ const Profile = (props) => {
             phoneNumber,
             orders,
             role,
-            photoURL: await handlePhotoURL(photoURL, user.uid ? user.uid :user.userId)
-        }  
-        const updateResult = await userService.updateUser(user.uid ? user.uid :user.userId, newData);
+            photoURL: await handlePhotoURL(photoURL, user.uid ? user.uid : user.userId)
+        }
+        console.log(newData)
+        const updateResult = await userService.updateUser(user.uid ? user.uid : user.userId, newData);
         if (updateResult.success) {
             setTimeout(() => {
                 setUserDoc(newData)
@@ -166,26 +167,41 @@ const Profile = (props) => {
             <ScrollView>
                 <Center mb={SCREEN_WIDTH * .5}>
                     <View>
-                        <LinearGradient colors={["#555555","#171717"]} style={{alignItems:'center',paddingVertical:20}}>
+                        <LinearGradient colors={["#555555", "#171717"]}
+                                        style={{alignItems: 'center', paddingVertical: 20}}>
                             {
                                 image ?
                                     <View>
-                                        <Image borderWidth={1} style={{borderColor:"white"}}  borderRadius={SCREEN_WIDTH } size={"lg"} source={{uri: image}}
-                                               alt="gravestone picture"/>
+                                        <Image
+                                            style={{
+                                                height: SCREEN_WIDTH * .25,
+                                                width: SCREEN_WIDTH * .25,
+                                                borderWidth: 1,
+                                                borderColor: "white"
+                                            }}
+                                            borderRadius={SCREEN_WIDTH} source={{uri: image}}/>
                                         <ButtonImage pickImage={pickImage}/>
                                     </View>
                                     :
-                                profile?.photoURL ?
-                                    <View>
-                                        <Image borderWidth={1} style={{borderColor:"white"}}  borderRadius={SCREEN_WIDTH } size={"lg"} source={{uri:profile.photoURL}}
-                                               alt="gravestone picture"/>
-                                        <ButtonImage pickImage={pickImage}/>
-                                    </View>
-                                    :
-                                    <Box bgColor="muted.300" pt="7" pb="7" pl="7" pr="7" borderRadius={100}>
-                                        <Image source={gravestoneMedia} alt="gravestone picture"/>
-                                        <ButtonImage pickImage={pickImage}/>
-                                    </Box>
+                                    profile?.photoURL ?
+                                        <View>
+                                            <Image
+                                                style={{
+                                                    height: SCREEN_WIDTH * .25,
+                                                    width: SCREEN_WIDTH * .25,
+                                                    borderWidth: 1,
+                                                    borderColor: "white"
+                                                }}
+                                                borderRadius={SCREEN_WIDTH}
+                                                source={{uri: profile.photoURL}}/>
+                                            <ButtonImage pickImage={pickImage}/>
+                                        </View>
+                                        :
+                                        <Box bgColor="muted.300" pt="7" pb="7" pl="7" pr="7" borderRadius={100}>
+                                            <Image
+                                                source={gravestoneMedia}/>
+                                            <ButtonImage pickImage={pickImage}/>
+                                        </Box>
 
                             }
                             <Text color={"white"} mt={5} fontSize={20}>
@@ -193,7 +209,7 @@ const Profile = (props) => {
                             </Text>
                         </LinearGradient>
                         <Divider mt="5" mb="5"/>
-                        <View style={{paddingHorizontal:SCREEN_WIDTH*.15}}>
+                        <View style={{paddingHorizontal: SCREEN_WIDTH * .15}}>
                             <Form
                                 setFirstName={setFirstName} setLastName={setLastName} profile={profile}
                                 onSubmit={handleSubmit}/>
@@ -207,8 +223,8 @@ const Profile = (props) => {
             }
 
             {
-            modalVisible &&
-            <CustomModal message={message} visible={modalVisible} setVisible={setModalVisible} isError={isError}/>
+                modalVisible &&
+                <CustomModal message={message} visible={modalVisible} setVisible={setModalVisible} isError={isError}/>
 
             }
         </ContainerBaseV2>

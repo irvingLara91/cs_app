@@ -8,11 +8,39 @@ import _ from "lodash";
 import ordersService from "~/services/orders";
 import {useAuthUserContext} from "~/context/authUser";
 import TotalOrdersComponent from "~/components/TotalOrdersComponent/TotalOrdersComponent";
+import {LinearGradient} from "expo-linear-gradient";
+import {useIsFocused} from "@react-navigation/native";
+import ApiApp from "~/api/ApiApp";
 
 const OrdersScreen = (props) => {
     const {user} = useAuthUserContext();
+    const isFocused = useIsFocused();
+
     const [orders, setOrders] = useState([])
     const [ordersOrigin, setOrdersOrigin] = useState([])
+
+    const getOrderAxios=()=>{
+        ApiApp.getOrders().then(response=>{
+            let result = [];
+            if (user.userDoc.role === 2){
+                console.log(response.data.data.length)
+                result=response.data.data
+            }else {
+                response.data.data.forEach((order) => {
+                    const { orderId } = order;
+                    if (user.userDoc.orders.includes(orderId)) {
+                        result.push(order);
+                    }
+                });
+            }
+
+            setOrders(result)
+
+        }).catch(e=>{
+            console.error("ERROR:::>",e)
+        })
+    }
+
 
 
     const getOrders = async () => {
@@ -29,9 +57,12 @@ const OrdersScreen = (props) => {
         }
     }
 
+
     useEffect(async () => {
-        await getOrders();
-    }, [])
+        if (isFocused) {
+            await getOrderAxios();
+        }
+    }, [isFocused])
 
     const [status, setStatus] = useState(null)
     const [short, setShort] = useState(null)
@@ -53,12 +84,13 @@ const OrdersScreen = (props) => {
     const filterSearch = async (text) => {
         try {
             if (text) {
-                var results = _.filter(ordersOrigin, function (item) {
-                    return item.client.firstName.indexOf(text) > -1;
+                let results =  _.filter(ordersOrigin, function (item) {
+                    return item.client.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1;
                 });
                 await setOrders(results)
             } else {
-                setOrders(ordersOrigin)
+
+               await setOrders(ordersOrigin)
             }
         } catch (error) {
             console.log(error)
@@ -66,48 +98,72 @@ const OrdersScreen = (props) => {
     }
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
-            <TouchableOpacity style={{
-                width: "40%",
-                flexDirection: 'row',
-                marginRight: 2,
-                alignItems: 'center',
-                backgroundColor: 'gray',
-                padding: 10,
-                borderRadius: 10
-            }}>
-                <View style={{flex: 1}}>
-                    <Text style={{fontSize: textSizeRender(2.5), color: 'white'}}>Short</Text>
-                </View>
-                <View style={{flex: 0}}>
-                    <MaterialIcons name="arrow-right" size={textSizeRender(4)} color="white"/>
-                </View>
+            <TouchableOpacity
+                onPress={() => {
+                }}
+                style={{
+                    width: "50%",
+                    height: SCREEN_WIDTH * .09,
+                }}>
+                <LinearGradient colors={["#858C93", "#5E6268"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
+                    marginRight: 2,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 10,
+                    borderRadius: 17
+                }}>
+                    <View style={{flex: 1}}>
+                        <Text style={{
+                            textAlign: 'center',
+                            fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
+                        }}>Short</Text>
+                    </View>
+                    <View style={{flex: 0}}>
+                        <MaterialIcons name="arrow-right" size={textSizeRender(4)} color="white"/>
+                    </View>
+                </LinearGradient>
             </TouchableOpacity>
+            <TouchableOpacity
+                onPress={() => {
+                }}
+                style={{
+                    marginLeft: 4,
+                    width: "50%",
+                    height: SCREEN_WIDTH * .09,
 
-            <TouchableOpacity style={{
-                width: "40%",
-                flexDirection: 'row',
-                marginLeft: 2,
-                alignItems: 'center',
-                backgroundColor: 'gray',
-                padding: 10,
-                borderRadius: 10
-            }}>
-                <View style={{flex: 1}}>
-                    <Text style={{fontSize: textSizeRender(2.5), color: 'white'}}>Status</Text>
-                </View>
-                <View style={{flex: 0}}>
-                    <MaterialIcons name="arrow-right" size={textSizeRender(4)} color="white"/>
-                </View>
+                }}>
+                <LinearGradient colors={["#555555", "#171717"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
+                    marginRight: 2,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    padding: 10,
+                    borderRadius: 17
+                }}>
+                    <View style={{flex: 1}}>
+                        <Text style={{
+                            textAlign: 'center',
+                            fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
+                        }}>Status</Text>
+                    </View>
+                    <View style={{flex: 0}}>
+                        <MaterialIcons name="arrow-right" size={textSizeRender(4)} color="white"/>
+                    </View>
+                </LinearGradient>
             </TouchableOpacity>
         </View>
     </View>)
-
 
     return (
         <ContainerAdmin
             isList={true}
             callApi={() => {
-                getOrders()
+                getOrderAxios()
             }}
             title={"Orders"}
             icon={<MaterialCommunityIcons name="clipboard-text-multiple" size={30} color={"black"}/>}
@@ -118,8 +174,8 @@ const OrdersScreen = (props) => {
                 borderRadius: 5
             }}>
                 <View style={{
-                    borderWidth:1,
-                    borderColor:'#BFBDBD',
+                    borderWidth: 1,
+                    borderColor: '#BFBDBD',
                     flexDirection: "row",
                     backgroundColor: 'white',
                     padding: 15,

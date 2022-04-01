@@ -9,11 +9,14 @@ import Screens from "~/constants/screens";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import userService from "~/services/user"
 import Loading from "~/components/Loading/Loading";
+import {LinearGradient} from "expo-linear-gradient";
+import ApiApp from "~/api/ApiApp";
+import _ from "lodash";
 
 
 const TitleComponent = (props) => {
     return (
-        <View style={{
+        <LinearGradient colors={["#555555","#171717"]} style={{
             marginHorizontal: SCREEN_WIDTH * .05,
             flexDirection: "row",
             backgroundColor: '#EAEAEA',
@@ -32,7 +35,7 @@ const TitleComponent = (props) => {
             <View style={{flex: .5}}>
                 <Text style={styles.titleComponent}>Order</Text>
             </View>
-        </View>
+        </LinearGradient>
     )
 }
 
@@ -45,10 +48,50 @@ const UsersScreen = (props) => {
 
     useEffect(async () => {
         if (isFocused) {
-            await getUserDocs();
+            await getUsers();
         }
     }, [isFocused])
 
+
+    const validateRole= (array) => {
+        let users_filter = [];
+        if ( array.length>0){
+               _.filter(array, function (user) {
+                   if (user.role !== 1){
+                       users_filter.push(user)
+                   }
+            });
+        };
+
+        return users_filter;
+    };
+
+
+    const getUsers=()=>{
+        setLoading(true)
+        ApiApp.getUsers().then(respose=>{
+            if (respose.data.success){
+                setTimeout(() => {
+                    setUsers(validateRole(respose.data.data))
+                    setLoading(false)
+                }, 500);
+
+            }else {
+                setUsers([])
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
+            }
+           /// setUsers(respose)
+        }).catch(e=>{
+            setTimeout(() => {
+                setLoading(false)
+            }, 500);
+            console.log("Error:",e)
+        })
+    }
+
+/*
     const getUserDocs = () => {
         setLoading(true)
         try {
@@ -62,38 +105,37 @@ const UsersScreen = (props) => {
             setLoading(false)
         }
     };
+*/
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
             <TouchableOpacity
-
                 onPress={() => {
                     navigation.navigate(Screens.CREATE_USER)
                 }}
-
                 style={{
-                    width: "45%",
-                    flexDirection: 'row',
-                    marginRight: 2,
-                    alignItems: 'center',
-                    backgroundColor: 'white',
-                    padding: 10,
-                    borderRadius: 10
+                    width: "50%",
+                    height: SCREEN_WIDTH*.09,
                 }}>
-                <View style={{flex: 1}}>
+                <LinearGradient colors={["#858C93","#5E6268"]} style={{
+                    width: "100%",
+                    height: '100%',
+                    justifyContent: 'center',
+                    marginRight: 2,
+                    borderRadius: 17
+                }}>
                     <Text style={{
                         textAlign: 'center',
-                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.5), color: 'black'
+                        fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
                     }}>Create user</Text>
-                </View>
-
+                </LinearGradient>
             </TouchableOpacity>
         </View>
     </View>)
     return (
         <ContainerAdmin isList={true} title={"Users"}
                         callApi={() => {
-                            getUserDocs()
+                            getUsers()
                         }}
                         icon={<Feather name="users" size={30} color={"black"}/>}
                         actions={actions} componentTitle={<TitleComponent/>}>
@@ -102,7 +144,12 @@ const UsersScreen = (props) => {
                 marginBottom: SCREEN_WIDTH / 3.5
             }}>
 
-                <ContainerUsersList data={users} loading={loading}/>
+                <ContainerUsersList
+                    removeUser={(userId) => {
+                        const newUsers = users.filter((user) => user.userId !== userId);
+                        setUsers(newUsers)
+                    }}
+                    data={users} loading={loading}/>
 
             </View>
             {
@@ -115,6 +162,7 @@ const UsersScreen = (props) => {
 
 const styles = StyleSheet.create({
     titleComponent: {
+        color:"white",
         fontSize: textSizeRender(3),
         fontFamily: "Roboto_700Bold"
     }

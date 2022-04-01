@@ -40,8 +40,8 @@ export const textSizeRender = (size) => {
 export const roleType =(type)=>{
     let role = ""
     switch (type) {
-        case 1 :
-            role = "User";
+        case 1:
+            role = "User"
             break;
         case 2:
             role = "Administrator"
@@ -49,7 +49,7 @@ export const roleType =(type)=>{
         case 3:
             role = "Technician"
             break;
-    };
+    }
 
     return role;
 };

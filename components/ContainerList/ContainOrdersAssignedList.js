@@ -4,10 +4,13 @@ import {Text} from "native-base";
 import {SCREEN_WIDTH, statusCode, textSizeRender} from "~/utils/utils";
 import {AntDesign, Feather} from "@expo/vector-icons";
 import moment from "moment";
+import {LinearGradient} from "expo-linear-gradient";
+import {useConfirmationContext} from "~/context/Confirmation";
+import ordersService from "~/services/orders";
 
 const TitleComponent = (props) => {
     return (
-        <View style={{
+        <LinearGradient colors={["#555555","#171717"]} style={{
             flexDirection: "row", flex: 1,
             backgroundColor: '#EAEAEA',
             padding: 15,
@@ -22,7 +25,7 @@ const TitleComponent = (props) => {
             <View style={{flex: 1}}>
                 <Text style={styles.titleComponent}> status</Text>
             </View>
-        </View>
+        </LinearGradient>
     )
 }
 
@@ -30,6 +33,19 @@ const TitleComponent = (props) => {
 const array = [{id: 1, numberOrder: "1223", date: new Date(), status: 5}];
 const ContainOrdersAssignedList = ({data = null, orders = [], ...props}) => {
     const [user, setUser] = useState(data)
+    const confirm = useConfirmationContext();
+    const handleDelete = (orderId) => {
+        confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
+            .then(async() => {
+                const deleteResult = await ordersService.deleteOrder(orderId)
+                if (deleteResult.success) {
+                    props.removeOrder(orderId)
+                }
+            })
+            .catch((error) => {
+                return console.log(error);
+            })
+    }
 
 
     const renderItem = (item, index) => (<View key={index} style={styles.containerCard}>
@@ -42,17 +58,21 @@ const ContainOrdersAssignedList = ({data = null, orders = [], ...props}) => {
                     </Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
-                    <AntDesign name="calendar" size={textSizeRender(4)} color="black"/>
+                    <AntDesign name="calendar" size={textSizeRender(4)} color={"red"}/>
                     <Text style={styles.textDate}>{moment(item.date, "", "es").format('DD/MM/YYYY')}</Text>
                 </View>
                 <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
                     <View style={{flex: 1, paddingHorizontal: 10}}>
-                        <View style={{backgroundColor: 'black', borderRadius: 10, alignItems: 'center'}}>
+                        <View style={{backgroundColor: '#E19706', borderRadius: 10, alignItems: 'center'}}>
                             <Text style={styles.textStatus}>{statusCode(item.statusCode)}</Text>
                         </View>
 
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={()=>{
+                        handleDelete(item.orderId)
+                    }}
+                    >
                         <Feather name="trash-2" size={textSizeRender(5)} color="black"/>
                     </TouchableOpacity>
                 </View>
@@ -115,7 +135,7 @@ const styles = StyleSheet.create({
     textNumber: {
         color: 'black',
         fontSize: textSizeRender(3),
-        fontFamily: 'Roboto_700Bold'
+        fontFamily: 'Roboto_500Medium'
     },
 
     textStatus: {
@@ -129,6 +149,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto_400Regular'
     },
     titleComponent: {
+        color:"white",
         fontSize: textSizeRender(3),
         fontFamily: "Roboto_700Bold"
     },

@@ -6,7 +6,7 @@ import {
   collection,
   query,
   getDocs,
-  updateDoc
+  updateDoc, deleteDoc
 } from "firebase/firestore";
 import { uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
@@ -121,6 +121,10 @@ const updateUser = async (userId, data) => {
     return await updateDoc(userDocRef, data).then(() => { return {success: true} }).catch((error) => {return { ...initialResponse, error: true, message: errorMessage(error.code) }})
 };
 
+const deleteUser = async (userId) => {
+  return await deleteDoc(doc(db, "users", userId)).then(() => { return {...initialResponse, success: true} }).catch((error) => { return {...initialResponse, error: true, message: errorMessage(error.code)}})
+}
+
 const userService = {
   getUserDetails,
   getUser,
@@ -128,7 +132,8 @@ const userService = {
   updateUser,
   uploadUserPhoto,
   updateUserPhoto,
-  createUserDoc
+  createUserDoc,
+  deleteUser
 };
 
 export default userService;

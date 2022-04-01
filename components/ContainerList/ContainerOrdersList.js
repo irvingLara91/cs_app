@@ -5,9 +5,12 @@ import moment from "moment";
 import {Divider,} from "native-base";
 import {useNavigation} from "@react-navigation/native";
 import screens from "~/constants/screens";
+import {useAuthUserContext} from "~/context/authUser";
 
 const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
     const navigation = useNavigation()
+    const {user} = useAuthUserContext()
+
     const renderItem = (item, index) => (
         <TouchableOpacity
             onPress={() => {
@@ -61,7 +64,8 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                             style={{
                                 fontFamily: 'Roboto_700Bold',
                                 color: 'white', fontSize: textSizeRender(2.6)
-                            }}>{statusCode(item.statusCode)}</Text>
+                            }}>{statusCode(item.statusCode)}
+                        </Text>
                     </View>
 
                 </View>
@@ -85,7 +89,7 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                             shadowRadius: 2.65,
                             elevation: 8,
                         }}>
-                            {item.card ?
+                            {item?.client?.photoURL?
                                 <Image
                                     style={{
                                         justifyContent:'center',
@@ -96,27 +100,39 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                                     resizeMode={"cover"}
                                     borderRadius={100}
                                     source={{
-                                        uri: item.card
+                                        uri: item?.client?.photoURL
                                     }}/>
                                 :
                                 <View style={{
-                                    width: 38,
+                                    height:51,
+                                    width:51,
                                     justifyContent: 'center',
                                     backgroundColor: "#C4C4C4",
                                     borderRadius: 100,
                                     padding: 4
                                 }}>
                                     <Image
-                                        size={8} resizeMode={"contain"}
+                                        style={{
+                                            justifyContent:'center',
+                                            alignSelf:'center',
+                                            height:40,
+                                            width:40,
+                                        }}
+                                        resizeMode={"cover"}
+                                        borderRadius={100}
                                         source={require("../../assets/image.png")}/>
                                 </View>
                             }
                         </View>
                     </View>
                     <View style={{flex: 0}}>
-                        <TouchableOpacity onPress={() => onDelete(item.orderId)}>
-                            <Feather name="trash-2" size={24} color="black"/>
-                        </TouchableOpacity>
+                        {
+                            user.userDoc.role === 2 &&
+                            <TouchableOpacity onPress={() => onDelete(item.orderId)}>
+                                <Feather name="trash-2" size={24} color="black"/>
+                            </TouchableOpacity>
+                        }
+
                     </View>
                 </View>
 
