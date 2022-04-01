@@ -4,12 +4,25 @@ import {SCREEN_WIDTH} from "~/utils/utils";
 import ContainerOrdersList from "~/components/ContainerList/ContainerOrdersList";
 import { useConfirmationContext } from "~/context/Confirmation";
 import ordersService from "~/services/orders";
+import ApiApp from "~/api/ApiApp";
 
 const OrdersAdmin = (props) => {
     const confirm = useConfirmationContext();
 
     const handleDelete = (orderId) => {
         confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
+            .then(async() => {
+                const deleteResult = await ApiApp.deleteOrder(orderId)
+                if (deleteResult.data.success) {
+                    props.removeOrder(orderId)
+                }
+            })
+            .catch((error) => {
+                return console.log(JSON.stringify(error));
+            })
+
+
+        /*confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
             .then(async() => {
                 const deleteResult = await ordersService.deleteOrder(orderId)
                 if (deleteResult.success) {
@@ -18,7 +31,7 @@ const OrdersAdmin = (props) => {
             })
             .catch((error) => {
                 return console.log(error);
-            })
+            })*/
     }
    
     return (

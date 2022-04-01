@@ -8,6 +8,7 @@ import {useNavigation} from "@react-navigation/native";
 import {rgx} from "~/utils/utils";
 import {useConfirmationContext} from "~/context/Confirmation";
 import userService from "~/services/user"
+import ApiApp from "~/api/ApiApp";
 
 const ContainerUsersList = ({data = [], loading = false, action = null,...props}) => {
     const navigation = useNavigation();
@@ -15,10 +16,13 @@ const ContainerUsersList = ({data = [], loading = false, action = null,...props}
     const handleDelete = (user) => {
         confirm({description: `You are about to delete user: ${user.firstName} ${user.lastName}`, title: "This action can not be undone"})
             .then(async() => {
-                const deleteResult = await userService.deleteUser(user.userId)
-                if (deleteResult.success) {
-                    props.removeUser(user.userId)
-                }
+                 ApiApp.deleteUser(user.userId).then(response=>{
+                    if (response.data.success){
+                        props.removeUser(user.userId)
+                    }
+                }).catch(e=>{
+                    console.log(e)
+                 })
             })
             .catch((error) => {
                 return console.log(error);

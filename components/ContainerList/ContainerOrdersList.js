@@ -5,11 +5,12 @@ import moment from "moment";
 import {Divider,} from "native-base";
 import {useNavigation} from "@react-navigation/native";
 import screens from "~/constants/screens";
+import {useAuthUserContext} from "~/context/authUser";
 
 const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
     const navigation = useNavigation()
+    const {user} = useAuthUserContext()
 
-    console.log(data)
     const renderItem = (item, index) => (
         <TouchableOpacity
             onPress={() => {
@@ -125,9 +126,13 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                         </View>
                     </View>
                     <View style={{flex: 0}}>
-                        <TouchableOpacity onPress={() => onDelete(item.orderId)}>
-                            <Feather name="trash-2" size={24} color="black"/>
-                        </TouchableOpacity>
+                        {
+                            user.userDoc.role === 2 &&
+                            <TouchableOpacity onPress={() => onDelete(item.orderId)}>
+                                <Feather name="trash-2" size={24} color="black"/>
+                            </TouchableOpacity>
+                        }
+
                     </View>
                 </View>
 

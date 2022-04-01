@@ -15,33 +15,8 @@ import {LinearGradient} from "expo-linear-gradient";
 import {useConfirmationContext} from "~/context/Confirmation";
 import ordersService from "~/services/orders";
 import userService from "~/services/user";
+import ApiApp from "~/api/ApiApp";
 
-const users_fake = [
-    {
-        id: 1,
-        firstName: "Irving",
-        lastName: "Lara",
-        phoneNumber: 9991501069,
-        email: "irvinglara9115@gmail.com",
-        photoURL: "https://random.imagecdn.app/250/150"
-    }
-    , {
-        id: 2,
-        firstName: "Victor",
-        lastName: "Lopez",
-        phoneNumber: 555555555,
-        email: "victor@gmail.com",
-        photoURL: "https://random.imagecdn.app/150/150"
-    }
-    , {
-        id: 3,
-        firstName: "Carlos",
-        lastName: " Jiménez",
-        phoneNumber: 9999999999,
-        email: "carlos@gmail.com",
-        photoURL: "https://random.imagecdn.app/150/150"
-    }
-]
 const AssignOrderScreen = (props) => {
     const {order} = useRoute().params ?? {};
     const confirm = useConfirmationContext();
@@ -74,6 +49,18 @@ const AssignOrderScreen = (props) => {
     const handleDelete = (orderId) => {
         confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
             .then(async() => {
+                const deleteResult = await ApiApp.deleteOrder(orderId)
+                if (deleteResult.data.success) {
+                    navigation.goBack();
+                }
+            })
+            .catch((error) => {
+                return console.log(error);
+            });
+
+
+        /*confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
+            .then(async() => {
                 const deleteResult = await ordersService.deleteOrder(orderId)
                 if (deleteResult.success) {
                     navigation.goBack();
@@ -81,33 +68,36 @@ const AssignOrderScreen = (props) => {
             })
             .catch((error) => {
                 return console.log(error);
-            })
+            });*/
     }
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
-            <TouchableOpacity
-                onPress={()=>{
-                }}
-                style={{
-                    width: "50%",
-                    height: SCREEN_WIDTH*.09,
-                }}>
-                <LinearGradient colors={["#858C93","#5E6268"]} style={{
-                    width: "100%",
-                    height: '100%',
-                    justifyContent: 'center',
-                    marginRight: 2,
-                    alignItems: 'center',
-                    padding: 10,
-                    borderRadius: 17
-                }}>
+            {
+                user.userDoc.role === 2 &&
+                <TouchableOpacity
+                    onPress={() => {
+                    }}
+                    style={{
+                        width: "50%",
+                        height: SCREEN_WIDTH * .09,
+                    }}>
+                    <LinearGradient colors={["#858C93", "#5E6268"]} style={{
+                        width: "100%",
+                        height: '100%',
+                        justifyContent: 'center',
+                        marginRight: 2,
+                        alignItems: 'center',
+                        padding: 10,
+                        borderRadius: 17
+                    }}>
                         <Text style={{
                             textAlign: 'center',
                             fontFamily: "Roboto_700Bold", fontSize: textSizeRender(2.2), color: 'white'
                         }}>Save changes</Text>
-                </LinearGradient>
-            </TouchableOpacity>
+                    </LinearGradient>
+                </TouchableOpacity>
+            }
             {
                 user.userDoc.role === 2 &&
                 <TouchableOpacity
@@ -147,7 +137,7 @@ const AssignOrderScreen = (props) => {
 
     return (
             <ContainerAdmin
-                title={"Order"}
+                title={"My order"}
                 actions={actions}
                 icon={<MaterialCommunityIcons name="clipboard-text-multiple" size={30} color={"black"}/>}
             >

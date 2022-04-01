@@ -10,6 +10,8 @@ import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import userService from "~/services/user"
 import Loading from "~/components/Loading/Loading";
 import {LinearGradient} from "expo-linear-gradient";
+import ApiApp from "~/api/ApiApp";
+import _ from "lodash";
 
 
 const TitleComponent = (props) => {
@@ -46,10 +48,50 @@ const UsersScreen = (props) => {
 
     useEffect(async () => {
         if (isFocused) {
-            await getUserDocs();
+            await getUsers();
         }
     }, [isFocused])
 
+
+    const validateRole= (array) => {
+        let users_filter = [];
+        if ( array.length>0){
+               _.filter(array, function (user) {
+                   if (user.role !== 1){
+                       users_filter.push(user)
+                   }
+            });
+        };
+
+        return users_filter;
+    };
+
+
+    const getUsers=()=>{
+        setLoading(true)
+        ApiApp.getUsers().then(respose=>{
+            if (respose.data.success){
+                setTimeout(() => {
+                    setUsers(validateRole(respose.data.data))
+                    setLoading(false)
+                }, 500);
+
+            }else {
+                setUsers([])
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
+            }
+           /// setUsers(respose)
+        }).catch(e=>{
+            setTimeout(() => {
+                setLoading(false)
+            }, 500);
+            console.log("Error:",e)
+        })
+    }
+
+/*
     const getUserDocs = () => {
         setLoading(true)
         try {
@@ -63,6 +105,7 @@ const UsersScreen = (props) => {
             setLoading(false)
         }
     };
+*/
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
         <View style={{flexDirection: 'row', width: "100%", justifyContent: 'flex-end'}}>
@@ -92,7 +135,7 @@ const UsersScreen = (props) => {
     return (
         <ContainerAdmin isList={true} title={"Users"}
                         callApi={() => {
-                            getUserDocs()
+                            getUsers()
                         }}
                         icon={<Feather name="users" size={30} color={"black"}/>}
                         actions={actions} componentTitle={<TitleComponent/>}>

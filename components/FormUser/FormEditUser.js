@@ -17,6 +17,8 @@ import Loading from "~/components/Loading/Loading";
 import {useConfirmationContext} from "~/context/Confirmation";
 import {useNavigation} from "@react-navigation/native";
 import CustomModal from "~/components/Modals/CustomModal";
+import ApiApp from "~/api/ApiApp";
+import apiApp from "~/api/ApiApp";
 
 
 const ImgDefault = () => {
@@ -60,13 +62,20 @@ const FormEditUser = (props) => {
      * End States de CustomModal
      * **/
 
-    const getOrders = async (array) => {
-        ordersService.getOrdersAssigned(array).then(response=>{
-            setOrders(response)
-        }).catch(error=>{
-            console.log(error)
+
+    const getOrders = async (userId) => {
+        ApiApp.getAssigned(userId).then(response=>{
+            console.log(response.data)
+            if (response.data.success){
+                setOrders(response.data.data)
+            }else {
+                setOrders([])
+            }
+
+        }).catch(e=>{
             setOrders([])
-        });
+            console.error("Error",e)
+        })
     };
 
     const removeOrder=(orderId)=>{
@@ -92,7 +101,8 @@ const FormEditUser = (props) => {
         setValue("role", user.role);
         setImage(user.photoURL.trim() ? user.photoURL : null)
         setOrdersUpdate(user.orders && user.orders.length > 0 ? user.orders : [])
-        getOrders(user.orders && user.orders.length > 0 ? user.orders : [])
+        //getOrders(user.orders && user.orders.length > 0 ? user.orders : [])
+        getOrders(user.userId)
     }
 
     const pickImage = async () => {
@@ -127,12 +137,15 @@ const FormEditUser = (props) => {
     const handleDeleteUser = (userId) => {
         confirm({description: `You are about to delete user: ${getValues("firstName")} ${getValues("lastName")}`, title: "This action can not be undone"})
             .then(async() => {
-                const deleteResult = await userService.deleteUser(userId)
-                if (deleteResult.success) {
-                    navigation.goBack()
-                }
-            })
-            .catch((error) => {
+                ApiApp.deleteUser(userId).then(response=>{
+                    console.log(response.data)
+                    if (response.data.success){
+                        navigation.goBack();
+                    }
+                }).catch(e=>{
+                    console.log(e)
+                })
+            }).catch((error) => {
                 return console.log(error);
             })
     }
@@ -157,16 +170,18 @@ const FormEditUser = (props) => {
             lastName,
             phoneNumber,
             role,
-            photoURL: await handlePhotoURL(image, props.user.userId)
+            photoURL: image,
+            userId: props.user.userId
         }
-         await userService.updateUser(props.user.userId, newData).then(res=>{
-            console.log(res)
-            if (res.success) {
+         await apiApp.updateUser(props.user.userId, newData).then(res=>{
+             console.log(res.data)
+            if (res.data.success) {
+
                 setTimeout(() => {
                     setLoading(false);
                     setVisible(true)
                     setIsError(false)
-                    setMessage("User updated successfully.")
+                    setMessage(res.data.message)
                 }, 500);
             } else {
                 setTimeout(() => {

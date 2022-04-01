@@ -10,7 +10,7 @@ import {
     Select,
     Stack,
 } from "native-base";
-import {roles, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {generateRandomPassword, roles, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import {Feather} from "@expo/vector-icons";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 import * as ImagePicker from "expo-image-picker";
@@ -21,6 +21,7 @@ import Loading from "~/components/Loading/Loading";
 import CustomModal from "~/components/Modals/CustomModal";
 import {LinearGradient} from "expo-linear-gradient";
 import styles from "~/components/Register/styles";
+import ApiApp from "~/api/ApiApp";
 
 const defaultValues = {
     select: 3,
@@ -55,7 +56,7 @@ const FormCreateUser = (props) => {
             setImageError(true)
             return
         } else {
-            setLoading(true)
+           /* setLoading(true)
             setImageError(false)
             const result = await authService.createUser({...data, isRegister: false, photo: image.uri})
             //console.log({result})
@@ -73,7 +74,47 @@ const FormCreateUser = (props) => {
                 setCustomModalVisible(true)
                 setCustomModal({isError: true, message: result.message})
                 setLoading(false)
-            }
+            }*/
+
+
+            setLoading(true)
+            setImageError(false)
+            data.password = generateRandomPassword();
+            let formData = new FormData();
+            let dataString= JSON.stringify(data)
+            formData.append('data',dataString);
+            formData.append('photo',image);
+            console.log(data,formData)
+            ApiApp.registerUser(formData).then(result=>{
+                if (result.data.success) {
+                    setTimeout(() => {
+                        setCustomModalVisible(true)
+                        setCustomModal({isError: false, message: result.data.message})
+                        setLoading(false)
+                        resetData();
+                    }, 500);
+                } else if (result.data.error) {
+                    setTimeout(() => {
+                        setCustomModalVisible(true)
+                        setCustomModal({isError: true, message: result.data.message})
+                        setLoading(false)
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        setCustomModalVisible(true)
+                        setCustomModal({isError: true, message: result.data.message})
+                        setLoading(false)
+                    }, 500);
+
+                }
+            }).catch(e=>{
+                setTimeout(() => {
+                    setCustomModalVisible(true)
+                    setCustomModal({isError: true, message: "Error server"})
+                    setLoading(false)
+                }, 500);
+                console.log("ERROR",e)
+            })
         }
     };
 

@@ -10,6 +10,7 @@ import {useAuthUserContext} from "~/context/authUser";
 import TotalOrdersComponent from "~/components/TotalOrdersComponent/TotalOrdersComponent";
 import {LinearGradient} from "expo-linear-gradient";
 import {useIsFocused} from "@react-navigation/native";
+import ApiApp from "~/api/ApiApp";
 
 const OrdersScreen = (props) => {
     const {user} = useAuthUserContext();
@@ -17,6 +18,30 @@ const OrdersScreen = (props) => {
 
     const [orders, setOrders] = useState([])
     const [ordersOrigin, setOrdersOrigin] = useState([])
+
+    const getOrderAxios=()=>{
+        ApiApp.getOrders().then(response=>{
+            let result = [];
+            if (user.userDoc.role === 2){
+                console.log(response.data.data.length)
+                result=response.data.data
+            }else {
+                response.data.data.forEach((order) => {
+                    const { orderId } = order;
+                    if (user.userDoc.orders.includes(orderId)) {
+                        result.push(order);
+                    }
+                });
+            }
+
+            setOrders(result)
+
+        }).catch(e=>{
+            console.error("ERROR:::>",e)
+        })
+    }
+
+
 
     const getOrders = async () => {
         let result;
@@ -35,7 +60,7 @@ const OrdersScreen = (props) => {
 
     useEffect(async () => {
         if (isFocused) {
-            await getOrders();
+            await getOrderAxios();
         }
     }, [isFocused])
 
@@ -59,12 +84,13 @@ const OrdersScreen = (props) => {
     const filterSearch = async (text) => {
         try {
             if (text) {
-                var results = _.filter(ordersOrigin, function (item) {
-                    return item.client.firstName.indexOf(text) > -1;
+                let results =  _.filter(ordersOrigin, function (item) {
+                    return item.client.firstName.toLowerCase().indexOf(text.toLowerCase()) > -1;
                 });
                 await setOrders(results)
             } else {
-                setOrders(ordersOrigin)
+
+               await setOrders(ordersOrigin)
             }
         } catch (error) {
             console.log(error)
@@ -137,7 +163,7 @@ const OrdersScreen = (props) => {
         <ContainerAdmin
             isList={true}
             callApi={() => {
-                getOrders()
+                getOrderAxios()
             }}
             title={"Orders"}
             icon={<MaterialCommunityIcons name="clipboard-text-multiple" size={30} color={"black"}/>}
