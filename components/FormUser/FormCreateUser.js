@@ -80,11 +80,11 @@ const FormCreateUser = (props) => {
             setLoading(true)
             setImageError(false)
             data.password = generateRandomPassword();
-            let formData = new FormData();
-            let dataString= JSON.stringify(data)
+            const formData = new FormData();
+            const dataString= JSON.stringify(data)
+            const { cancelled, ...restImage } = image;
+            formData.append("photo", {...restImage, name: "photo"})
             formData.append('data',dataString);
-            formData.append('photo',image);
-            console.log(data,formData)
             ApiApp.registerUser(formData).then(result=>{
                 if (result.data.success) {
                     setTimeout(() => {
