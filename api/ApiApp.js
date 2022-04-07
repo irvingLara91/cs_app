@@ -2,6 +2,7 @@ import APIKit from "./axiosApi";
 import axios from "axios";
 
 const baseURL = "https://dev-backend-cornerd-kdccl2goja-uc.a.run.app";
+//const baseURL = "https://46a8-2806-2f0-9001-a35d-25aa-bbdf-488c-d1dc.ngrok.io";
 
 class ApiApp {
 
@@ -103,7 +104,7 @@ class ApiApp {
     }
 
     static updateUser = (userId, params) => {
-        return ApiApp.ApisType(`/api/users/${userId}`, 'put', params);
+        return ApiApp.ApisType(`/api/users/${userId}`, 'post', params);
     }
 
     /**

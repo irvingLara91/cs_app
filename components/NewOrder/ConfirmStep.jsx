@@ -11,7 +11,8 @@ import {useNewOrderContext} from "~/context/newOrder";
 import ordersService from "~/services/orders";
 import Loading from "~/components/Loading/Loading";
 import CustomButton from "~/components/CustomButton/CustomButton";
-import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {generateOrderId, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import apiApp from "~/api/ApiApp";
 
 const ConfirmStep = ({navigation, route}) => {
     const {navigate} = navigation;
@@ -19,8 +20,6 @@ const ConfirmStep = ({navigation, route}) => {
     const {user, setUser, setNewOrder} = useAuthUserContext()
     const [loading, setLoading] = useState(false)
 
-
-    console.log(user)
 
     const addOrderToUserContext = (orderId) => {
         setNewOrder(user, orderId);
@@ -39,21 +38,47 @@ const ConfirmStep = ({navigation, route}) => {
     const onConfirm = async () => {
         setLoading(true)
         const {userDoc} = user;
+        const orderId = generateOrderId();
+
         const {orders, ...userDocRest} = userDoc;
         const data = {
-            ...orderData,
+            gravestone:{
+                additionalInformation: orderData.gravestone.additionalInformation,
+                address:orderData.gravestone.address,
+                text: orderData.gravestone.text
+            },
             createdAt: new Date(),
             client: userDocRest,
+            orderId,
             statusCode: 1
         }
-        const result = await ordersService.createOrder(user.uid ? user.uid : user.userId, data, userDoc.orders);
-        if (result.success) {
-            addOrderToUserContext(result.order.orderId)
-            navigate(screens.NEW_ORDER_PLACED);
-            setLoading(false)
-        } else {
-            setLoading(false)
-        }
+        const { card } = orderData;
+        const { image } = orderData.gravestone;
+        let formData = new FormData();
+        formData.append("card", {...card, name: "card"})
+        formData.append("gravestone", {...image, name: "gravestone"})
+        console.log(JSON.stringify({"data":data, "userId":user.uid ? user.uid : user.userId}))
+        let dataString =  JSON.stringify({"data":data, "userId":user.uid ? user.uid : user.userId})
+        formData.append("data",dataString);
+         apiApp.createOrder(formData).then(response=>{
+            if (response.status===201) {
+                setTimeout(() => {
+                    addOrderToUserContext(orderId)
+                    navigate(screens.NEW_ORDER_PLACED);
+                    setLoading(false)
+                }, 500);
+            } else {
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
+            }
+        }).catch(e=>{
+            console.log(e)
+             setTimeout(()=>{
+                 setLoading(false)
+             },500)
+         });
+
     };
 
     return (

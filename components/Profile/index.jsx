@@ -15,6 +15,7 @@ import * as ImageManipulator from "expo-image-manipulator";
 import {MaterialCommunityIcons} from "@expo/vector-icons";
 import CustomModal from "~/components/Modals/CustomModal";
 import {LinearGradient} from "expo-linear-gradient";
+import ApiApp from "~/api/ApiApp";
 
 const ButtonImage = (props) => {
     return (
@@ -62,8 +63,8 @@ const Profile = (props) => {
     const [firstName, setFirstName] = useState(user && user.userDoc.firstName)
     const [lastName, setLastName] = useState(user && user.userDoc.lastName)
     const [image, setImage] = useState(null)
+    const [imageUpdate, setImageUpdate] = useState(null)
     const [loading, setLoading] = useState(false)
-
     /***
      * States de CustomModal
      * **/
@@ -96,7 +97,8 @@ const Profile = (props) => {
                 result.uri, [{resize: {width: result.width / 2, height: result.height / 2}}],
                 {format: result.type.split('/').pop(), base64: false});
             /// setImage(resizedImage.uri);
-            setImage(resizedImage.uri)
+            //setImage(resizedImage.uri)
+            setImageUpdate(result)
         }
     };
 
@@ -125,7 +127,7 @@ const Profile = (props) => {
         const {address, city, zipCode, email, firstName, lastName, phoneNumber} = data;
         const {orders, role, photoURL} = user.userDoc;
 
-        const newData = {
+        const params = {
             address: {
                 address,
                 city,
@@ -137,30 +139,60 @@ const Profile = (props) => {
             phoneNumber,
             orders,
             role,
-            photoURL: await handlePhotoURL(photoURL, user.uid ? user.uid : user.userId)
+            photoURL: imageUpdate ? "" : image ? image: "",
+            userId: user.userId
         }
-        console.log(newData)
-        const updateResult = await userService.updateUser(user.uid ? user.uid : user.userId, newData);
-        if (updateResult.success) {
-            setTimeout(() => {
-                setUserDoc(newData)
-                setImage(null)
-                setLoading(false)
-                setMessage("Update profile successfully.")
-                setModalVisible(true)
-                setIsError(false)
-            }, 500);
-        } else {
-            setTimeout(() => {
-                setImage(null)
-                setLoading(false)
-                setMessage("Failed to update profile.")
-                setModalVisible(true)
-                setIsError(true)
-            }, 500);
 
+        //console.log(params)
+
+        let formData = new FormData();
+        let stringData = JSON.stringify(params);
+        if (imageUpdate === null){
+            formData.append("avatar",{})
+        }else {
+            const { cancelled, ...restImage } = imageUpdate;
+            formData.append("avatar", {...restImage, name: "avatar"})
         }
-    }
+        formData.append("data",stringData)
+
+        await ApiApp.updateUser(user.userId, formData).then(response=>{
+             if (response.data.success) {
+                 setTimeout(() => {
+                     if (imageUpdate){
+                         params.photoURL = imageUpdate.uri;
+                     }else{
+                         params.photoURL = user.userDoc.photoURL;
+                     }
+                     setUserDoc(params)
+                     setImage(null)
+                     setLoading(false)
+                     setMessage("Update profile successfully.")
+                     setModalVisible(true)
+                     setIsError(false)
+                 }, 500);
+             }else {
+                 setTimeout(() => {
+                     setImage(null)
+                     setLoading(false)
+                     setMessage("Failed to update profile.")
+                     setModalVisible(true)
+                     setIsError(true)
+                 }, 500);
+             }
+
+         }).catch(e=>{
+             console.log(e)
+             setTimeout(() => {
+                 setImage(null)
+                 setLoading(false)
+                 setMessage("Failed to update profile.")
+                 setModalVisible(true)
+                 setIsError(true)
+             }, 500);
+         }
+    );
+}
+
 
     return (
         <ContainerBaseV2 backgroundColor={"white"}>
@@ -170,6 +202,20 @@ const Profile = (props) => {
                         <LinearGradient colors={["#555555", "#171717"]}
                                         style={{alignItems: 'center', paddingVertical: 20}}>
                             {
+
+                                imageUpdate ?
+                                    <View>
+                                        <Image
+                                            style={{
+                                                height: SCREEN_WIDTH * .25,
+                                                width: SCREEN_WIDTH * .25,
+                                                borderWidth: 1,
+                                                borderColor: "white"
+                                            }}
+                                            borderRadius={SCREEN_WIDTH} source={{uri: imageUpdate.uri}}/>
+                                        <ButtonImage pickImage={pickImage}/>
+                                    </View>
+                                    :
                                 image ?
                                     <View>
                                         <Image

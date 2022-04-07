@@ -12,6 +12,7 @@ import userService from "~/services/user";
 import {useAuthUserContext} from "~/context/authUser";
 import {textSizeRender, setData, errorMessage} from "~/utils/utils";
 import CustomModal from "~/components/Modals/CustomModal";
+import ApiApp from "~/api/ApiApp";
 
 export default function Login() {
     const { getUser } = userService;
@@ -33,27 +34,40 @@ export default function Login() {
         setModalVisible(false)
     }
 
+    const setDataUser = async (data) => {
+        let res = {
+            userDoc: data.userDoc,
+            userId: data.userId,
+        }
+        await setUser(res)
+        await setData("user", res)
+    }
+
     const onLogin = async(data) => {
         setFetching(true)
-
         const { email, password } = data;
-        const result = await login(email, password);
-        if (result.hasOwnProperty("errorMessage")) {
+        ApiApp.login({email, password}).then(response=>{
+            if (response.data.success){
+                setTimeout(() => {
+                    setFetching(false)
+                    setDataUser(response.data.data)
+                }, 500);
+            }else {
+                setTimeout(() => {
+                    setFetching(false)
+                    setModalVisible(true)
+                    setMessage(response.data.message)
+                    setIsError(true)
+                }, 500);
+            }
+        }).catch(e=>{
             setTimeout(() => {
                 setFetching(false)
                 setModalVisible(true)
-                setMessage(errorMessage(result.errorCode))
+                setMessage("Error")
                 setIsError(true)
             }, 500);
-        } else {
-            setTimeout(() => {
-                setFetching(false)
-                const user =  getUser(result.uid);
-                setUser({...result, role: user.role});
-                setData("user", {...result, role: user.role})
-            }, 500);
-        }
-
+        });
     }
 
     return (

@@ -1,8 +1,19 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 
-const AssignOrderTo=({setVisibleUserPicker,selected})=>{
+const AssignOrderTo=({assigned=null,setVisibleUserPicker,selected})=>{
+
+    const [assigned_, setAssigned_] = useState(null)
+    useEffect(()=>{
+        if (assigned && !selected){
+            setAssigned_(assigned)
+        }else if (selected) {
+            setAssigned_(selected)
+        }else {
+            setAssigned_(null)
+        }
+    },[assigned, selected])
 
     return(
         <View style={styles.card}>
@@ -16,8 +27,7 @@ const AssignOrderTo=({setVisibleUserPicker,selected})=>{
                     }}
                     style={styles.containerText}>
                     <Text style={styles.text}>
-
-                        {selected ? selected.firstName +" "+ selected.lastName : "Admin"}
+                        {assigned_ ? assigned_.firstName +" "+ assigned_.lastName : "Not assigned"}
                     </Text>
                 </TouchableOpacity>
             </View>

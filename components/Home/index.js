@@ -16,6 +16,7 @@ import ContainerBase from "~/components/common/ContainerBase";
 import CarouselFull from "~/components/common/CarouselFull";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import CustomButton from "~/components/CustomButton/CustomButton";
+import ApiApp from "~/api/ApiApp";
 
 const ITEM_WIDTH = Math.round(SCREEN_WIDTH / 1.3);
 const ITEM_HEIGHT = Math.round(ITEM_WIDTH / 1.1);
@@ -33,8 +34,7 @@ export default function Home({navigation, route}) {
         setLoading(true)
         setRefreshing(true)
         try {
-            getOrders().then(r => {
-            });
+            getOrders();
         } catch (e) {
         }
         setTimeout(() => {
@@ -42,19 +42,27 @@ export default function Home({navigation, route}) {
         }, 300);
     };
 
-    const getOrders = async () => {
+    const getOrders = () => {
         try {
-            let result = await ordersService.getOrdersAssigned(user.userDoc.orders)
-            if (result && result.length > 0) {
-                setOrders(result)
+            ApiApp.getAssigned(user.uid? user.uid : user.userId)
+                .then(response=>{
+                    if (response.data.success) {
+                        setOrders(response.data.data)
+                        setTimeout(() => {
+                            setLoading(false)
+                        }, 500);
+                    } else {
+                        setOrders([])
+                        setTimeout(() => {
+                            setLoading(false)
+                        }, 500);
+                    }
+                }).catch(e=>{
+                setOrders([])
                 setTimeout(() => {
                     setLoading(false)
                 }, 500);
-            } else {
-                setTimeout(() => {
-                    setLoading(false)
-                }, 500);
-            }
+            });
         } catch (e) {
             setLoading(false)
         }
@@ -67,19 +75,16 @@ export default function Home({navigation, route}) {
         }
     }, [isFocused])
 
-
     if (user && user.isFirstTime) return <Welcome/>;
 
     const limit = (array) => {
         let orderArray = []
-        let max = 3
-        array.map((order, index) => {
-            if (index === max) {
-                return
-            }
+        array.map((order) => {
             orderArray.push(order)
         });
-        return orderArray
+        const sortedActivities = orderArray.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        sortedActivities.length = Math.min(sortedActivities.length,3)
+        return sortedActivities
     }
 
     const data = [

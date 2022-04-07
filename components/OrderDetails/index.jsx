@@ -6,6 +6,7 @@ import ordersService from "~/services/orders";
 import moment from "moment";
 import {LinearGradient} from "expo-linear-gradient";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import ApiApp from "~/api/ApiApp";
 
 const OrderDetails = ({route}) => {
 
@@ -13,8 +14,10 @@ const OrderDetails = ({route}) => {
 
     useEffect(async () => {
         const getOrderDetails = async () => {
-            const result = await ordersService.getOrder(route.params.orderId);
-            setDetails(result.message);
+            const result = await ApiApp.getOrder(route.params.orderId);
+            if (result.data.success){
+                setDetails(result.data.data)
+            }
         };
         await getOrderDetails();
     }, []);
@@ -29,7 +32,7 @@ const OrderDetails = ({route}) => {
                         <Text color={"white"} fontFamily={"Roboto_700Bold"}
                               fontSize={textSizeRender(6.5)}>{route.params.orderId}</Text>
                         <Text color={"white"} fontFamily={"Roboto_400Regular"}
-                              fontSize={textSizeRender(4)}>{moment(details?.createdAt?.seconds * 1000, "", "en").format('MM-DD-YYYY')}</Text>
+                              fontSize={textSizeRender(4)}>{moment(details?.createdAt, "", "en").format('MM-DD-YYYY')}</Text>
                     </Center>
                 </LinearGradient>
                 <Divider mt={5}/>

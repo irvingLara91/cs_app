@@ -15,6 +15,7 @@ import CustomButton from "~/components/CustomButton/CustomButton";
 import styles from "~/components/Register/styles";
 import authService from "~/services/auth";
 import CustomModal from "~/components/Modals/CustomModal";
+import ApiApp from "~/api/ApiApp";
 
 const PasswordRecovery = () => {
 
@@ -55,17 +56,23 @@ const PasswordRecoveryForm = () => {
 	 * **/
 
 	const onSubmit = async (values) => {
-		const result = await authService.passwordReset(values.email);
-		if (result.success) {
-			//navigation.goBack();
-			setMessage(result.message)
-			setModalVisible(true)
-			setIsError(false)
-		}else {
-			setMessage(result.message)
+		 ApiApp.passwordReset({"email":values.email}).then(response=>{
+			 //console.log(response.data)
+			if (response.data.success){
+				setMessage(response.data.message)
+				setModalVisible(true)
+				setIsError(false)
+			}else {
+				setMessage(response.data.message)
+				setModalVisible(true)
+				setIsError(true)
+			}
+		}).catch(e=>{
+			 console.log(JSON.stringify(e))
+			 setMessage("There was an error try again")
 			setModalVisible(true)
 			setIsError(true)
-		}
+		});
 	};
 
 	const closeModal=()=>{
@@ -94,6 +101,8 @@ const PasswordRecoveryForm = () => {
 							onBlur={onBlur}
 							onChangeText={(text) => onChange(text)}
 							value={value}
+							autoCapitalize='none'
+							keyboardType={"email-address"}
 						/>
 					)}
 					name="email"

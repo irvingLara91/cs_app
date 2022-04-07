@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {Link} from "@react-navigation/native";
 import {Stack, Box, Center, Image, Text} from "native-base";
 import Form from "~/components/Login/Form";
@@ -8,12 +8,13 @@ import Loading from "~/components/Loading/Loading";
 
 import ReferenceImage from "~/assets/image.png";
 import styles from "./styles";
-import {textSizeRender, setData, errorMessage} from "~/utils/utils";
+import {textSizeRender, setData, errorMessage, removeData} from "~/utils/utils";
 
 import authService from "~/services/auth";
 
 import {useAuthUserContext} from "~/context/authUser";
 import CustomModal from "~/components/Modals/CustomModal";
+import ApiApp from "~/api/ApiApp";
 
 export default function Login() {
     const {passwordRecoveryLink} = styles;
@@ -35,27 +36,42 @@ export default function Login() {
         setModalVisible(false)
     }
 
+    const setDataUser = async (data) => {
+        let res = {
+            userDoc: data.userDoc,
+            userId: data.userId,
+            isFirstTime: data.isFirstTime
+        }
+        await setUser(res)
+       await setData("user", res)
+    }
+
     const onLogin = async(data) => {
         setFetching(true)
         const { email, password } = data;
-
-        const result = await authService.login(email, password);
-        if (result.hasOwnProperty("errorMessage")) {
+        ApiApp.login({email, password}).then(response=>{
+            if (response.data.success){
+                setTimeout(() => {
+                    setFetching(false)
+                    response.data.data.isFirstTime = false
+                    setDataUser(response.data.data)
+                }, 500);
+                }else {
+                setTimeout(() => {
+                    setFetching(false)
+                    setModalVisible(true)
+                    setMessage(response.data.message)
+                    setIsError(true)
+                }, 500);
+            }
+        }).catch(e=>{
             setTimeout(() => {
                 setFetching(false)
                 setModalVisible(true)
-                setMessage(errorMessage(result.errorCode))
+                setMessage("Error")
                 setIsError(true)
             }, 500);
-        } else {
-            setTimeout(() => {
-                setFetching(false)
-                setUser({...result, role: 1, isFirstTime : false});
-                setData("user", {...result, role: 1, isFirstTime : false})
-            }, 500);
-
-        }
-
+        });
     }
 
     return (

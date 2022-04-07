@@ -23,7 +23,7 @@ const OrdersScreen = (props) => {
         ApiApp.getOrders().then(response=>{
             let result = [];
             if (user.userDoc.role === 2){
-                console.log(response.data.data.length)
+                ///console.log(response.data.data.length)
                 result=response.data.data
             }else {
                 response.data.data.forEach((order) => {

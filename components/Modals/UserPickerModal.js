@@ -7,6 +7,7 @@ import { ScrollView} from "native-base";
 const UserPickerModal = ({
                              visible,
                              selected,
+                             assigned,
                              setVisible,
                              setSelected,
                              title = '',
@@ -14,6 +15,16 @@ const UserPickerModal = ({
                          }) => {
     const [valSelect, setValSelect] = useState(false)
 
+    const [assigned_, setAssigned_] = useState(null)
+    useEffect(()=>{
+        if (assigned && !selected){
+            setAssigned_(assigned)
+        }else if (selected) {
+            setAssigned_(selected)
+        }else {
+            setAssigned_(null)
+        }
+    },[assigned, selected])
 
     return (
         <Modal
@@ -64,7 +75,7 @@ const UserPickerModal = ({
                                             >
                                                 <View style={{
                                                     flexDirection: 'row', alignItems: 'center',
-                                                    borderWidth: 1, borderColor: selected  ?  selected.userId === opt.userId ? "red": 'black': 'black' , borderRadius: 10,
+                                                    borderWidth: 1, borderColor: assigned_  ?  assigned_.userId === opt.userId ? "red": 'black': 'black' , borderRadius: 10,
                                                     padding: 10,
                                                 }}>
                                                     <View style={{flex:0}}>
@@ -95,7 +106,7 @@ const UserPickerModal = ({
                                                     <Text style={{fontFamily:"Roboto_500Medium",fontSize: textSizeRender(3)}}>{opt.lastName}</Text>
                                                     </View>
                                                     {
-                                                        selected  ?  selected.userId === opt.userId ?
+                                                        assigned_  ?  assigned_.userId === opt.userId ?
                                                             <View style={{flex:.4,alignItems: 'flex-end'}}>
                                                                 <AntDesign name="check" size={24} color="black" />
                                                             </View>

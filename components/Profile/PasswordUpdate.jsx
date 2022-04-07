@@ -9,6 +9,7 @@ import authService from "~/services/auth";
 import {useAuthUserContext} from "~/context/authUser";
 import Loading from "~/components/Loading/Loading";
 import CustomModal from "~/components/Modals/CustomModal";
+import ApiApp from "~/api/ApiApp";
 
 const defaultValues = {
     input: ""
@@ -25,6 +26,8 @@ const PasswordUpdate = ({navigation}) => {
      * **/
     const [modalVisible, setModalVisible] = useState(false)
     const [message, setMessage] = useState("")
+    const [isError, setIsError] = useState(false)
+
     /***
      * End States de CustomModal
      * **/
@@ -39,13 +42,14 @@ const PasswordUpdate = ({navigation}) => {
         const verified = await authService.login(user.email, currentPassword);
         if (!verified.hasOwnProperty("errorCode")) {
             if (newPassword === newPasswordConfirm) {
-                const result = await authService.updateUserPassword(newPassword);
-                if (result.success) {
+                const result = await ApiApp.updatePassword({"userId":user.uid ? user.uid :user.userId,"newPassword":newPassword});
+                if (result.data.success) {
                     //trigger success
                     setTimeout(() => {
                         setLoading(false)
                         setModalVisible(true)
                         setMessage("Password updated successfully.")
+                        setIsError(false)
                         resetData()
                     }, 500);
                 } else {
@@ -53,6 +57,7 @@ const PasswordUpdate = ({navigation}) => {
                     setTimeout(() => {
                         setLoading(false)
                         setModalVisible(true)
+                        setIsError(true)
                         setMessage("There was an error, please try again.")
                     }, 500);
                 }
@@ -227,7 +232,7 @@ const PasswordUpdate = ({navigation}) => {
             }
             {
                 modalVisible &&
-                <CustomModal message={message} visible={modalVisible} setVisible={setModalVisible}/>
+                <CustomModal isError={isError} message={message} visible={modalVisible} setVisible={setModalVisible}/>
             }
         </ContainerBaseV2>
     );

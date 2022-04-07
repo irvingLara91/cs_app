@@ -30,7 +30,7 @@ import CreateUserScreen from "~/screens/admin/CreateUserScreen";
 import UpdateUserScreen from "~/screens/admin/UpdateUserScreen";
 import AssignOrderScreen from "~/screens/admin/AssignOrderScreen";
 import {LinearGradient} from "expo-linear-gradient";
-import {statusBarHeight, textSizeRender} from "~/utils/utils";
+import {removeData, statusBarHeight, textSizeRender} from "~/utils/utils";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const Stack = createNativeStackNavigator();
@@ -445,11 +445,11 @@ const NavigationAdmin = () => {
 
 const Navigation = () => {
     const {user} = useAuthUserContext()
-    if (user && user.role === 1) {
+    if (user && user.userDoc.role === 1) {
         return (
             <Navigation_/>
         )
-    } else if (user && user.role !== 1) {
+    } else if (user && user.userDoc.role !== 1) {
         return (
             <NavigationAdmin/>
         )

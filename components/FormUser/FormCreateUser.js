@@ -56,27 +56,6 @@ const FormCreateUser = (props) => {
             setImageError(true)
             return
         } else {
-           /* setLoading(true)
-            setImageError(false)
-            const result = await authService.createUser({...data, isRegister: false, photo: image.uri})
-            //console.log({result})
-            if (result.success) {
-                setCustomModalVisible(true)
-                setCustomModal({isError: false, message: result.message})
-                setLoading(false)
-                await resetData();
-            } else if (result.error) {
-                setCustomModalVisible(true)
-                setCustomModal({isError: true, message: result.message})
-                setLoading(false)
-
-            } else {
-                setCustomModalVisible(true)
-                setCustomModal({isError: true, message: result.message})
-                setLoading(false)
-            }*/
-
-
             setLoading(true)
             setImageError(false)
             data.password = generateRandomPassword();

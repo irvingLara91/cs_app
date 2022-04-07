@@ -71,7 +71,7 @@ function CustomDrawerContent(props) {
                         }}>
                             <View style={{flex:0,marginLeft:20}}>
                                 {
-                                    user && user.userDoc && user.userDoc?.photoURL ?
+                                    user && user.userDoc && user.userDoc.photoURL ?
                                         <Avatar
                                             style={{borderColor: "white", borderWidth: 1.5}}
                                             bg="indigo.500"
