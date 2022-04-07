@@ -13,6 +13,7 @@ import Loading from "~/components/Loading/Loading";
 import CustomButton from "~/components/CustomButton/CustomButton";
 import {generateOrderId, SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import apiApp from "~/api/ApiApp";
+import * as mime from 'react-native-mime-types';
 
 const ConfirmStep = ({navigation, route}) => {
     const {navigate} = navigation;
@@ -45,20 +46,39 @@ const ConfirmStep = ({navigation, route}) => {
             gravestone:{
                 additionalInformation: orderData.gravestone.additionalInformation,
                 address:orderData.gravestone.address,
-                text: orderData.gravestone.text
+                text: orderData.gravestone.text,
+                image:""
             },
             createdAt: new Date(),
             client: userDocRest,
             orderId,
             statusCode: 1
         }
+
         const { card } = orderData;
+        let type_card = mime.lookup(card.uri.split('/').pop());
+        let data_card = {
+            width:card.width,
+            height:card.height,
+            uri: card.uri,
+            type: type_card,
+            mimeType:type_card
+        }
         const { image } = orderData.gravestone;
+        let type_image = mime.lookup(image.uri.split('/').pop());
+        let data_image = {
+            width:image.width,
+            height:image.height,
+            uri: image.uri,
+            type: type_image,
+            mimeType:type_image
+        }
+        console.log("----",type_card,"....",data_image)
         let formData = new FormData();
-        formData.append("card", {...card, name: "card"})
-        formData.append("gravestone", {...image, name: "gravestone"})
-        console.log(JSON.stringify({"data":data, "userId":user.uid ? user.uid : user.userId}))
-        let dataString =  JSON.stringify({"data":data, "userId":user.uid ? user.uid : user.userId})
+        formData.append("card", {...data_card, name: "card"})
+        formData.append("gravestone", {...data_image, name: "gravestone"})
+        ///console.log(JSON.stringify({"data":data, "userId":user.uid ? user.uid : user.userId}))
+        let dataString =  JSON.stringify({...data, "userId":user.uid ? user.uid : user.userId})
         formData.append("data",dataString);
          apiApp.createOrder(formData).then(response=>{
             if (response.status===201) {
