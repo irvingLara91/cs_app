@@ -73,7 +73,7 @@ const ConfirmStep = ({navigation, route}) => {
             type: type_image,
             mimeType:type_image
         }
-        console.log("----",type_card,"....",data_image)
+       /// console.log("----",type_card,"....",data_image)
         let formData = new FormData();
         formData.append("card", {...data_card, name: "card"})
         formData.append("gravestone", {...data_image, name: "gravestone"})
