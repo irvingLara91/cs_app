@@ -11,6 +11,7 @@ import Loading from "~/components/Loading/Loading";
 import {useIsFocused} from "@react-navigation/native";
 import CustomButton from "~/components/CustomButton/CustomButton";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import ApiApp from "~/api/ApiApp";
 
 const Orders = ({navigation}) => {
     const isFocused = useIsFocused();
@@ -33,24 +34,26 @@ const Orders = ({navigation}) => {
         }, 300);
     }
 
-    const getOrders = async () => {
-        try {
-            let result = await ordersService.getOrdersAssigned(user.userDoc.orders)
-            if (result && result.length > 0) {
-                setOrders(result)
-                setTimeout(() => {
-                    setLoading(false)
-                }, 500);
-            } else {
-                setTimeout(() => {
-                    setLoading(false)
-                }, 500);
-            }
-        } catch (e) {
-            setLoading(false)
-        }
-
-    }
+    const getOrders = () => {
+          ApiApp.getAssigned(user.userId).then(response=>{
+              if (response.data.success) {
+                  setOrders(response.data.data)
+                  setTimeout(() => {
+                      setLoading(false)
+                  }, 500);
+              } else {
+                  setTimeout(() => {
+                      setOrders([])
+                      setLoading(false)
+                  }, 500);
+              }
+            }).catch(e=>{
+              setTimeout(() => {
+                  setOrders([])
+                  setLoading(false)
+              }, 500);
+          });
+    };
 
     useEffect(async () => {
         if (isFocused) {
@@ -58,6 +61,12 @@ const Orders = ({navigation}) => {
             await getOrders();
         }
     }, [isFocused])
+
+    const orderBy = (array) => {
+        console.log(array)
+      //  const sortedActivities = array.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        return array
+    }
 
     return (
         <View style={{flex: 1, backgroundColor: 'white'}}>

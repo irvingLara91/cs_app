@@ -32,21 +32,22 @@ const styles = StyleSheet.create({
     },
 });
 
-const Order = ({status, orderId, card, ...props}) => {
+const Order = ({status, orderId, card,gravestone, ...props}) => {
     const navigation = useNavigation();
     const {navigate} = navigation;
+
     return (
         <TouchableOpacity
             style={styles.orderContainer}
             onPress={() => navigate({name: screens.ORDER_DETAILS, params: {orderId}})}>
                 <Image
                     flex={0}
-                    size={SCREEN_WIDTH*.15} source={{uri: card}}  borderRadius={10} alt="order thumbnail"/>
+                    size={SCREEN_WIDTH*.15} source={{uri: gravestone.image}}  borderRadius={10} alt="order thumbnail"/>
                 <View style={{flex:1.5,marginLeft:8}}>
                     <Text fontSize={textSizeRender(3.2)} fontFamily={"Roboto_700Bold"}>Order: {orderId}</Text>
                     <Text fontSize={textSizeRender(3.2)} fontFamily={"Roboto_400Regular"}>
                         {
-                            props.createdAt ? moment(props.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                            props.createdAt ? moment(props.createdAt, "", "en").format('MM/DD/YYYY')
                                 :
 
                                 props.timestamp ? moment(props.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')

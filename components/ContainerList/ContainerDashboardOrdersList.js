@@ -16,13 +16,13 @@ const ContainerDashboardOrdersList = ({data = null, ...props}) => {
             <View style={{flexDirection: 'row'}}>
                 <View style={{flex:0, alignItems:'center', paddingHorizontal:10}}>
                     {
-                        item.card ?
+                        item.gravestone && item.gravestone.image ?
                             <Image
                                 borderRadius={10}
                                 alt="Dashboard admin"
                                 size={SCREEN_WIDTH*.25} resizeMode={"cover"}
                                 source={{
-                                    uri: item.card
+                                    uri: item.gravestone.image
                                 }}/>
                             :
                             <Image
@@ -36,10 +36,10 @@ const ContainerDashboardOrdersList = ({data = null, ...props}) => {
                         <AntDesign name="calendar" size={textSizeRender(4)} color={"#FF0000"}/>
                         <Text style={styles.textDate}>
                             {
-                                item.createdAt ? moment(item.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                item.createdAt ? moment(item.createdAt, "", "en").format('MM/DD/YYYY')
                                     :
 
-                                    item.timestamp ? moment(item.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                    item.timestamp ? moment(item.timestamp, "", "en").format('MM/DD/YYYY')
                                         :
                                         "No date"
                             }

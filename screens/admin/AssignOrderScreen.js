@@ -16,6 +16,8 @@ import {useConfirmationContext} from "~/context/Confirmation";
 import ordersService from "~/services/orders";
 import userService from "~/services/user";
 import ApiApp from "~/api/ApiApp";
+import apiApp from "~/api/ApiApp";
+import CustomModal from "~/components/Modals/CustomModal";
 
 const AssignOrderScreen = (props) => {
     const {order} = useRoute().params ?? {};
@@ -23,27 +25,56 @@ const AssignOrderScreen = (props) => {
     const navigation = useNavigation();
     const {user} = useAuthUserContext()
     const [visibleUserPicker, setVisibleUserPicker] = useState(false)
-    const [selected, setSelected] = useState(order  ? order.client ? order.client :{}: {})
+    const [assigned, setAssigned] = useState(null)
+    const [selected, setSelected] = useState(null)
     const [users, setUsers] = useState([])
 
+    /***
+     * States de CustomModal
+     * **/
+    const [modalVisible, setModalVisible] = useState(false)
+    const [message, setMessage] = useState("")
+    const [isError, setIsError] = useState(false)
+
+    /***
+     * End States de CustomModal
+     * **/
+
     useEffect(()=>{
-
-        console.log(selected)
-
     },[selected])
+
+
+    const getAssignedToUser =(id)=>{
+        apiApp.getUser(id).then(response=>{
+            if (response.data.success){
+                ///alert(JSON.stringify(response.data.data))
+                setAssigned(response.data.data)
+            }else {
+                setAssigned(null)
+            }
+        }).catch(e=>{
+            setAssigned(null)
+        })
+
+    }
 
     const getUserDocs = () => {
         try {
-            userService.getUsers().then(docs => {
-                setUsers(docs)
+            apiApp.getUsers().then(response => {
+                if (response.data.success){
+                    setUsers(response.data.data.filter(user=> user.role !==1))
+                }
             });
         } catch (e) {
             setUsers([])
         }
     };
     useEffect(()=>{
+        if (order && order.assigned){
+            getAssignedToUser(order.assigned)
+        }
         getUserDocs()
-    },[])
+    },[order])
 
 
     const handleDelete = (orderId) => {
@@ -57,18 +88,55 @@ const AssignOrderScreen = (props) => {
             .catch((error) => {
                 return console.log(error);
             });
+    }
 
-
-        /*confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
-            .then(async() => {
-                const deleteResult = await ordersService.deleteOrder(orderId)
-                if (deleteResult.success) {
-                    navigation.goBack();
+    const assignedToUser =()=>{
+        if (assigned && selected){
+            apiApp.putReassign(order.orderId, {
+                    "prevUserId": assigned.userId,
+                    "newUserId": selected.userId
+                }).then(response=>{
+                    console.log("putReassign",response.data)
+                if (response.data.success){
+                    setMessage(response.data.message)
+                    setModalVisible(true)
+                    setIsError(false)
+                }else {
+                    setMessage(response.data.message)
+                    setModalVisible(true)
+                    setIsError(true)
                 }
+            }).catch(e=>{
+                console.log(e)
+                setMessage("Error")
+                setModalVisible(true)
+                setIsError(true)
             })
-            .catch((error) => {
-                return console.log(error);
-            });*/
+
+        }else if (!assigned && selected){
+            apiApp.putAssign(order.orderId,{
+                "newUserId": selected.userId
+            }).then(response=>{
+                if (response.data.success){
+                    setMessage(response.data.message)
+                    setModalVisible(true)
+                    setIsError(false)
+                }else {
+                    setMessage(response.data.message)
+                    setModalVisible(true)
+                    setIsError(true)
+                }
+
+            }).catch(e=>{
+                console.log(e)
+                setMessage("Error")
+                setModalVisible(true)
+                setIsError(true)
+            })
+        }else {
+            alert("seleccione  un  asmin o tecnico")
+        }
+
     }
 
     const actions = (<View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -77,6 +145,7 @@ const AssignOrderScreen = (props) => {
                 user.userDoc.role === 2 &&
                 <TouchableOpacity
                     onPress={() => {
+                        assignedToUser()
                     }}
                     style={{
                         width: "50%",
@@ -158,9 +227,9 @@ const AssignOrderScreen = (props) => {
                             }}>
 
                                 {
-                                    order.createdAt ? moment(order.createdAt.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                    order.createdAt ? moment(order.createdAt, "", "en").format('MM/DD/YYYY')
                                         :
-                                        order.timestamp ? moment(order.timestamp.seconds * 1000, "", "en").format('MM/DD/YYYY')
+                                        order.timestamp ? moment(order.timestamp, "", "en").format('MM/DD/YYYY')
                                             :
                                             "No date"
                                 }
@@ -169,20 +238,27 @@ const AssignOrderScreen = (props) => {
                     </LinearGradient>
                     {
                         user.userDoc.role === 2 &&
-                        <AssignOrderTo selected={selected} setVisibleUserPicker={setVisibleUserPicker}/>
+                        <AssignOrderTo  assigned={assigned} selected={selected} setVisibleUserPicker={setVisibleUserPicker}/>
                     }
 
-                    <CustomerData user={selected}/>
+                    <CustomerData user={order.client}/>
                     <OrderInfo gravestone={order && order.gravestone && order.gravestone} />
                 </View>
                 {
                     visibleUserPicker &&
                     <UserPickerModal visible={visibleUserPicker}
                                      options={users}
+                                     assigned={assigned}
                                      selected={selected}
                                      setSelected={setSelected}
                                      setVisible={setVisibleUserPicker}
                                      title={"Select user"}/>
+                }
+
+                {
+                    modalVisible &&
+                    <CustomModal message={message} visible={modalVisible} setVisible={setModalVisible} isError={isError}/>
+
                 }
 
             </ContainerAdmin>

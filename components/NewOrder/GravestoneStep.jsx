@@ -31,7 +31,7 @@ const GravestoneStep = ({ navigation }) => {
 			address_struct = `${place[0].street ? place[0]?.street : ""}${place[0].streetNumber?" "+place[0].streetNumber:""},${place[0].district?place[0].district:""},${place[0].city?place[0].city:""},${place[0].region?place[0].region:""},${place[0].country?place[0].country:""},${place[0].postalCode?place[0].postalCode:""}`
 		}
 
-		console.log(address_struct)
+		//console.log(address_struct)
 		setAddress(address_struct)
 	};
 

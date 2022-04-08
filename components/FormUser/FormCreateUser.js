@@ -56,35 +56,14 @@ const FormCreateUser = (props) => {
             setImageError(true)
             return
         } else {
-           /* setLoading(true)
-            setImageError(false)
-            const result = await authService.createUser({...data, isRegister: false, photo: image.uri})
-            //console.log({result})
-            if (result.success) {
-                setCustomModalVisible(true)
-                setCustomModal({isError: false, message: result.message})
-                setLoading(false)
-                await resetData();
-            } else if (result.error) {
-                setCustomModalVisible(true)
-                setCustomModal({isError: true, message: result.message})
-                setLoading(false)
-
-            } else {
-                setCustomModalVisible(true)
-                setCustomModal({isError: true, message: result.message})
-                setLoading(false)
-            }*/
-
-
             setLoading(true)
             setImageError(false)
             data.password = generateRandomPassword();
-            let formData = new FormData();
-            let dataString= JSON.stringify(data)
+            const formData = new FormData();
+            const dataString= JSON.stringify(data)
+            const { cancelled, ...restImage } = image;
+            formData.append("photo", {...restImage, name: "photo"})
             formData.append('data',dataString);
-            formData.append('photo',image);
-            console.log(data,formData)
             ApiApp.registerUser(formData).then(result=>{
                 if (result.data.success) {
                     setTimeout(() => {

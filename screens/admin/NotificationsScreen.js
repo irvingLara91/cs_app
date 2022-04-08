@@ -77,7 +77,7 @@ const NotificationsScreen = (props) => {
 
 
     const actionDelete=(item)=>{
-        console.log(item)
+       // console.log(item)
     }
 
 

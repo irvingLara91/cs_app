@@ -45,7 +45,7 @@ const FormEditUser = (props) => {
 
     const {textInput} = styles;
     const {control,getValues, setValue, handleSubmit, formState: {errors}} = useForm();
-    const [image, setImage] = useState(null)
+    const [image, setImage] = useState("")
     const [imageUpdate, setImageUpdate] = useState(null)
     const [ordersUpdate, setOrdersUpdate] = useState([])
     const [orders, setOrders] = useState([])
@@ -65,7 +65,6 @@ const FormEditUser = (props) => {
 
     const getOrders = async (userId) => {
         ApiApp.getAssigned(userId).then(response=>{
-            console.log(response.data)
             if (response.data.success){
                 setOrders(response.data.data)
             }else {
@@ -99,7 +98,7 @@ const FormEditUser = (props) => {
         setValue("email", user.email);
         setValue("phoneNumber", user.phoneNumber);
         setValue("role", user.role);
-        setImage(user.photoURL.trim() ? user.photoURL : null)
+        setImage(user.photoURL.trim() ? user.photoURL : "")
         setOrdersUpdate(user.orders && user.orders.length > 0 ? user.orders : [])
         //getOrders(user.orders && user.orders.length > 0 ? user.orders : [])
         getOrders(user.userId)
@@ -118,8 +117,8 @@ const FormEditUser = (props) => {
             let resizedImage = await ImageManipulator.manipulateAsync(
                 result.uri, [{resize: {width: result.width / 2, height: result.height / 2}}],
                 {format: result.type.split('/').pop(), base64: false});
-            setImage(result.uri);
-            setImageUpdate(result.uri)
+            //setImage(result.uri);
+            setImageUpdate(result)
             setImageError(false)
         }
     };
@@ -138,7 +137,7 @@ const FormEditUser = (props) => {
         confirm({description: `You are about to delete user: ${getValues("firstName")} ${getValues("lastName")}`, title: "This action can not be undone"})
             .then(async() => {
                 ApiApp.deleteUser(userId).then(response=>{
-                    console.log(response.data)
+                    //console.log(response.data)
                     if (response.data.success){
                         navigation.goBack();
                     }
@@ -151,18 +150,21 @@ const FormEditUser = (props) => {
     }
 
     const onSubmit = async (data) => {
-        if (image == null && imageUpdate === null){
+        if (image == null){
             setImageError(true)
             return
         }
+        //alert("eeee")
+
         setImageError(false)
         setLoading(true)
         const { email,role, firstName, lastName, phoneNumber} = data;
-        const newData = {
+        //console.log(props.user)
+        const params = {
             address: {
-                address:props.user.address.address,
-                city:props.user.address.city,
-                zipCode:props.user.address.zipCode
+                address:props.user.address ? props.user.address :"",
+                city:props.user.address ? props.user.city :"",
+                zipCode:props.user.address ? props.user.zipCode :""
             },
             orders:ordersUpdate,
             email,
@@ -170,11 +172,23 @@ const FormEditUser = (props) => {
             lastName,
             phoneNumber,
             role,
-            photoURL: image,
+            photoURL: imageUpdate ? "" : image ? image: "",
             userId: props.user.userId
         }
-         await apiApp.updateUser(props.user.userId, newData).then(res=>{
-             console.log(res.data)
+        let formData = new FormData();
+        let stringData = JSON.stringify(params);
+        formData.append("data",stringData)
+        if (imageUpdate ===null){
+            formData.append("avatar",{})
+        }else {
+            const { cancelled, ...restImage } = imageUpdate;
+            formData.append("avatar", {...restImage, name: "avatar"})
+        }
+
+       // console.log(formData)
+
+         await apiApp.updateUser(props.user.userId,formData).then(res=>{
+            //// console.log(res)
             if (res.data.success) {
 
                 setTimeout(() => {
@@ -289,6 +303,25 @@ const FormEditUser = (props) => {
                                             }}
                                         >
                                             {
+                                                imageUpdate  ?
+                                                    <Center>
+                                                        <Image
+                                                            style={{
+                                                                width: 23,
+                                                                height: 23,
+                                                                resizeMode: 'cover',
+                                                                borderRadius: 50,
+                                                                borderWidth: 2,
+                                                                borderColor: "#eeeeee",
+                                                                backgroundColor: "#C4C4C4",
+                                                                padding: 13
+                                                            }}
+                                                            defaultSource={require("../../assets/image.png")}
+                                                            source={{
+                                                                uri: imageUpdate.uri
+                                                            }}/>
+                                                    </Center>
+                                                    :
                                                 image ?
                                                     <Center>
                                                         <Image
