@@ -1,10 +1,11 @@
 import Rect, {useEffect, useState} from "react";
 import StepIndicator from 'react-native-step-indicator';
-import {View} from "native-base";
+import {Text, View} from "native-base";
+import {statusCode, valStatusCode} from "~/utils/utils";
 
 const customStyles = {
     stepIndicatorSize: 30,
-    currentStepIndicatorSize:40,
+    currentStepIndicatorSize: 40,
     separatorStrokeWidth: 5,
     currentStepStrokeWidth: 3,
     stepStrokeCurrentColor: '#00B93F',
@@ -26,7 +27,7 @@ const customStyles = {
     currentStepLabelColor: '#00B93F'
 }
 
-const LineOrderStatus = ({labels = ["Order Shipped", "Order Delivery", "In process", "Delivered"], status = 0}) => {
+const LineOrderStatus = ({labels = ["Created", "In process", "Completed", "Finished"], status = 0}) => {
     const [labels_, setLabel] = useState([])
     const [currentPosition, setCurrentPosition] = useState(0)
 
@@ -41,16 +42,25 @@ const LineOrderStatus = ({labels = ["Order Shipped", "Order Delivery", "In proce
     }, [status]);
 
     return (
-        <View>{
-            labels_ && labels_.length > 0 &&
-            <StepIndicator
-                stepCount={labels_.length}
-                customStyles={customStyles}
-                currentPosition={currentPosition}
-                labels={labels_}
-            />
-        }
-        </View>
+        <>
+            {
+                status ===0 || status===5 || status ===6 || status ===7  ?
+                    <Text style={{textAlign:'center'}}>{valStatusCode(status).name}</Text>
+                    :
+                    <View>{
+                        labels_ && labels_.length > 0 &&
+                        <StepIndicator
+                            stepCount={4}
+                            customStyles={customStyles}
+                            currentPosition={currentPosition}
+                            labels={labels_}
+                        />
+                    }
+                    </View>
+            }
+
+        </>
+
 
     )
 }
