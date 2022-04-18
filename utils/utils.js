@@ -78,6 +78,39 @@ export const longName =(name,lastname)=>{
     }
     return fullName;
 }
+export const statusCode_ = (status) => {
+    let statusCode = ""
+    switch (status) {
+        case 0:
+            statusCode = "Cancelled"
+            break;
+        case 1:
+            statusCode = "Created"
+            break;
+        case 2:
+            statusCode = "In progress"
+            break;
+        case 3:
+            statusCode = "Paused"
+            break;
+        case 4:
+            statusCode = "Activated"
+            break;
+        case 5:
+            statusCode = "Rejected"
+            break;
+        case 6:
+            statusCode = "Completed"
+            break;
+        case 7:
+            statusCode = "Finished"
+            break;
+        default:
+            statusCode= "Not Status"
+    }
+
+    return statusCode;
+};
 
 export const statusCode = (status) => {
     let statusCode = ""

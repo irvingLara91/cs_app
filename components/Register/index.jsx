@@ -24,31 +24,30 @@ const Register = ({navigation}) => {
     }
 
     const onRegister = async (data) => {
-        setLoading(true)
-        const formData = new FormData();
-        data.role = 1;
-        const dataString = JSON.stringify(data);
-        formData.append("avatar", {})
-        formData.append('data', dataString);
-        ApiApp.registerUser(formData).then(response => {
-            if (response.data.success) {
-                setTimeout(() => {
-                    setLoading(false)
-                    response.data.data.isFirstTime = true
-                    setDataUser(response.data.data)
-                }, 500);
-            } else {
-                setTimeout(() => {
-                    setLoading(false)
-                }, 500);
-            }
-        }).catch(e => {
-            console.log("error", e);
-            setTimeout(() => {
-                setLoading(false)
-            }, 500);
-        });
-
+         setLoading(true)
+         const formData = new FormData();
+         data.role = 1;
+         const dataString = JSON.stringify(data);
+         formData.append("avatar", {})
+         formData.append('data', dataString);
+         ApiApp.registerUser(formData).then(response => {
+             if (response.data.success) {
+                 setTimeout(() => {
+                     setLoading(false)
+                     response.data.data.isFirstTime = true
+                     setDataUser(response.data.data)
+                 }, 500);
+             } else {
+                 setTimeout(() => {
+                     setLoading(false)
+                 }, 500);
+             }
+         }).catch(e => {
+             console.log("error", e);
+             setTimeout(() => {
+                 setLoading(false)
+             }, 500);
+         });
     }
 
     return (
@@ -56,7 +55,7 @@ const Register = ({navigation}) => {
             <Center>
                 <Stack mt={3} mb={10} space={4} w="75%" maxW="300px">
                     <Heading>Complete the following information</Heading>
-                    <Form onSubmit={onRegister}/>
+                    <Form onRegister={onRegister}/>
                 </Stack>
             </Center>
             {

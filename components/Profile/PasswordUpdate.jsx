@@ -40,9 +40,9 @@ const PasswordUpdate = ({navigation}) => {
         setLoading(true)
         const {newPassword, newPasswordConfirm, currentPassword} = data;
         const verified = await authService.login(user.email, currentPassword);
-        if (!verified.hasOwnProperty("errorCode")) {
+        if (currentPassword) {
             if (newPassword === newPasswordConfirm) {
-                const result = await ApiApp.updatePassword({"userId":user.uid ? user.uid :user.userId,"newPassword":newPassword});
+                const result = await ApiApp.updatePassword({"currentUser":currentPassword,"newPassword":newPassword});
                 if (result.data.success) {
                     //trigger success
                     setTimeout(() => {
