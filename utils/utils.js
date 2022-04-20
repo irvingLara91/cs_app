@@ -78,25 +78,55 @@ export const longName =(name,lastname)=>{
     }
     return fullName;
 }
-
 export const statusCode = (status) => {
     let statusCode = ""
     switch (status) {
+        case 0:
+            statusCode = "Cancelled"
+            break;
         case 1:
-            statusCode = "Confirmed"
+            statusCode = "Created"
             break;
         case 2:
-            statusCode = "In process"
+            statusCode = "In progress"
             break;
         case 3:
-            statusCode = "Order ready"
+            statusCode = "Completed"
             break;
         case 4:
-            statusCode = "Order sent"
+            statusCode = "Finished"
+            break;
+        case 5:
+            statusCode = "Paused"
+            break;
+        case 6:
+            statusCode = "Activated"
+            break;
+        case 7:
+            statusCode = "Rejected"
             break;
         default:
-            statusCode = "No status"
-            break
+            statusCode= "Not Status"
+    }
+
+    return statusCode;
+};
+
+export const valStatusCode = (status) => {
+    let statusCode = {name:"Cancelled",code:0}
+    switch (status) {
+        case 0:
+            statusCode = {name:"Cancelled",code:0}
+            break;
+        case 5:
+            statusCode =  {name:"Paused",code:3}
+            break;
+        case 6:
+            statusCode = {name:"Activated",code:4}
+            break;
+        case 7:
+            statusCode = {name:"Rejected",code:5}
+            break;
     }
     ;
 

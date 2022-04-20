@@ -1,33 +1,58 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
     VStack,
     Input,
     Button,
     FormControl,
-    View
+    View, IconButton
 } from "native-base";
 import {useForm, Controller} from "react-hook-form";
 import {useNavigation} from "@react-navigation/native";
-import {TextInput} from "react-native"
+import {Text, TextInput} from "react-native"
 
 import styles from "./styles";
 import CustomButton from "~/components/CustomButton/CustomButton";
+import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import {MaterialIcons} from "@expo/vector-icons";
 
 
-const Form = ({onSubmit}) => {
+const Form = ({onRegister}) => {
     const navigation = useNavigation();
-    const {flexSpaceBetween,textInput} = styles;
-    const {control, handleSubmit, formState: {errors}} = useForm();
+    const {flexSpaceBetween, textInput} = styles;
+    const {control, handleSubmit, formState: {errors}, setError} = useForm();
+    const [showNewPassword, setShowNewPassword] = useState(false);
+    const [showNewPasswordConfirmation, setShowNewPasswordConfirmation] = useState(false);
+
+
+    const onSubmit = async (data) => {
+
+        const {password, passwordConfirm} = data;
+
+        if (password === passwordConfirm) {
+            delete data.passwordConfirm
+            onRegister(data)
+        }else {
+            setError("password", {
+                type: "manual",
+                message: "Password mismatch",
+            });
+            setError("passwordConfirm", {
+                type: "manual",
+                message: "Password mismatch",
+            });
+        }
+
+    }
 
     return (
-        <VStack space={2} alignItems="center">
+        <VStack space={2}>
             <FormControl isRequired isInvalid={"email" in errors}>
                 <FormControl.Label>Email</FormControl.Label>
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-						<TextInput
-							style={textInput}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
@@ -44,20 +69,55 @@ const Form = ({onSubmit}) => {
                     {errors?.email?.message}
                 </FormControl.ErrorMessage>
             </FormControl>
-            <FormControl isRequired isInvalid={"password" in errors}>
-                <FormControl.Label>Password</FormControl.Label>
+            <View style={{
+                marginTop: 2,
+                marginBottom: 5
+            }}>
+                <Text style={{
+                    fontFamily: "Roboto_400Regular",
+                    fontSize: textSizeRender(3.6)
+                }}>Password<Text style={{color: 'red'}}>*</Text></Text>
+            </View>
+            <FormControl
+                style={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0, height: 4,
+                    },
+                    borderColor: '#C4C4C4',
+                    shadowOpacity: 0.30,
+                    shadowRadius: 2.65,
+                    elevation: 8,
+                }}
+                mb={2} isRequired isInvalid={"password" in errors}>
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-						<TextInput
-							style={textInput}
-                            type="password"
-                            secureTextEntry={true}
-                            variant="outline"
+                        <Input
+                            height={SCREEN_WIDTH * .11}
+                            borderRadius={8}
+                            borderColor='#C4C4C4'
+                            borderWidth={.5}
+                            _focus={{borderColor: '#C4C4C4'}}
+                            _light={{
+                                paddingLeft: 5,
+                                backgroundColor: 'primary_white.50',
+                            }} _dark={{
+                            paddingLeft: 5,
+                            backgroundColor: 'primary_white.50',
+                        }}
+                            InputRightElement={<IconButton
+                                onPress={() => setShowNewPassword((prevState) => !prevState)}
+                                variant="outlined" _icon={{
+                                as: MaterialIcons,
+                                name: `${!showNewPassword ? "visibility" : "visibility-off"}`,
+                                color: "black",
+                                size: 4
+                            }}/>}
+                            type={`${showNewPassword ? "text" : "password"}`}
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
                             value={value}
-                            autoCapitalize="none"
                         />
                     )}
                     name="password"
@@ -68,13 +128,74 @@ const Form = ({onSubmit}) => {
                     {errors?.password?.message}
                 </FormControl.ErrorMessage>
             </FormControl>
+
+            <View style={{
+                marginTop: 2,
+                marginBottom: 5
+            }}>
+                <Text style={{
+                    fontFamily: "Roboto_400Regular",
+                    fontSize: textSizeRender(3.6)
+                }}>Confirm password<Text style={{color: 'red'}}>*</Text></Text>
+            </View>
+            <FormControl
+                style={{
+                    shadowColor: "#000",
+                    shadowOffset: {
+                        width: 0, height: 4,
+                    },
+                    borderColor: '#C4C4C4',
+                    shadowOpacity: 0.30,
+                    shadowRadius: 2.65,
+                    elevation: 8,
+                }}
+                mb={2} isRequired isInvalid={"passwordConfirm" in errors}>
+                <Controller
+                    control={control}
+                    render={({field: {onChange, onBlur, value}}) => (
+                        <Input
+                            height={SCREEN_WIDTH * .11}
+                            borderRadius={8}
+                            borderColor='#C4C4C4'
+                            borderWidth={.5}
+                            _focus={{borderColor: '#C4C4C4'}}
+                            _light={{
+                                paddingLeft: 5,
+                                backgroundColor: 'primary_white.50',
+                            }} _dark={{
+                            paddingLeft: 5,
+                            backgroundColor: 'primary_white.50',
+                        }}
+                            InputRightElement={<IconButton
+                                onPress={() => setShowNewPasswordConfirmation((prevState) => !prevState)}
+                                variant="outlined" _icon={{
+                                as: MaterialIcons,
+                                name: `${!showNewPasswordConfirmation ? "visibility" : "visibility-off"}`,
+                                color: "black",
+                                size: 4
+                            }}/>}
+                            type={`${showNewPasswordConfirmation ? "text" : "password"}`}
+                            onBlur={onBlur}
+                            onChangeText={(text) => onChange(text)}
+                            value={value}
+                        />
+                    )}
+                    name="passwordConfirm"
+                    rules={{required: "Field is required", minLength: 3}}
+                    defaultValue=""
+                />
+                <FormControl.ErrorMessage>
+                    {errors?.passwordConfirm?.message}
+                </FormControl.ErrorMessage>
+            </FormControl>
+
             <FormControl isRequired isInvalid={"firstName" in errors}>
                 <FormControl.Label>First name</FormControl.Label>
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-						<TextInput
-							style={textInput}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
@@ -94,8 +215,8 @@ const Form = ({onSubmit}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-						<TextInput
-							style={textInput}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
@@ -115,8 +236,8 @@ const Form = ({onSubmit}) => {
                 <Controller
                     control={control}
                     render={({field: {onChange, onBlur, value}}) => (
-						<TextInput
-							style={textInput}
+                        <TextInput
+                            style={textInput}
                             variant="outline"
                             onBlur={onBlur}
                             onChangeText={(text) => onChange(text)}
@@ -158,8 +279,8 @@ const Form = ({onSubmit}) => {
                     <Controller
                         control={control}
                         render={({field: {onChange, onBlur, value}}) => (
-							<TextInput
-								style={textInput}
+                            <TextInput
+                                style={textInput}
                                 variant="outline"
                                 onBlur={onBlur}
                                 onChangeText={(text) => onChange(text)}
@@ -179,8 +300,8 @@ const Form = ({onSubmit}) => {
                     <Controller
                         control={control}
                         render={({field: {onChange, onBlur, value}}) => (
-							<TextInput
-								style={textInput}
+                            <TextInput
+                                style={textInput}
                                 variant="outline"
                                 onBlur={onBlur}
                                 onChangeText={(text) => onChange(text)}

@@ -1,8 +1,8 @@
 import React from "react";
-import {Box, Divider,} from "native-base";
+import {Box, Divider} from "native-base";
 import {View,StyleSheet,Text} from "react-native"
 import LineOrderStatus from "~/components/LineOrderStatus/LineOrderStatus";
-import {Dimensions} from "react-native";
+import {ScrollView} from "react-native";
 import {SCREEN_WIDTH} from "~/utils/utils";
 
 const Status = ({ code, msg }) => {
