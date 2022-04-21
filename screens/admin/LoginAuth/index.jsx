@@ -1,8 +1,7 @@
 import React, {useState} from "react";
 import {Link} from "@react-navigation/native";
-import {Stack, Box, Center, Image, Text} from "native-base";
 import Form from "../../../components/Login/Form";
-import ReferenceImage from "~/assets/image.png";
+import ReferenceImage from "~/assets/logo_login.png";
 import screens from "~/constants/screens";
 import styles from "./styles";
 import ContainerBase from "~/components/common/ContainerBase";
@@ -10,13 +9,14 @@ import Loading from "~/components/Loading/Loading";
 import authService from "~/services/auth";
 import userService from "~/services/user";
 import {useAuthUserContext} from "~/context/authUser";
-import {textSizeRender, setData, errorMessage} from "~/utils/utils";
+import {textSizeRender, setData, errorMessage, SCREEN_WIDTH} from "~/utils/utils";
 import CustomModal from "~/components/Modals/CustomModal";
 import ApiApp from "~/api/ApiApp";
+import {Image, Text, View} from "react-native";
 
 export default function Login() {
-    const { getUser } = userService;
-    const { login } = authService;
+    const {getUser} = userService;
+    const {login} = authService;
     const {passwordRecoveryLink} = styles;
     const {setFetching, fetching, setUser} = useAuthUserContext()
     /***
@@ -28,7 +28,7 @@ export default function Login() {
     /***
      * End States de CustomModal
      * **/
-    const closeModal=(val)=>{
+    const closeModal = (val) => {
         setMessage("")
         setIsError(false)
         setModalVisible(false)
@@ -43,16 +43,16 @@ export default function Login() {
         await setData("user", res)
     }
 
-    const onLogin = async(data) => {
+    const onLogin = async (data) => {
         setFetching(true)
-        const { email, password } = data;
-        ApiApp.login({email, password}).then(response=>{
-            if (response.data.success){
+        const {email, password} = data;
+        ApiApp.login({email, password}).then(response => {
+            if (response.data.success) {
                 setTimeout(() => {
                     setFetching(false)
                     setDataUser(response.data.data)
                 }, 500);
-            }else {
+            } else {
                 setTimeout(() => {
                     setFetching(false)
                     setModalVisible(true)
@@ -60,7 +60,7 @@ export default function Login() {
                     setIsError(true)
                 }, 500);
             }
-        }).catch(e=>{
+        }).catch(e => {
             setTimeout(() => {
                 setFetching(false)
                 setModalVisible(true)
@@ -72,24 +72,39 @@ export default function Login() {
 
     return (
         <ContainerBase backgroundColor={"white"}>
-            <Center>
-                <Stack mt={3} space={4} w="75%" maxW="300px">
-                    <Center mt={20} mb={20}>
-                        <Image source={ReferenceImage} alt="reference login image"/>
-                    </Center>
+            <View style={{flex:1}}>
+                <View style={{flex:1,alignItems: 'center',marginTop:SCREEN_WIDTH*.15}}>
+                    <View>
+                        <Image
+                            style={{
+                                resizeMode:'contain',
+                                height: SCREEN_WIDTH/1.5,
+                                width: SCREEN_WIDTH,
+                            }}
+                            source={ReferenceImage}/>
+                    </View>
+                </View>
+                <View style={{marginTop:SCREEN_WIDTH*.10,flex:1,paddingHorizontal:SCREEN_WIDTH*0.1}}>
+                    <View style={{marginBottom:10}}>
+                        <Text style={{fontSize: textSizeRender(7)}}>Log In</Text>
+                    </View>
                     <Form onSubmit={onLogin}/>
-                    <Box>
+                    <View style={{marginTop:20}}>
                         <Link
                             to={{screen: screens.PASSWORD_RECOVERY_ADMIN}}
                             style={passwordRecoveryLink}
                         >
-                            <Text underline fontFamily={"Roboto_400Regular"} fontSize={textSizeRender(3.5)}>
+                            <Text
+                                style={{
+                                    textDecorationLine: 'underline',
+                                    fontFamily:"Roboto_400Regular",fontSize:textSizeRender(3.5)}}>
                                 Did you forget your password?</Text>
 
                         </Link>
-                    </Box>
-                </Stack>
-            </Center>
+                    </View>
+                </View>
+
+            </View>
             {
                 fetching &&
                 <Loading loading={fetching} color={"black"} text={"loading..."}/>
@@ -97,7 +112,7 @@ export default function Login() {
 
             {
                 modalVisible &&
-                <CustomModal message={message} visible={modalVisible} setVisible={closeModal} isError={isError} />
+                <CustomModal message={message} visible={modalVisible} setVisible={closeModal} isError={isError}/>
             }
         </ContainerBase>
     );

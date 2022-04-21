@@ -26,6 +26,7 @@
     "expo-linear-gradient": "~11.0.3",
     "expo-location": "~14.0.1",
     "expo-status-bar": "~1.2.0",
+    "expo-updates": "~0.11.6",
     "firebase": "9.6.7",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",

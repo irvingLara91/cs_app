@@ -1,20 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {Link} from "@react-navigation/native";
-import {Stack, Box, Center, Image, Text} from "native-base";
 import Form from "~/components/Login/Form";
 import screens from "~/constants/screens";
 import ContainerBase from "~/components/common/ContainerBase";
 import Loading from "~/components/Loading/Loading";
-
-import ReferenceImage from "~/assets/image.png";
+import ReferenceImage from "~/assets/logo_login.png";
 import styles from "./styles";
-import {textSizeRender, setData, errorMessage, removeData} from "~/utils/utils";
-
-import authService from "~/services/auth";
+import {textSizeRender, setData, errorMessage, removeData, SCREEN_WIDTH} from "~/utils/utils";
 
 import {useAuthUserContext} from "~/context/authUser";
 import CustomModal from "~/components/Modals/CustomModal";
 import ApiApp from "~/api/ApiApp";
+import {View,Image, Text} from "react-native";
 
 export default function Login() {
     const {passwordRecoveryLink} = styles;
@@ -76,24 +73,39 @@ export default function Login() {
 
     return (
         <ContainerBase backgroundColor={"white"}>
-            <Center>
-                <Stack mt={3} space={4} w="75%" maxW="300px">
-                    <Center mt={20} mb={20}>
-                        <Image source={ReferenceImage} alt="reference login image"/>
-                    </Center>
-                    <Form onSubmit={onLogin} />
-                    <Box>
+            <View style={{flex:1}}>
+                <View style={{flex:1,alignItems: 'center',marginTop:SCREEN_WIDTH*.15}}>
+                    <View>
+                        <Image
+                            style={{
+                                resizeMode:'contain',
+                                height: SCREEN_WIDTH/1.5,
+                                width: SCREEN_WIDTH,
+                            }}
+                            source={ReferenceImage}/>
+                    </View>
+                </View>
+                <View style={{marginTop:SCREEN_WIDTH*.10,flex:1,paddingHorizontal:SCREEN_WIDTH*0.1}}>
+                    <View style={{marginBottom:10}}>
+                        <Text style={{fontSize: textSizeRender(7)}}>Log In</Text>
+                    </View>
+                    <Form onSubmit={onLogin}/>
+                    <View style={{marginTop:20}}>
                         <Link
                             to={{screen: screens.PASSWORD_RECOVERY}}
                             style={passwordRecoveryLink}
                         >
-                            <Text underline fontFamily={"Roboto_400Regular"} fontSize={textSizeRender(3.5)}>
+                            <Text
+                                style={{
+                                    textDecorationLine: 'underline',
+                                    fontFamily:"Roboto_400Regular",fontSize:textSizeRender(3.5)}}>
                                 Did you forget your password?</Text>
 
                         </Link>
-                    </Box>
-                </Stack>
-            </Center>
+                    </View>
+                </View>
+
+            </View>
             {
                 fetching &&
                 <Loading loading={fetching} color={"black"} text={"loading..."}/>
