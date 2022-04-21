@@ -4,7 +4,7 @@ import { Box, Center, Text, Button, Image, Flex, Heading } from "native-base";
 import Steps from "./Steps";
 import Camera from "~/components/common/Camera";
 import screens from "~/constants/screens";
-import HelperImage from "~/assets/image.png";
+import HelperImage from "~/assets/tkphoto.png";
 import { useNewOrderContext } from "~/context/newOrder";
 import {LinearGradient} from "expo-linear-gradient";
 
@@ -104,7 +104,7 @@ const Unboarding = ({ setEnableCamera }) => {
 		<LinearGradient colors={["#858C93","#5E6268"]} style={{borderRadius:31}}>
 			<Box p="15" w="full" maxW={270}>
 				<Center>
-					<Image mb="30" mt="30" tintColor={"white"} source={HelperImage} width="63" height="50" alt="gravestone picture unboarding" />
+					<Image mb="3" mt="30" resizeMode={"contain"} tintColor={"white"} source={HelperImage} width="100" height="60" alt="gravestone picture unboarding" />
 					<Heading style={{ fontFamily:"Roboto_500Medium",textAlign: "center",color:"white"}} >Gravestone picture</Heading>
 					<Text fontSize="10" mt="3" style={{fontFamily:"Roboto_400Regular",textAlign: "center",color:"white"}}>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.</Text>
 					<Box w="full" mt="5" mb="5">

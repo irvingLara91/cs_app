@@ -4,10 +4,13 @@ import { Camera as ExpoCamera } from "expo-camera";
 import { IconButton, Center, Box, Button } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import {TouchableOpacity} from "react-native";
+import {useIsFocused} from "@react-navigation/native";
 
 const { height, width } = Dimensions.get("window");
 
 export default function Camera({ onConfirm }) {
+	const isFocused = useIsFocused();
+
 	const [camera, setCamera] = useState(null);
 	const [hasCameraPermission, setHasCameraPermission] = useState(null);
 	const [imagePadding, setImagePadding] = useState(0);
@@ -45,6 +48,12 @@ export default function Camera({ onConfirm }) {
 		}    
 		getCameraStatus();
 	}, []);
+
+	useEffect(()=>{
+		if (isFocused){
+			setPicture(null)
+		}
+	},[isFocused])
 
 	const prepareRatio = async () => {
 		let desiredRatio = "4:3";
