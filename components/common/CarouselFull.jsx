@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: textSizeRender(8),
-        fontFamily: "Roboto_700Bold",
+        fontFamily: "Roboto_900Black",
         color: 'white'
     }
 });
@@ -41,7 +41,7 @@ const CarouselFull = ({data, containerStyle = {},}) => {
     const renderItem = ({item}) => {
         return (
             <View style={styles.itemContainer}>
-                <ImageBackground source={{uri: item.img}} resizeMode="cover" style={{
+                <ImageBackground source={item.img} resizeMode="cover" style={{
                     width: '100%',
                     height: '100%',
                 }}>
