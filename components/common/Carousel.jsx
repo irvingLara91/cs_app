@@ -6,7 +6,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import {textSizeRender} from "~/utils/utils";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
-const ITEM_WIDTH = Math.round(SLIDER_WIDTH / 1.3);
+const ITEM_WIDTH = Math.round(SLIDER_WIDTH / 1.4);
 const ITEM_HEIGHT = Math.round(ITEM_WIDTH / 1.2);
 
 const styles = StyleSheet.create({

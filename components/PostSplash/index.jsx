@@ -13,17 +13,17 @@ const PostSplash = ({navigation}) => {
     const data = [
         {
 
-            img: <Image alt="image" resizeMode={"contain"} w={SCREEN_WIDTH*.8} h={SCREEN_WIDTH*.5} source={require("~/assets/init.png")}/>,
+            img: <Image alt="image" resizeMode={"contain"} w={SCREEN_WIDTH*.6} h={SCREEN_WIDTH*.5} source={require("~/assets/init.png")}/>,
             title: "How does it work 1",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },
         {
-            img: <Image alt="image" resizeMode={"contain"}  w={SCREEN_WIDTH*.8} h={SCREEN_WIDTH*.5} source={require("~/assets/init.png")}/>,
+            img: <Image alt="image" resizeMode={"contain"}  w={SCREEN_WIDTH*.6} h={SCREEN_WIDTH*.5} source={require("~/assets/init.png")}/>,
             title: "How does it work 2",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },
         {
-            img: <Image alt="image" resizeMode={"contain"}  w={SCREEN_WIDTH*.8} h={SCREEN_WIDTH*.5} source={require("~/assets/init.png")}/>,
+            img: <Image alt="image" resizeMode={"contain"}  w={SCREEN_WIDTH*.6} h={SCREEN_WIDTH*.5} source={require("~/assets/init.png")}/>,
             title: "How does it work 3",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },
