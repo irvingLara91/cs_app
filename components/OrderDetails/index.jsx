@@ -2,25 +2,95 @@ import React, {useEffect, useState} from "react";
 import {View, StyleSheet, Image} from "react-native";
 import {Stack, Center, Divider, Text, Box, Heading, Flex, ScrollView} from "native-base";
 import Status from "./Status";
-import ordersService from "~/services/orders";
 import moment from "moment";
 import {LinearGradient} from "expo-linear-gradient";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import ApiApp from "~/api/ApiApp";
+import CancelOrderModal from "~/components/Modals/CancelOrderModal";
+import CustomButton from "~/components/CustomButton/CustomButton";
+import Loading from "~/components/Loading/Loading";
+import CustomModal from "~/components/Modals/CustomModal";
 
 const OrderDetails = ({route}) => {
 
     const [details, setDetails] = useState({});
+    const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+
+    /***
+     * States de CustomModal
+     * **/
+    const [modalVisible, setModalVisible] = useState(false);
+    const [message, setMessage] = useState("")
+    const [isError, setIsError] = useState(false)
+
+    const [status, setStatus] = useState(null);
+
+    useEffect(() => {
+        setStatus(details?.status ? details.status.code : details.statusCode)
+    }, [details])
+
+    /***
+     * End States de CustomModal
+     * **/
 
     useEffect(async () => {
         const getOrderDetails = async () => {
             const result = await ApiApp.getOrder(route.params.orderId);
-            if (result.data.success){
+            if (result.data.success) {
                 setDetails(result.data.data)
             }
         };
         await getOrderDetails();
     }, []);
+
+
+    const sendOrderCancellation = (text) => {
+        setVisible(false);
+        setLoading(true)
+        ApiApp.cancelOrder(route.params.orderId, {
+            status:
+                {
+                    "code": status === 3 ? 7 : 0,
+                    "message": text
+                }
+        }).then(result => {
+
+            if (result.data.success) {
+                setTimeout(() => {
+                    setStatus(status === 3 ? 7 : 0)
+                    setLoading(false)
+                    setMessage("Status Canceled successful")
+                    setModalVisible(true)
+                    setIsError(false)
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    setLoading(false)
+                    setMessage(result.data.message)
+                    setModalVisible(true)
+                    setIsError(true)
+                }, 1000);
+            }
+            setTimeout(() => {
+                setLoading(false)
+            }, 1000);
+        }).catch(e => {
+            console.log(e)
+            setTimeout(() => {
+                setLoading(false)
+            }, 1000);
+
+            setTimeout(() => {
+                setLoading(false)
+                setMessage("An error has occurred, please try again later.")
+                setModalVisible(true)
+                setIsError(true)
+            }, 1000);
+
+
+        });
+    }
 
     return (
         <ScrollView style={{backgroundColor: "white"}}>
@@ -86,8 +156,8 @@ const OrderDetails = ({route}) => {
                             <Text
                                 fontSize={textSizeRender(3.2)}
                                 fontFamily={"Roboto_400Regular"}>{
-                                details && details.gravestone &&  details.gravestone.address &&
-                                `${details?.gravestone?.address.address.trim()? details.gravestone.address.address+",":""}${details?.gravestone?.address.address2 ? details?.gravestone?.address.address2+", " : ""}${details?.gravestone?.address.city}, ${details?.gravestone?.address.zipCode}`
+                                details && details.gravestone && details.gravestone.address &&
+                                `${details?.gravestone?.address.address.trim() ? details.gravestone.address.address + "," : ""}${details?.gravestone?.address.address2 ? details?.gravestone?.address.address2 + ", " : ""}${details?.gravestone?.address.city}, ${details?.gravestone?.address.zipCode}`
                             }</Text>
                         </View>
                     </View>
@@ -95,13 +165,57 @@ const OrderDetails = ({route}) => {
                 <View style={{
                     width: '100%',
                     marginTop: SCREEN_WIDTH * .001,
-                    marginBottom:50
+                    marginBottom: 50
                 }}>
-
-                    <Status code={details?.statusCode}/>
+                    <Status code={status}/>
                 </View>
 
+                <View style={{
+                    width: '100%',
+                    marginTop: SCREEN_WIDTH * .001,
+                    marginBottom: 50
+                }}>
+
+                    {
+                        status ?
+                            status !==0 &&
+                            status !==7 &&
+                            <CustomButton onPress={() => {
+                            setVisible(true)
+                        }}
+                                      title={status === 3 ?'Reject order' :'Cancel order'}
+                                      textColor={"#fff"}
+                                      gradient={["red", "red"]}
+                                      borderRadius={10}/>
+
+:
+                            null
+                    }
+
+                </View>
+
+
+                <CancelOrderModal
+                    status={status}
+                    orderId={route.params.orderId}
+                                  send={sendOrderCancellation}
+                                  visible={visible} setVisible={(v) => {
+                    setVisible(v)
+                }}/>
+
             </Stack>
+
+            {
+                modalVisible &&
+                <CustomModal message={message} visible={modalVisible} setVisible={setModalVisible} isError={isError}/>
+
+            }
+            {
+                loading &&
+                <Loading loading={loading} color={"white"} text={"Loading..."}/>
+            }
+
+
         </ScrollView>
     );
 };

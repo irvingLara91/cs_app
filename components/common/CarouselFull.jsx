@@ -38,9 +38,9 @@ const CarouselFull = ({data, containerStyle = {},}) => {
     const [slide, setSlide] = useState(0);
 
 
-    const renderItem = ({item}) => {
+    const renderItem = ({item,index}) => {
         return (
-            <View style={styles.itemContainer}>
+            <View key={index} style={styles.itemContainer}>
                 <ImageBackground source={item.img} resizeMode="cover" style={{
                     width: '100%',
                     height: '100%',

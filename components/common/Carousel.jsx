@@ -37,9 +37,11 @@ const Carousel = ({data, containerStyle = {},}) => {
     const [slide, setSlide] = useState(0);
 
 
-    const renderItem = ({item}) => {
+    const renderItem = ({item,index}) => {
         return (
-            <LinearGradient colors={["#838B95", "#4A4E54"]} style={styles.itemContainer}>
+            <LinearGradient
+                key={index}
+                colors={["#838B95", "#4A4E54"]} style={styles.itemContainer}>
                 <View stayle={{flex: 1, justifyContent: "center", alignSelf: 'center'}}>
                     {item.img}
                 </View>

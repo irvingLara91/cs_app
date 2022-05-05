@@ -108,7 +108,7 @@ export default function Login() {
             </View>
             {
                 fetching &&
-                <Loading loading={fetching} color={"black"} text={"loading..."}/>
+                <Loading loading={fetching} color={"white"} text={"loading..."}/>
             }
             {
                 modalVisible &&

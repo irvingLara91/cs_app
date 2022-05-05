@@ -91,6 +91,13 @@ class ApiApp {
         return ApiApp.ApisType(`/api/orders/assigned/${userId}`, 'get');
     }
 
+    static changeStatusOrder = (orderId,params) => {
+        return ApiApp.ApisType(`/api/orders/status/${orderId}`, 'put',params);
+    }
+
+    static cancelOrder = (orderId,params) => {
+        return ApiApp.ApisType(`/api/orders/status/${orderId}`, 'put',params);
+    }
 
     /**
      *  API REST USERS

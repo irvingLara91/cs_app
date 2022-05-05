@@ -106,7 +106,7 @@ export const statusCode = (status) => {
             statusCode = "Rejected"
             break;
         default:
-            statusCode= "Not Status"
+            statusCode= "Status"
     }
 
     return statusCode;
