@@ -4,7 +4,7 @@ import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import CustomButton from "~/components/CustomButton/CustomButton";
 import {AntDesign} from "@expo/vector-icons";
 
-const CancelOrderModal = ({send,orderId,visible, setVisible, ...props}) => {
+const CancelOrderModal = ({ isAdmin  = false, send,orderId,visible, setVisible, ...props}) => {
 
     const [text,setText] = useState('');
     const [textError,setTextError] = useState(false);
@@ -72,7 +72,10 @@ const CancelOrderModal = ({send,orderId,visible, setVisible, ...props}) => {
                             marginTop: 50,
                             color: 'white',
                             marginBottom: 6
-                        }}>{props.status ===3? "What is the reason for rejecting the order?": "What is the reason for order cancellation?"}</Text>
+                        }}>{ isAdmin ?
+                        props.status === 7  ? "What is the reason for rejecting the order?": "What is the reason for order cancellation?"
+                        :
+                        props.status === 3? "What is the reason for rejecting the order?": "What is the reason for order cancellation?"}</Text>
 
                     <Text style={{
                         color: "white",

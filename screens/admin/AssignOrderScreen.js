@@ -17,6 +17,9 @@ import apiApp from "~/api/ApiApp";
 import CustomModal from "~/components/Modals/CustomModal";
 import Loading from "~/components/Loading/Loading";
 import ChangeStatusComponent from "~/components/ChangeStatusComponent";
+import {Divider} from "native-base";
+import CustomButton from "~/components/CustomButton/CustomButton";
+import CancelOrderModal from "~/components/Modals/CancelOrderModal";
 
 const options = [
     {id: 0, name: "Cancelled"},
@@ -29,6 +32,47 @@ const options = [
     {id: 7, name: "Rejected"}
 ];
 
+const MessageCancel =(props)=>{
+
+    return(
+        <View
+            style={{
+                marginTop: SCREEN_WIDTH * .005,
+                alignItems: "center",
+                borderColor: "#7A7A7A",
+                borderWidth: 1,
+                shadowRadius: 4.65,
+                borderRadius: 10,
+                backgroundColor: 'white',
+            }}
+        >
+            <View style={{width: '100%', alignItems: 'center'}}>
+                <Text style={{
+                    paddingTop: SCREEN_WIDTH * .03,
+                    marginBottom: 0,
+                    textAlign: 'center',
+                    fontFamily: "Roboto_700Bold", fontSize: SCREEN_WIDTH * .06
+                }}>
+                    {
+                        props.status.code === 7 ? "Reason for rejection" : "Reason for cancellation"
+                    }
+                </Text>
+                <Divider mt="2"/>
+            </View>
+
+            <Text style={{
+                paddingVertical: textSizeRender(6),
+                textAlign: 'center',
+                fontFamily: "Roboto_400Regular", fontSize: textSizeRender(4)
+            }}>
+                {
+                    props.status.message
+                }
+            </Text>
+        </View>
+    )
+}
+
 const AssignOrderScreen = (props) => {
     const {order} = useRoute().params ?? {};
     const confirm = useConfirmationContext();
@@ -40,7 +84,11 @@ const AssignOrderScreen = (props) => {
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false);
     const [openStatus, setOpenStatus] = useState(false);
-    const [status, setStatus] = useState(order.status ? order.status.code : order.statusCode);
+    const [status, setStatus] = useState(order.status ? order.status : order.statusCode);
+    const [cancelAdmin, setCancelAdmin] = useState(null);
+    const [visible, setVisible] = useState(false);
+
+
 
     const onClose = () => {
         setOpenStatus(false)
@@ -94,26 +142,94 @@ const AssignOrderScreen = (props) => {
     }, [order])
 
 
-    const changeStatusOrder = (code) => {
+
+    const sendOrderCancellation = (text) => {
+        setVisible(false);
         setLoading(true)
-        ApiApp.changeStatusOrder(order.orderId, {
-            status: {
-                "code": code,
-                "message": ""
+        let params = {status:
+                {
+                    "code": status.code,
+                    "message": text
+                }}
+        ApiApp.cancelOrder(order.orderId, params).then(result => {
+
+            if (result.data.success) {
+                setTimeout(() => {
+                    setCancelAdmin(false)
+                    setStatus(params.status)
+                    setLoading(false)
+                    setMessage("Status change successful.")
+                    setModalVisible(true)
+                    setIsError(false)
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    setCancelAdmin(false)
+                    setLoading(false)
+                    setMessage(result.data.message)
+                    setModalVisible(true)
+                    setIsError(true)
+                }, 1000);
             }
-        }).then(result => {
+            setTimeout(() => {
+                setLoading(false)
+            }, 1000);
+        }).catch(e => {
+            console.log(e)
+            setTimeout(() => {
+                setLoading(false)
+            }, 1000);
+
+            setTimeout(() => {
+                setCancelAdmin(false)
+                setLoading(false)
+                setMessage("An error has occurred, please try again later.")
+                setModalVisible(true)
+                setIsError(true)
+            }, 1000);
+
+
+        });
+    }
+
+
+
+    const changeStatusOrder = (code) => {
+        if(code=== 0){
+            setStatus({"code": code,
+                "message": ''})
+            setCancelAdmin(true)
+            return
+        }
+
+        if(code=== 7){
+            setStatus({"code": code,
+                "message": ''})
+            setCancelAdmin(true)
+            return
+        }
+        setLoading(true)
+
+        let params = {status:
+                {
+                    "code": code,
+                    "message": ''
+                }}
+        ApiApp.changeStatusOrder(order.orderId, params).then(result => {
             if (result.data.success){
                 setTimeout(() => {
+                    setCancelAdmin(false)
                     setLoading(false)
-                    setStatus(code);
+                    setStatus(params.status);
                     setMessage("Status change successful.")
                     setModalVisible(true)
                     setIsError(false)
                 }, 500);
             }else {
                 setTimeout(() => {
+                    setCancelAdmin(false)
                     setLoading(false)
-                    setStatus(code);
+                    setStatus(params.status);
                     setMessage(result.data.message)
                     setModalVisible(true)
                     setIsError(true)
@@ -195,7 +311,7 @@ const AssignOrderScreen = (props) => {
                 setIsError(true)
             })
         } else {
-            alert("seleccione  un  asmin o tecnico")
+            alert("seleccione  un  addmin o tecnico")
         }
 
     }
@@ -312,6 +428,36 @@ const AssignOrderScreen = (props) => {
                 <CustomerData user={order.client}/>
                 <OrderInfo gravestone={order && order.gravestone && order.gravestone}/>
 
+                <View style={{marginBottom: 20}}>
+                    {
+                        !cancelAdmin &&
+                        status ?
+                        status.code === 0 &&
+                        <MessageCancel status={status}/>
+                            :
+                            null
+                    }
+
+                    {
+                        !cancelAdmin &&
+                        status ?
+                        status.code === 7 &&
+                        <MessageCancel status={status}/>
+                            :
+                            null
+                    }
+
+                    {
+                        cancelAdmin ?
+                            status.message ?
+                            <MessageCancel status={status}/>
+                                :
+                                null
+                            :
+                            null
+                    }
+                </View>
+
                 {
                     <View style={{
                         alignItems: 'center', justifyContent: 'center'
@@ -337,16 +483,53 @@ const AssignOrderScreen = (props) => {
                                     fontFamily: "Roboto_500Medium",
                                     fontSize: textSizeRender(4)
                                 }}
-                            >{statusCode(status)}</Text>
+                            >{statusCode(status.code)}</Text>
                             <View>
                                 <MaterialIcons name="keyboard-arrow-down" size={textSizeRender(6)} color="black"/>
                             </View>
                         </TouchableOpacity>
                     </View>
-
-
                 }
+
+                <View style={{
+                    width: '100%',
+                    marginTop: SCREEN_WIDTH * .001,
+                    marginBottom: 50
+                }}>
+
+
+
+                    {
+                        cancelAdmin &&
+
+                            <CustomButton onPress={() => {
+                                setVisible(true)
+                            }}
+                                          title={"Accept"}
+                                          textColor={"#fff"}
+                                          gradient={["red", "red"]}
+                                          borderRadius={10}/>
+
+
+
+                    }
+
+                </View>
             </View>
+
+
+            {
+                cancelAdmin &&
+                <CancelOrderModal
+                    isAdmin={true}
+                    status={status.code}
+                    orderId={order.orderId}
+                    send={sendOrderCancellation}
+                    visible={visible} setVisible={(v) => {
+                    setVisible(v)
+                }}/>
+
+            }
             {
                 openStatus &&
                 <ChangeStatusComponent

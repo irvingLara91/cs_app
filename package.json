@@ -4,6 +4,10 @@
   "main": "node_modules/expo/AppEntry.js",
   "scripts": {
     "start": "expo start",
+    "eas_start_cs" : "APP_ENV=production expo start",
+    "eas_publish_cs" : "APP_ENV=production expo publish",
+    "eas_start_cs_dev" : "APP_ENV=development expo start",
+    "eas_publish_cs_dev" : "APP_ENV=development expo publish",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",

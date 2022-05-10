@@ -1,7 +1,7 @@
 import Rect, {useEffect, useState} from "react";
 import StepIndicator from 'react-native-step-indicator';
 import {Text, View} from "native-base";
-import {statusCode, valStatusCode} from "~/utils/utils";
+import {statusCode, textSizeRender, valStatusCode} from "~/utils/utils";
 
 const customStyles = {
     stepIndicatorSize: 30,
@@ -45,7 +45,9 @@ const LineOrderStatus = ({labels = ["Created", "In process", "Completed", "Finis
         <>
             {
                 status ===0 || status===5 || status ===6 || status ===7  ?
-                    <Text style={{textAlign:'center'}}>{valStatusCode(status).name}</Text>
+                    <Text style={{
+                        fontFamily:'Roboto_500Medium',
+                        textAlign:'center',fontSize:textSizeRender(5)}}>{valStatusCode(status).name}</Text>
                     :
                     <View>{
                         labels_ && labels_.length > 0 &&

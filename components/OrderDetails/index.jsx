@@ -11,6 +11,52 @@ import CustomButton from "~/components/CustomButton/CustomButton";
 import Loading from "~/components/Loading/Loading";
 import CustomModal from "~/components/Modals/CustomModal";
 
+const MessageCancel =(props)=>{
+
+    return(
+        <View
+            style={{
+                marginTop: SCREEN_WIDTH * .04,
+                alignItems: "center",
+                borderColor: "#C4C4C4",
+                borderWidth: 1,
+                shadowColor: "#000",
+                shadowOffset: {
+                    width: 0, height: 4,
+                },
+                shadowOpacity: 0.30,
+                shadowRadius: 4.65,
+                elevation: 8,
+                borderRadius: 10,
+                backgroundColor: 'white',
+            }}
+        >
+            <View style={{width: '100%', alignItems: 'center'}}>
+                <Text style={{
+                    paddingTop: SCREEN_WIDTH * .03,
+                    marginBottom: 0,
+                    textAlign: 'center',
+                    fontFamily: "Roboto_700Bold", fontSize: SCREEN_WIDTH * .06
+                }}>
+                    {
+                        props.status.code === 7 ? "Reason for rejection" : "Reason for cancellation"
+                    }
+                </Text>
+                <Divider mt="2"/>
+            </View>
+
+            <Text style={{
+                paddingVertical: textSizeRender(6),
+                textAlign: 'center',
+                fontFamily: "Roboto_400Regular", fontSize: textSizeRender(4)
+            }}>
+                {
+                    props.status.message
+                }
+            </Text>
+        </View>
+    )
+}
 const OrderDetails = ({route}) => {
 
     const [details, setDetails] = useState({});
@@ -27,7 +73,7 @@ const OrderDetails = ({route}) => {
     const [status, setStatus] = useState(null);
 
     useEffect(() => {
-        setStatus(details?.status ? details.status.code : details.statusCode)
+        setStatus(details?.status ? details.status : details.statusCode)
     }, [details])
 
     /***
@@ -48,17 +94,16 @@ const OrderDetails = ({route}) => {
     const sendOrderCancellation = (text) => {
         setVisible(false);
         setLoading(true)
-        ApiApp.cancelOrder(route.params.orderId, {
-            status:
-                {
-                    "code": status === 3 ? 7 : 0,
-                    "message": text
-                }
-        }).then(result => {
+        let params = {status:
+        {
+            "code": status.code === 3 ? 7 : 0,
+            "message": text
+        }}
+        ApiApp.cancelOrder(route.params.orderId, params).then(result => {
 
             if (result.data.success) {
                 setTimeout(() => {
-                    setStatus(status === 3 ? 7 : 0)
+                    setStatus(params.status)
                     setLoading(false)
                     setMessage("Status Canceled successful")
                     setModalVisible(true)
@@ -167,8 +212,21 @@ const OrderDetails = ({route}) => {
                     marginTop: SCREEN_WIDTH * .001,
                     marginBottom: 50
                 }}>
-                    <Status code={status}/>
+                    <Status code={status?.code}/>
+
+                    {
+                        status &&
+                            status.code === 0 &&
+                            <MessageCancel status={status}/>
+                    }
+
+                    {
+                        status &&
+                        status.code === 7 &&
+                        <MessageCancel status={status}/>
+                    }
                 </View>
+
 
                 <View style={{
                     width: '100%',
@@ -178,17 +236,17 @@ const OrderDetails = ({route}) => {
 
                     {
                         status ?
-                            status !==0 &&
-                            status !==7 &&
+                            status?.code !== 0 &&
+                            status?.code !== 7 &&
                             <CustomButton onPress={() => {
-                            setVisible(true)
-                        }}
-                                      title={status === 3 ?'Reject order' :'Cancel order'}
-                                      textColor={"#fff"}
-                                      gradient={["red", "red"]}
-                                      borderRadius={10}/>
+                                setVisible(true)
+                            }}
+                                          title={status?.code === 3 ? 'Reject order' : 'Cancel order'}
+                                          textColor={"#fff"}
+                                          gradient={["red", "red"]}
+                                          borderRadius={10}/>
 
-:
+                            :
                             null
                     }
 
@@ -196,10 +254,10 @@ const OrderDetails = ({route}) => {
 
 
                 <CancelOrderModal
-                    status={status}
+                    status={status?.code}
                     orderId={route.params.orderId}
-                                  send={sendOrderCancellation}
-                                  visible={visible} setVisible={(v) => {
+                    send={sendOrderCancellation}
+                    visible={visible} setVisible={(v) => {
                     setVisible(v)
                 }}/>
 
