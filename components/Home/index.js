@@ -89,17 +89,17 @@ export default function Home({navigation, route}) {
 
     const data = [
         {
-            img: "https://previews.123rf.com/images/quasargal/quasargal1507/quasargal150700847/42183591-monumentos-y-l%C3%A1pidas-en-el-cementerio-de-arlington-nacional-en-virginia-ee-uu-.jpg",
+            img: require('../../assets/banner.png'),//"https://previews.123rf.com/images/quasargal/quasargal1507/quasargal150700847/42183591-monumentos-y-l%C3%A1pidas-en-el-cementerio-de-arlington-nacional-en-virginia-ee-uu-.jpg",
             title: "WELCOME \n" + "TO THE\nCORNERSTONE\nAPP",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },
         {
-            img: "https://previews.123rf.com/images/arinahabich/arinahabich1206/arinahabich120601603/14142672-endless-fila-di-lapidi-in-marmo-bianco-continua-collina-sopra-al-logan-fort-national-cemetery-a-denv.jpg",
+            img: require('../../assets/banner.png'),//"https://previews.123rf.com/images/arinahabich/arinahabich1206/arinahabich120601603/14142672-endless-fila-di-lapidi-in-marmo-bianco-continua-collina-sopra-al-logan-fort-national-cemetery-a-denv.jpg",
             title: "WELCOME \n" + "TO THE\nCORNERSTONE\nAPP",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },
         {
-            img: "https://www.dignitymemorial.com/dfsmedia/042808e1630c49a48950d5077d6556eb/36387-50034/upright-monuments-collage",
+            img: require('../../assets/banner.png'),//"https://www.dignitymemorial.com/dfsmedia/042808e1630c49a48950d5077d6556eb/36387-50034/upright-monuments-collage",
             title: "WELCOME \n" + "TO THE\nCORNERSTONE\nAPP",
             msg: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
         },

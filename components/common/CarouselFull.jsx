@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: textSizeRender(8),
-        fontFamily: "Roboto_700Bold",
+        fontFamily: "Roboto_900Black",
         color: 'white'
     }
 });
@@ -38,10 +38,10 @@ const CarouselFull = ({data, containerStyle = {},}) => {
     const [slide, setSlide] = useState(0);
 
 
-    const renderItem = ({item}) => {
+    const renderItem = ({item,index}) => {
         return (
-            <View style={styles.itemContainer}>
-                <ImageBackground source={{uri: item.img}} resizeMode="cover" style={{
+            <View key={index} style={styles.itemContainer}>
+                <ImageBackground source={item.img} resizeMode="cover" style={{
                     width: '100%',
                     height: '100%',
                 }}>

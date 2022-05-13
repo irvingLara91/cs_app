@@ -38,6 +38,7 @@ const Register = ({navigation}) => {
                      setDataUser(response.data.data)
                  }, 500);
              } else {
+                 //console.log("respuesta:",response.data)
                  setTimeout(() => {
                      setLoading(false)
                  }, 500);

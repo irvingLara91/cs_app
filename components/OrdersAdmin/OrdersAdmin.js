@@ -19,21 +19,9 @@ const OrdersAdmin = (props) => {
             })
             .catch((error) => {
                 return console.log(JSON.stringify(error));
-            })
-
-
-        /*confirm({description: `You are about to delete order: ${orderId}`, title: "This action can not be undone"})
-            .then(async() => {
-                const deleteResult = await ordersService.deleteOrder(orderId)
-                if (deleteResult.success) {
-                    props.removeOrder(orderId)
-                }
-            })
-            .catch((error) => {
-                return console.log(error);
-            })*/
+            });
     }
-   
+
     return (
         <View style={{
             paddingHorizontal: SCREEN_WIDTH * .05,

@@ -148,7 +148,7 @@ const ConfirmStep = ({navigation, route}) => {
                                 2. Gravestone details
                             </Text>
                             <TouchableHighlight
-                                onPress={() => navigate({name: screens.NEW_ORDER_STEP_1, params: {referer: route}})}>
+                                onPress={() => navigate({name: screens.NEW_ORDER_STEP_3, params: {referer: route}})}>
                                 <Text fontSize={textSizeRender(2.5)} fontFamily={"Roboto_500Medium"}
                                       underline>Edit</Text>
                             </TouchableHighlight>

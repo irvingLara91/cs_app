@@ -35,24 +35,24 @@ const Orders = ({navigation}) => {
     }
 
     const getOrders = () => {
-          ApiApp.getAssigned(user.userId).then(response=>{
-              if (response.data.success) {
-                  setOrders(response.data.data)
-                  setTimeout(() => {
-                      setLoading(false)
-                  }, 500);
-              } else {
-                  setTimeout(() => {
-                      setOrders([])
-                      setLoading(false)
-                  }, 500);
-              }
-            }).catch(e=>{
-              setTimeout(() => {
-                  setOrders([])
-                  setLoading(false)
-              }, 500);
-          });
+        ApiApp.getAssigned(user.userId).then(response => {
+            if (response.data.success) {
+                setOrders(response.data.data)
+                setTimeout(() => {
+                    setLoading(false)
+                }, 500);
+            } else {
+                setTimeout(() => {
+                    setOrders([])
+                    setLoading(false)
+                }, 500);
+            }
+        }).catch(e => {
+            setTimeout(() => {
+                setOrders([])
+                setLoading(false)
+            }, 500);
+        });
     };
 
     useEffect(async () => {
@@ -64,14 +64,14 @@ const Orders = ({navigation}) => {
 
     const orderBy = (array) => {
         console.log(array)
-      //  const sortedActivities = array.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+        //  const sortedActivities = array.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
         return array
     }
 
     return (
         <View style={{flex: 1, backgroundColor: 'white'}}>
-            <View style={{marginHorizontal:SCREEN_WIDTH*.09,paddingVertical:20}}>
-                <Text style={{fontSize:textSizeRender(6),fontFamily:"Roboto_700Bold"}}>Your orders</Text>
+            <View style={{marginHorizontal: SCREEN_WIDTH * .09, paddingVertical: 20}}>
+                <Text style={{fontSize: textSizeRender(6), fontFamily: "Roboto_700Bold"}}>Your orders</Text>
             </View>
             <View style={{flex: 1}}>
                 <ScrollView
@@ -85,7 +85,8 @@ const Orders = ({navigation}) => {
                 >
                     <Center>
                         {
-                            (Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders}/> : <NoOrders/>
+                            (Array.isArray(orders) && orders.length > 0) ? <OrdersCommon orders={orders}/> :
+                                <NoOrders/>
                         }
                     </Center>
                 </ScrollView>

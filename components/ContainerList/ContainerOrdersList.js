@@ -64,7 +64,7 @@ const ContainerOrdersList = ({data = null, onDelete, ...props}) => {
                             style={{
                                 fontFamily: 'Roboto_700Bold',
                                 color: 'white', fontSize: textSizeRender(2.6)
-                            }}>{statusCode(item.statusCode)}
+                            }}>{statusCode(item.status ? item.status.code : item.statusCode)}
                         </Text>
                     </View>
 

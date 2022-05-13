@@ -59,7 +59,7 @@ const Order = ({status, orderId, card,gravestone, ...props}) => {
                 <View style={{
                     flex:1,
                     width:SCREEN_WIDTH*.2,backgroundColor: 'black',padding: 5,borderRadius: 20}}>
-                    <Text fontSize={12} color="white" textAlign="center">{statusCode(props.statusCode)}</Text>
+                    <Text fontSize={12} color="white" textAlign="center">{statusCode(status ? status.code: props.statusCode)}</Text>
                 </View>
             <View style={{
                 justifyContent: "center",

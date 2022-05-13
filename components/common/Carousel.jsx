@@ -6,7 +6,7 @@ import {LinearGradient} from "expo-linear-gradient";
 import {textSizeRender} from "~/utils/utils";
 
 const SLIDER_WIDTH = Dimensions.get("window").width;
-const ITEM_WIDTH = Math.round(SLIDER_WIDTH / 1.3);
+const ITEM_WIDTH = Math.round(SLIDER_WIDTH / 1.4);
 const ITEM_HEIGHT = Math.round(ITEM_WIDTH / 1.2);
 
 const styles = StyleSheet.create({
@@ -37,9 +37,11 @@ const Carousel = ({data, containerStyle = {},}) => {
     const [slide, setSlide] = useState(0);
 
 
-    const renderItem = ({item}) => {
+    const renderItem = ({item,index}) => {
         return (
-            <LinearGradient colors={["#838B95", "#4A4E54"]} style={styles.itemContainer}>
+            <LinearGradient
+                key={index}
+                colors={["#838B95", "#4A4E54"]} style={styles.itemContainer}>
                 <View stayle={{flex: 1, justifyContent: "center", alignSelf: 'center'}}>
                     {item.img}
                 </View>

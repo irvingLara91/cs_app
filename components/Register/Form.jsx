@@ -19,7 +19,7 @@ import {MaterialIcons} from "@expo/vector-icons";
 const Form = ({onRegister}) => {
     const navigation = useNavigation();
     const {flexSpaceBetween, textInput} = styles;
-    const {control, handleSubmit, formState: {errors}, setError} = useForm();
+    const {control, handleSubmit,register, formState: {errors}, setError} = useForm();
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showNewPasswordConfirmation, setShowNewPasswordConfirmation] = useState(false);
 
@@ -59,6 +59,13 @@ const Form = ({onRegister}) => {
                             value={value}
                             keyboardType="email-address"
                             autoCapitalize="none"
+                            {...register("email", {
+                                required: "required",
+                                pattern: {
+                                    value: /\S+@\S+\.\S+/,
+                                    message: "Entered value does not match email format"
+                                }
+                            })}
                         />
                     )}
                     name="email"
