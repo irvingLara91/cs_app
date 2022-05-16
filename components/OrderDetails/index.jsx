@@ -105,7 +105,7 @@ const OrderDetails = ({route}) => {
                 setTimeout(() => {
                     setStatus(params.status)
                     setLoading(false)
-                    setMessage("Status Canceled successful")
+                    setMessage(status.code === 3 ? "Request successfully rejected": "Order successfully canceled")
                     setModalVisible(true)
                     setIsError(false)
                 }, 1000);

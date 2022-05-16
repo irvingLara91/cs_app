@@ -522,7 +522,7 @@ const AssignOrderScreen = (props) => {
                 cancelAdmin &&
                 <CancelOrderModal
                     isAdmin={true}
-                    status={status.code}
+                    status={status.code === 7 ? 3 : status.code}
                     orderId={order.orderId}
                     send={sendOrderCancellation}
                     visible={visible} setVisible={(v) => {
