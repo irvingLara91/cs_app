@@ -12,6 +12,6 @@ export default function NewOrder({ navigation }) {
 			navigate(screens.NEW_ORDER_STEP_1);
 		}
 	}, [skipTutorial]);
-	
+
 	if (!skipTutorial) return <Tutorial onSkip={(status) => setSkipTutorial(status)} />;
 }

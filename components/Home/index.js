@@ -1,27 +1,36 @@
-import React, {useEffect, useState} from "react";
-import {Box, Button, Center, Stack, ScrollView} from "native-base";
+import React, {useEffect, useRef, useState} from "react";
+import {Box, Center, Stack, ScrollView} from "native-base";
 import {RefreshControl, View, Text, Platform} from "react-native";
 import Welcome from "./Welcome";
 import OrdersCommon from "~/components/common/Orders";
 import NoOrders from "~/components/common/NoOrders";
-
-
-import ordersService from "~/services/orders";
 import screens from "~/constants/screens";
 import {Dimensions} from "react-native";
 import {useAuthUserContext} from "~/context/authUser";
 import {useIsFocused} from "@react-navigation/native";
 import Loading from "~/components/Loading/Loading";
-import ContainerBase from "~/components/common/ContainerBase";
 import CarouselFull from "~/components/common/CarouselFull";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
 import CustomButton from "~/components/CustomButton/CustomButton";
 import ApiApp from "~/api/ApiApp";
+import Constants from 'expo-constants';
+import * as Device from 'expo-device';
 
+import * as Notifications from "expo-notifications";
 const ITEM_WIDTH = Math.round(SCREEN_WIDTH / 1.3);
 const ITEM_HEIGHT = Math.round(ITEM_WIDTH / 1.1);
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+    }),
+});
 export default function Home({navigation, route}) {
-    const {user} = useAuthUserContext()
+    const notificationListener = useRef();
+    const responseListener = useRef();
+    const {user,setPushNotification} = useAuthUserContext()
     const isFocused = useIsFocused();
     const {navigate} = navigation;
     const {height, width} = Dimensions.get("window");
@@ -105,6 +114,53 @@ export default function Home({navigation, route}) {
         },
     ];
 
+
+    const registerDevice = (token) => {
+        let params = {
+            "token": token,
+            "topic": Platform.OS
+        };
+        ApiApp.registerPushNotification(params)
+            .then(response=>{
+                if (response.data.success){
+                    setPushNotification()
+                }
+            })
+        .catch(e => {
+            console.log(e);
+        })
+    }
+
+
+    useEffect(() => {
+        console.log(user)
+        if (user && !user.pushRegister) {
+            registerForPushNotificationsAsync().then(token => {
+                if (token) {
+                    registerDevice(token);
+                }else {
+                    alert("Emulador")
+                }
+            });
+        }
+
+        notificationListener.current = Notifications.addNotificationReceivedListener(noti => {
+            console.log("<----Notification--->",noti.request.content.data)
+        });
+
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log("----Notification-----",response.notification.request.content.data);
+        });
+
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener.current);
+            Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
+
+
+
+
     return (
         <View style={{flex: 1, backgroundColor: 'white', marginTop: -ITEM_HEIGHT * .20}}>
             <View style={{flex: 1}}>
@@ -152,4 +208,35 @@ export default function Home({navigation, route}) {
             }
         </View>
     );
+}
+
+async function registerForPushNotificationsAsync() {
+    let token;
+    if (Device.isDevice) {
+        const {status: existingStatus} = await Notifications.getPermissionsAsync();
+        let finalStatus = existingStatus;
+        if (existingStatus !== 'granted') {
+            const {status} = await Notifications.requestPermissionsAsync();
+            finalStatus = status;
+        }
+        if (finalStatus !== 'granted') {
+            /// alert('Failed to get push token for push notification!');
+            return;
+        }
+        token = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(token);
+    } else {
+        /// alert('Must use physical device for Push Notifications');
+    }
+
+    if (Platform.OS === 'android') {
+        await Notifications.setNotificationChannelAsync('default', {
+            name: 'default',
+            importance: Notifications.AndroidImportance.MAX,
+            vibrationPattern: [0, 250, 250, 250],
+            lightColor: '#FF231F7C',
+        });
+    }
+
+    return token;
 }

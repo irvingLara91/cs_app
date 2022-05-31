@@ -1,4 +1,5 @@
-import React from "react";
+import React, {useEffect, useRef, useState} from "react";
+import * as Notifications from "expo-notifications";
 
 import {
     createDrawerNavigator,
@@ -18,7 +19,7 @@ import {
     View,
 } from "native-base";
 
-import {Dimensions, Image, Platform, StatusBar, TouchableOpacity} from "react-native";
+import {AppState, Dimensions, Image, Platform, StatusBar, TouchableOpacity} from "react-native";
 import Dashboard from "../../screens/admin/DashboardScreen";
 import {useAuthUserContext} from "~/context/authUser";
 //import ProfileScreen from "~/screens/admin/ProfileScreen";
@@ -31,6 +32,7 @@ import HelpScreen from "~/screens/admin/HelpScreen";
 import {longName, statusBarHeight, textSizeRender} from "~/utils/utils";
 import {LinearGradient} from "expo-linear-gradient";
 import gravestoneMedia from "~/assets/gravestone-media.png";
+import {useIsFocused} from "@react-navigation/native";
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
 const SCREEN_HEIGHT = Dimensions.get("window").height;
@@ -249,6 +251,33 @@ function CustomDrawerContent(props) {
 
 
 const HeaderAdmin =({navigation,...props})=>{
+    const  [count,setCount] = useState(0)
+    const isFocused = useIsFocused();
+    const appState = useRef(AppState.currentState);
+
+    useEffect(() => {
+        const subscription = AppState.addEventListener("change", nextAppState => {
+            if (appState.current.match(/inactive|background/) && nextAppState === "active") {
+                console.log("App has come to the foreground!");
+                Notifications.getBadgeCountAsync().then(res=>{
+                    setCount(res)
+                });
+            }
+            appState.current = nextAppState;
+            console.log("AppState", appState.current);
+        });
+        return () => {
+            subscription.remove();
+        };
+    }, []);
+
+    useEffect(() => {
+            Notifications.getBadgeCountAsync().then(res=>{
+                setCount(res)
+            });
+
+    }, [isFocused]);
+
     return(
         <LinearGradient colors={["#555555", "#171717"]} style={{
             width: SCREEN_WIDTH,
@@ -296,7 +325,10 @@ const HeaderAdmin =({navigation,...props})=>{
                     <View style={{flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
                         <TouchableOpacity
                             onPress={() => {
-                                alert("notifications")
+                               Notifications.setBadgeCountAsync(0).then(res=>{
+                                   setCount(0)
+                                   }
+                               )
                             }}
                             style={{
                                 marginRight: 5,
@@ -318,7 +350,7 @@ const HeaderAdmin =({navigation,...props})=>{
                                         top: -3,
                                         textAlign: 'center',
                                         color: 'white', fontSize: 10
-                                    }}>1</Text>
+                                    }}>{count}</Text>
                                 </View>
                             </View>
                         </TouchableOpacity>

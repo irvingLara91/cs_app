@@ -73,6 +73,8 @@ const OrderDetails = ({route}) => {
     const [status, setStatus] = useState(null);
 
     useEffect(() => {
+
+        console.log(details?.status ? details.status : details.statusCode)
         setStatus(details?.status ? details.status : details.statusCode)
     }, [details])
 
@@ -212,7 +214,7 @@ const OrderDetails = ({route}) => {
                     marginTop: SCREEN_WIDTH * .001,
                     marginBottom: 50
                 }}>
-                    <Status code={status?.code}/>
+                    <Status code={status ? status.code ? status.code: status : status  }/>
 
                     {
                         status &&

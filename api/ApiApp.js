@@ -128,6 +128,12 @@ class ApiApp {
     }
 
 
+    /**
+     *  API PUSH NOTIFICATION
+     **/
+    static registerPushNotification = (params) => {
+        return ApiApp.ApisType(`/api/notifications/registerToken`, 'post',params);
+    }
 
 }
 

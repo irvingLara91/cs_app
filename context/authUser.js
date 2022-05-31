@@ -61,6 +61,14 @@ export function AuthUserProvider(props) {
         await setData("user", {...user, isFirstTime: false})
 
     }
+
+
+    const setPushNotification  = async()=>{
+        await setUser({...user,pushRegister:true})
+        await setData("user", {...user, pushRegister: true})
+    }
+
+
     const setNewOrder = async (user, newOrder) => {
         let user_ = user
         user_.userDoc.orders.push(newOrder)
@@ -81,7 +89,8 @@ export function AuthUserProvider(props) {
         fetching,
         FirstTime,
         setUserDoc,
-        setNewOrder
+        setNewOrder,
+        setPushNotification
     };
     return (
         <AuthUserContext.Provider value={defaultContext}>

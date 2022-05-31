@@ -17,7 +17,8 @@ const Register = ({navigation}) => {
         let res = {
             userDoc: data,
             userId: data.userId,
-            isFirstTime: data.isFirstTime
+            isFirstTime: data.isFirstTime,
+            pushRegister : data.pushRegister
         }
         await setUser(res)
         await setData("user", res)
@@ -35,6 +36,7 @@ const Register = ({navigation}) => {
                  setTimeout(() => {
                      setLoading(false)
                      response.data.data.isFirstTime = true
+                     response.data.data.pushRegister = true
                      setDataUser(response.data.data)
                  }, 500);
              } else {

@@ -37,7 +37,8 @@ export default function Login() {
         let res = {
             userDoc: data.userDoc,
             userId: data.userId,
-            isFirstTime: data.isFirstTime
+            isFirstTime: data.isFirstTime,
+            pushRegister: data.pushRegister
         }
         await setUser(res)
        await setData("user", res)
@@ -48,11 +49,21 @@ export default function Login() {
         const { email, password } = data;
         ApiApp.login({email, password}).then(response=>{
             if (response.data.success){
-                setTimeout(() => {
-                    setFetching(false)
-                    response.data.data.isFirstTime = false
-                    setDataUser(response.data.data)
-                }, 500);
+                if (response.data.data.userDoc.role===1){
+                    setTimeout(() => {
+                        setFetching(false)
+                        response.data.data.isFirstTime = false
+                        response.data.data.pushRegister = false
+                        setDataUser(response.data.data)
+                    }, 500);
+                }else {
+                    setTimeout(() => {
+                        setFetching(false)
+                        setModalVisible(true)
+                        setMessage("Your role is not correct check it with the administrator.")
+                        setIsError(true)
+                    }, 500);
+                }
                 }else {
                 setTimeout(() => {
                     setFetching(false)

@@ -13,7 +13,7 @@ export const getStepData = (route) => {
 	if (step > 2) {
 		stepData.color = "black";
 	}
- 
+
 	switch (step) {
 	case 1: {
 		stepData.data = {
@@ -37,7 +37,7 @@ export const getStepData = (route) => {
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 			help: null
 		};
-		break; 
+		break;
 	}
 	case 4: {
 		stepData.data = {
@@ -45,7 +45,7 @@ export const getStepData = (route) => {
 			description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum consectetur amet tellus lobortis diam sed.",
 			help: null
 		};
-		break; 
+		break;
 	}
 	default: stepData.data = { title: "", description: "", help: null };
 	}

@@ -141,7 +141,7 @@ const Help = () => {
 							</Box>
 						);
 					}}
-				</Pressable>				
+				</Pressable>
 				<Pressable onPress={() => navigation.navigate({ name: screens.FAQ, params: { question: "PaymentMethods" }, })}>
 					{({ isHovered, isPressed }) => {
 						return (
