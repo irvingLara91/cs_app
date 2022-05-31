@@ -116,6 +116,7 @@ export default function Home({navigation, route}) {
 
 
     const registerDevice = (token) => {
+        console.log("Token:",token)
         let params = {
             "token": token,
             "topic": Platform.OS
@@ -133,7 +134,8 @@ export default function Home({navigation, route}) {
 
 
     useEffect(() => {
-        console.log(user)
+        //Aqui se valida si el  usuario ya regitro un token push
+        // cuando entra por primera vez a la app.
         if (user && !user.pushRegister) {
             registerForPushNotificationsAsync().then(token => {
                 if (token) {

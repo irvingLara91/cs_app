@@ -50,6 +50,7 @@ const DashboardScreen = (props) => {
 
 
     const registerDevice = (token) => {
+        console.log("Token:",token);
         let params = {
             "token": token,
             "topic": ""
@@ -67,12 +68,12 @@ const DashboardScreen = (props) => {
 
 
     useEffect(() => {
-
-
-
+        //Aqui se valida si el  usuario ya regitro un token push
+       // cuando entra por primera vez a la app.
         if (user && !user.pushRegister) {
             registerForPushNotificationsAsync().then(token => {
                 if (token) {
+
                     registerDevice(token);
                 }else {
                    /// alert("Emulador")
