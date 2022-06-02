@@ -115,13 +115,11 @@ export default function Home({navigation, route}) {
     ];
 
 
-    const registerDevice = (token) => {
-        console.log("Token:",token)
+    const registerDevice = async (token) => {
         let params = {
-            "token": token,
-            "topic": Platform.OS
+            "token": token
         };
-        ApiApp.registerPushNotification(params)
+        await ApiApp.registerPushNotification(params)
             .then(response=>{
                 if (response.data.success){
                     setPushNotification()
