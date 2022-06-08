@@ -19,7 +19,10 @@ const commonConfig = {
         usesIcloudStorage: false,
         usesAppleSignIn: false,
         infoPlist: {
-            UIUserInterfaceStyle: "Light"
+            UIUserInterfaceStyle: "Light",
+            NSMotionUsageDescription: "For special gestures",
+            NSPhotoLibraryUsageDescription: "For using photos",
+            UIBackgroundModes: "remote-notification"
         },
         bundleIdentifier: "com.cornerstone.cs",
         userInterfaceStyle: "light"
@@ -40,6 +43,26 @@ const commonConfig = {
     web: {
         favicon: "./assets/favicon.png"
     },
+    "notification": {
+        "icon": "./assets/notification-icon.png",
+        "color": "#CA2C92",
+        "androidMode": "default",
+        "androidCollapsedTitle": "Notification cs",
+        "iosDisplayInForeground": true
+    },
+    "plugins": [
+        [
+            "expo-notifications",
+            {
+                "icon": "./assets/notification-icon.png",
+                "color": "#CA2C92",
+                "androidCollapsedTitle": "Notification cs",
+                "androidMode": "default",
+                "sounds": [],
+                "iosDisplayInForeground": true
+            }
+        ]
+    ],
     description: ""
 };
 
@@ -50,7 +73,7 @@ module.exports = () => {
             name: "cs-app-frontend",
             slug: "cs-app-frontend",
             extra: {
-                NAME_APP: "Ganga hoteles",
+                NAME_APP: "cs-app-frontend",
                 BASE_URL: "BASE_URL"
             }
 

@@ -55,10 +55,10 @@ class ApiApp {
         return ApiApp.ApisType('/api/auth/', 'post', params);
     }
     static logout = (params) => {
-        return ApiApp.ApisType('/api/auth/logout', 'post', params);
+        return ApiApp.ApisTypeBase('/api/auth/logout', 'post', params);
     }
     static updatePassword = (params) => {
-        return ApiApp.ApisType('/api/auth/updatePassword', 'put', params);
+        return ApiApp.ApisTypeBase('/api/auth/updatePassword', 'put', params);
     }
     static passwordReset = (params) => {
         return ApiApp.ApisType('/api/auth/passwordReset', 'post', params);
@@ -70,7 +70,7 @@ class ApiApp {
      **/
 
     static createOrder = (params) => {
-        return ApiApp.ApisType('/api/orders', 'post', params);
+        return ApiApp.ApisTypeBase('/api/orders', 'post', params);
     }
 
     static getOrders = (limit = null) => {
@@ -78,25 +78,25 @@ class ApiApp {
         if (limit) {
             url = `/api/orders?limit=${limit}`
         }
-        return ApiApp.ApisType(url, 'get');
+        return ApiApp.ApisTypeBase(url, 'get');
     }
 
     static getOrder = (orderId) => {
-        return ApiApp.ApisType(`/api/orders/${orderId}`, 'get');
+        return ApiApp.ApisTypeBase(`/api/orders/${orderId}`, 'get');
     }
     static deleteOrder = (orderId) => {
-        return ApiApp.ApisType(`/api/orders/${orderId}`, 'delete');
+        return ApiApp.ApisTypeBase(`/api/orders/${orderId}`, 'delete');
     }
     static getAssigned = (userId) => {
-        return ApiApp.ApisType(`/api/orders/assigned/${userId}`, 'get');
+        return ApiApp.ApisTypeBase(`/api/orders/assigned/${userId}`, 'get');
     }
 
     static changeStatusOrder = (orderId,params) => {
-        return ApiApp.ApisType(`/api/orders/status/${orderId}`, 'put',params);
+        return ApiApp.ApisTypeBase(`/api/orders/status/${orderId}`, 'put',params);
     }
 
     static cancelOrder = (orderId,params) => {
-        return ApiApp.ApisType(`/api/orders/status/${orderId}`, 'put',params);
+        return ApiApp.ApisTypeBase(`/api/orders/status/${orderId}`, 'put',params);
     }
 
     /**
@@ -104,27 +104,27 @@ class ApiApp {
      **/
 
     static getUsers = () => {
-        return ApiApp.ApisType(`/api/users`, 'get');
+        return ApiApp.ApisTypeBase(`/api/users`, 'get');
     }
     static getUser = (userId) => {
-        return ApiApp.ApisType(`/api/users/${userId}`, 'get');
+        return ApiApp.ApisTypeBase(`/api/users/${userId}`, 'get');
     }
 
     static updateUser = (userId, params) => {
-        return ApiApp.ApisType(`/api/users/${userId}`, 'post', params);
+        return ApiApp.ApisTypeBase(`/api/users/${userId}`, 'post', params);
     }
 
     /**
      *  API REST ADMIN
      **/
     static deleteUser = (userId) => {
-        return ApiApp.ApisType(`/api/admin/${userId}`, 'delete');
+        return ApiApp.ApisTypeBase(`/api/admin/${userId}`, 'delete');
     }
     static putAssign = (orderId, params) => {
-        return ApiApp.ApisType(`/api/admin/orders/assign/${orderId}`, 'put', params);
+        return ApiApp.ApisTypeBase(`/api/admin/orders/assign/${orderId}`, 'put', params);
     }
     static putReassign = (orderId, params) => {
-        return ApiApp.ApisType(`/api/admin/orders/reassign/${orderId}`, 'put', params);
+        return ApiApp.ApisTypeBase(`/api/admin/orders/reassign/${orderId}`, 'put', params);
     }
 
 
@@ -132,8 +132,14 @@ class ApiApp {
      *  API PUSH NOTIFICATION
      **/
     static registerPushNotification = (params) => {
-        return ApiApp.ApisType(`/api/notifications/registerMobileToken`, 'post',params);
+        return ApiApp.ApisTypeBase(`/api/notifications/registerMobileToken`, 'post',params);
     }
+
+    static getNotifications = (userId) => {
+        return ApiApp.ApisTypeBase(`/api/notifications/${userId}`, 'get');
+    }
+
+
 
 }
 

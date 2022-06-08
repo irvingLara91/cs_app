@@ -80,7 +80,10 @@ const ConfirmStep = ({navigation, route}) => {
         ///console.log(JSON.stringify({"data":data, "userId":user.uid ? user.uid : user.userId}))
         let dataString =  JSON.stringify({...data, "userId":user.uid ? user.uid : user.userId})
         formData.append("data",dataString);
-         apiApp.createOrder(formData).then(response=>{
+       /// console.log("dataString",dataString)
+
+        apiApp.createOrder(formData).then(response=>{
+             console.log(response)
             if (response.status===201) {
                 setTimeout(() => {
                     addOrderToUserContext(orderId)
@@ -93,7 +96,7 @@ const ConfirmStep = ({navigation, route}) => {
                 }, 500);
             }
         }).catch(e=>{
-            console.log(e)
+            console.log("----",e)
              setTimeout(()=>{
                  setLoading(false)
              },500)

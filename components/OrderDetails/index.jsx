@@ -73,9 +73,7 @@ const OrderDetails = ({route}) => {
     const [status, setStatus] = useState(null);
 
     useEffect(() => {
-
-        console.log(details?.status ? details.status : details.statusCode)
-        setStatus(details?.status ? details.status : details.statusCode)
+        setStatus(details.status)
     }, [details])
 
     /***
@@ -214,7 +212,11 @@ const OrderDetails = ({route}) => {
                     marginTop: SCREEN_WIDTH * .001,
                     marginBottom: 50
                 }}>
-                    <Status code={status ? status.code ? status.code: status : status  }/>
+                    {
+                        status &&
+                        <Status code={status.code}/>
+
+                    }
 
                     {
                         status &&
@@ -238,12 +240,12 @@ const OrderDetails = ({route}) => {
 
                     {
                         status ?
-                            status?.code !== 0 &&
-                            status?.code !== 7 &&
+                            status.code !== 0 &&
+                            status.code !== 7 &&
                             <CustomButton onPress={() => {
                                 setVisible(true)
                             }}
-                                          title={status?.code === 3 ? 'Reject order' : 'Cancel order'}
+                                          title={status.code === 3 ? 'Reject order' : 'Cancel order'}
                                           textColor={"#fff"}
                                           gradient={["red", "red"]}
                                           borderRadius={10}/>
@@ -255,13 +257,17 @@ const OrderDetails = ({route}) => {
                 </View>
 
 
-                <CancelOrderModal
-                    status={status?.code}
-                    orderId={route.params.orderId}
-                    send={sendOrderCancellation}
-                    visible={visible} setVisible={(v) => {
-                    setVisible(v)
-                }}/>
+                {
+                    status &&
+                    <CancelOrderModal
+                        status={status.code}
+                        orderId={route.params.orderId}
+                        send={sendOrderCancellation}
+                        visible={visible} setVisible={(v) => {
+                        setVisible(v)
+                    }}/>
+                }
+
 
             </Stack>
 

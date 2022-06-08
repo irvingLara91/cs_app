@@ -36,6 +36,9 @@ export default function Login() {
 
     const setDataUser = async (data) => {
         let res = {
+            accessToken: data.currentUser.stsTokenManager.accessToken,
+            expirationTime:data.currentUser.stsTokenManager.expirationTime,
+            refreshToken:data.currentUser.stsTokenManager.refreshToken,
             userDoc: data.userDoc,
             userId: data.userId,
             pushRegister: data.pushRegister

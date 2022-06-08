@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {View} from "react-native";
 import {Text} from "native-base";
 import ContainerAdmin from "~/components/common/ContainerAdmin";
 
 import {Feather, MaterialIcons, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import ContainerNotifications from "~/components/ContainerList/ContainerNotifications";
+import {useAuthUserContext} from "~/context/authUser";
+import {useIsFocused} from "@react-navigation/native";
+import ApiApp from "~/api/ApiApp";
 
 const notificationsData = [
     {
@@ -74,17 +77,38 @@ const notificationsData = [
     },
 ]
 const NotificationsScreen = (props) => {
+    const {user} = useAuthUserContext();
+    const isFocused = useIsFocused();
+    const [notifications, setNotifications] = useState([]);
+
+
+
+    const getNotificationsData = () => {
+        ApiApp.getNotifications(user.userDoc.userId).then(r => {
+            console.log(r.data)
+            if (r.data.success){
+                setNotifications(r.data.data)
+            }else {
+                setNotifications([])
+            }
+        }).catch(e=>{console.log(e)})
+    }
+
+    useEffect(() => {
+        getNotificationsData()
+    }, []);
 
 
     const actionDelete=(item)=>{
-       // console.log(item)
+
     }
 
 
     return (
         <ContainerAdmin title={"Notifications"}
+                        isList={true} callApi={getNotificationsData}
                         icon={<MaterialCommunityIcons name={"message-reply-text"} size={30} color={"black"}/>}>
-            <ContainerNotifications data={notificationsData} action={actionDelete}/>
+            <ContainerNotifications data={notifications} action={actionDelete}/>
         </ContainerAdmin>
     )
 }

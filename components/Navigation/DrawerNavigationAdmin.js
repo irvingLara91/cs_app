@@ -255,20 +255,19 @@ const HeaderAdmin =({navigation,...props})=>{
     const isFocused = useIsFocused();
     const appState = useRef(AppState.currentState);
 
+
     useEffect(() => {
-        const subscription = AppState.addEventListener("change", nextAppState => {
+        const myListener = AppState.addEventListener("change", nextAppState => {
             if (appState.current.match(/inactive|background/) && nextAppState === "active") {
-                console.log("App has come to the foreground!");
+               // console.log("App has come to the foreground!");
                 Notifications.getBadgeCountAsync().then(res=>{
                     setCount(res)
                 });
             }
             appState.current = nextAppState;
-            console.log("AppState", appState.current);
+           // console.log("AppState", appState.current);
         });
-        return () => {
-            subscription.remove();
-        };
+        return () => myListener.remove();
     }, []);
 
     useEffect(() => {
@@ -325,6 +324,7 @@ const HeaderAdmin =({navigation,...props})=>{
                     <View style={{flexDirection: 'row',alignItems:'center',justifyContent:'center'}}>
                         <TouchableOpacity
                             onPress={() => {
+                                navigation.navigate("Notifications")
                                Notifications.setBadgeCountAsync(0).then(res=>{
                                    setCount(0)
                                    }

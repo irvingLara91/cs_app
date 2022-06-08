@@ -50,14 +50,13 @@ const DashboardScreen = (props) => {
 
 
     const registerDevice = (token) => {
-        console.log("Token:",token);
         let params = {
-            "token": token,
-            "topic": ""
+            "token": token
         };
         ApiApp.registerPushNotification(params)
             .then(response=>{
                 if (response.data.success){
+                    console.log("Token:",token);
                     setPushNotification()
                 }
             })
@@ -82,7 +81,8 @@ const DashboardScreen = (props) => {
         }
 
         notificationListener.current = Notifications.addNotificationReceivedListener(noti => {
-            console.log("<----Notification--->",noti.request.content.data)
+            console.log("<----Notification--->",noti.request)
+
         });
 
         responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {

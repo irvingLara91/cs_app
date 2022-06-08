@@ -34,6 +34,8 @@ const CancelOrderModal = ({ isAdmin  = false, send,orderId,visible, setVisible, 
     }
 
 
+
+
     return (<Modal
             animationType="slide"
             transparent={true}
@@ -72,10 +74,11 @@ const CancelOrderModal = ({ isAdmin  = false, send,orderId,visible, setVisible, 
                             marginTop: 50,
                             color: 'white',
                             marginBottom: 6
-                        }}>{ isAdmin ?
-                        props.status === 7  ? "What is the reason for rejecting the order?": "What is the reason for order cancellation?"
+                        }}>{
+                        isAdmin ?
+                        props.status === 3  ? "What is the reason for rejecting the order?": "What is the reason for order cancellation?"
                         :
-                        props.status === 3? "What is the reason for rejecting the order?": "What is the reason for order cancellation?"}</Text>
+                        props.status === 3 ? "What is the reason for rejecting the order?": "What is the reason for order cancellation?"}</Text>
 
                     <Text style={{
                         color: "white",

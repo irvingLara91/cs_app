@@ -84,7 +84,7 @@ const AssignOrderScreen = (props) => {
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false);
     const [openStatus, setOpenStatus] = useState(false);
-    const [status, setStatus] = useState(order.status ? order.status : order.statusCode);
+    const [status, setStatus] = useState(order.status);
     const [cancelAdmin, setCancelAdmin] = useState(null);
     const [visible, setVisible] = useState(false);
 
@@ -519,6 +519,7 @@ const AssignOrderScreen = (props) => {
 
 
             {
+                status&&
                 cancelAdmin &&
                 <CancelOrderModal
                     isAdmin={true}
