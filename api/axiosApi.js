@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {getData} from "~/utils/utils";
-
+import {useAuthUserContext} from "~/context/authUser";
 
 let config =
     {
@@ -23,7 +23,14 @@ let APIKit = axios.create(config);
         }
         return config;
     });
-    APIKit.interceptors.response.use(function(config) {
+    APIKit.interceptors.response.use(config => config, (err) => {
+        const {LogOut} = useAuthUserContext();
+        if (err.response) {
+            const response = err.response;
+            if (response.status === 401) {
+                LogOut()
+            }
+        }
         return config;
     });
 export default APIKit;
