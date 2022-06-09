@@ -1,7 +1,5 @@
 import axios from 'axios'
-import {getData} from "~/utils/utils";
-import {useAuthUserContext} from "~/context/authUser";
-
+import {getData, removeData} from "~/utils/utils";
 let config =
     {
         baseURL: "https://dev-backend-cornerd-kdccl2goja-uc.a.run.app",
@@ -24,13 +22,23 @@ let APIKit = axios.create(config);
         return config;
     });
     APIKit.interceptors.response.use(config => config, (err) => {
-        const {LogOut} = useAuthUserContext();
-        if (err.response) {
-            const response = err.response;
-            if (response.status === 401) {
-                LogOut()
+        console.log(err.response.data.error.code)
+        try {
+            if (err.response) {
+                const response = err.response;
+                if (response.data.error.code === "auth/id-token-expired") {
+                     removeData("user").then(r=>{
+                         alert("session expired, please login again")
+                     }).catch(e=>{
+                         console.log(",3",e)
+                     })
+                }
             }
+        }catch (e){
+            console.log("Error2->",e)
+
         }
+
         return config;
     });
 export default APIKit;
