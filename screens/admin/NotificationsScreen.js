@@ -8,98 +8,56 @@ import ContainerNotifications from "~/components/ContainerList/ContainerNotifica
 import {useAuthUserContext} from "~/context/authUser";
 import {useIsFocused} from "@react-navigation/native";
 import ApiApp from "~/api/ApiApp";
+import screens from "~/constants/screens";
 
-const notificationsData = [
-    {
-        id: 1,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 2,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 3,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 4,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 5,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 6,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 7,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 8,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 9,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 10,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 11,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 12,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-    {
-        id: 13,
-        date: new Date(),
-        message: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Tellus dui potenti scelerisque eget scelerisque ultrices. Ut tortor et egestas facilisi euismod lorem molestie nec."
-    },
-]
 const NotificationsScreen = (props) => {
     const {user} = useAuthUserContext();
     const isFocused = useIsFocused();
     const [notifications, setNotifications] = useState([]);
 
 
+    const traArray= (array)=>{
+        console.log(array)
 
+        let array_messagesUnion = [];
+        array.map((m,i)=>{
+             m.messages.map(r=>{
+                 if (!r.seen){
+                     array_messagesUnion.push(r)
+                 }
+             });
+        });
+
+        setNotifications(array_messagesUnion)
+    }
     const getNotificationsData = () => {
-        ApiApp.getNotifications(user.userDoc.userId).then(r => {
-            console.log(r.data)
-            if (r.data.success){
-                setNotifications(r.data.data)
-            }else {
-                setNotifications([])
+        ApiApp.getAdminTechNotifications(user.userDoc.userId).then(r => {
+            if (r.status){
+                if (r.data.success){
+                    if (r.data.data.length===1){
+                       let e =  r.data.data[0].messages.filter(m => m.seen !==true)
+                        setNotifications(e)
+
+                    }else if (r.data.data.length>=1){
+                        traArray(r.data.data)
+                    }else {
+                        setNotifications([])
+                    }
+                }
             }
         }).catch(e=>{console.log(e)})
     }
 
     useEffect(() => {
-        getNotificationsData()
-    }, []);
+        if (isFocused){
+            getNotificationsData()
+        }
+    }, [isFocused]);
 
 
     const actionDelete=(item)=>{
+       // alert(JSON.stringify(item))
+        props.navigation.navigate(screens.ASSIGN_ORDER_TO, {order: item,  otherParam: true})
 
     }
 
@@ -108,7 +66,7 @@ const NotificationsScreen = (props) => {
         <ContainerAdmin title={"Notifications"}
                         isList={true} callApi={getNotificationsData}
                         icon={<MaterialCommunityIcons name={"message-reply-text"} size={30} color={"black"}/>}>
-            <ContainerNotifications data={notifications} action={actionDelete}/>
+            <ContainerNotifications callApi={getNotificationsData} data={notifications} action={actionDelete}/>
         </ContainerAdmin>
     )
 }

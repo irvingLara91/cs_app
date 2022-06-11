@@ -74,7 +74,9 @@ const MessageCancel =(props)=>{
 }
 
 const AssignOrderScreen = (props) => {
-    const {order} = useRoute().params ?? {};
+    const { order, otherParam } = useRoute().params;
+
+
     const confirm = useConfirmationContext();
     const navigation = useNavigation();
     const {user} = useAuthUserContext()
@@ -84,10 +86,39 @@ const AssignOrderScreen = (props) => {
     const [users, setUsers] = useState([])
     const [loading, setLoading] = useState(false);
     const [openStatus, setOpenStatus] = useState(false);
-    const [status, setStatus] = useState(order.status);
+    const [order_, setOrder_] = useState(null);
     const [cancelAdmin, setCancelAdmin] = useState(null);
     const [visible, setVisible] = useState(false);
+    const [status, setStatus] = useState(null);
 
+
+    const getOrderDetails = async () => {
+        const result = await ApiApp.getOrder(order.orderId);
+        if (result.data.success) {
+            console.log(result.data.data)
+            setOrder_(result.data.data)
+            setStatus(result.data.data.status)
+
+        }
+    };
+    useEffect( () => {
+        getOrderDetails();
+    }, [order]);
+
+
+    const seeNotification=(id)=>{
+        ApiApp.seeNotificationPut(id).then(e=>{
+             console.log(e.data)
+         }).catch(e=>{
+              console.log(e)
+         })
+    }
+
+    useEffect(()=>{
+        if (otherParam){
+            seeNotification(order_.orderId)
+        }
+    },[otherParam])
 
 
     const onClose = () => {
@@ -105,8 +136,7 @@ const AssignOrderScreen = (props) => {
      * End States de CustomModal
      * **/
 
-    useEffect(() => {
-    }, [selected])
+
 
 
     const getAssignedToUser = (id) => {
@@ -135,11 +165,11 @@ const AssignOrderScreen = (props) => {
         }
     };
     useEffect(() => {
-        if (order && order.assigned) {
-            getAssignedToUser(order.assigned)
+        if (order_ && order_.assigned) {
+            getAssignedToUser(order_.assigned)
         }
         getUserDocs()
-    }, [order])
+    }, [order_])
 
 
 
@@ -151,7 +181,7 @@ const AssignOrderScreen = (props) => {
                     "code": status.code,
                     "message": text
                 }}
-        ApiApp.cancelOrder(order.orderId, params).then(result => {
+        ApiApp.cancelOrder(order_.orderId, params).then(result => {
 
             if (result.data.success) {
                 setTimeout(() => {
@@ -174,6 +204,7 @@ const AssignOrderScreen = (props) => {
             setTimeout(() => {
                 setLoading(false)
             }, 1000);
+            getOrderDetails()
         }).catch(e => {
             console.log(e)
             setTimeout(() => {
@@ -215,7 +246,7 @@ const AssignOrderScreen = (props) => {
                     "code": code,
                     "message": ''
                 }}
-        ApiApp.changeStatusOrder(order.orderId, params).then(result => {
+        ApiApp.changeStatusOrder(order_.orderId, params).then(result => {
             if (result.data.success){
                 setTimeout(() => {
                     setCancelAdmin(false)
@@ -235,6 +266,7 @@ const AssignOrderScreen = (props) => {
                     setIsError(true)
                 }, 500);
             }
+            getOrderDetails()
 
         }).catch(e => {
             setTimeout(() => {
@@ -243,7 +275,7 @@ const AssignOrderScreen = (props) => {
                 setModalVisible(true)
                 setIsError(true)
             }, 500);
-            console.log(order.orderId, e);
+            console.log(order_.orderId, e);
         });
     }
 
@@ -269,12 +301,20 @@ const AssignOrderScreen = (props) => {
 
     const assignedToUser = () => {
         if (assigned && selected) {
-            apiApp.putReassign(order.orderId, {
-                "prevUserId": assigned.userId,
-                "newUserId": selected.userId
+            console.log(assigned.userId ,"-------", selected.userId)
+            if (assigned.userId === selected.userId){
+                setMessage("Assigned to the same user")
+                setModalVisible(true)
+                setIsError(false)
+                return
+            }
+            apiApp.putAssign(order_.orderId, {
+                "newUserId": selected.userId ? selected.userId : "",
+                "prevUserId": assigned.userId
             }).then(response => {
                 console.log("putReassign", response.data)
                 if (response.data.success) {
+                    setAssigned(selected)
                     setMessage(response.data.message)
                     setModalVisible(true)
                     setIsError(false)
@@ -291,8 +331,9 @@ const AssignOrderScreen = (props) => {
             })
 
         } else if (!assigned && selected) {
-            apiApp.putAssign(order.orderId, {
-                "newUserId": selected.userId
+            apiApp.putAssign(order_.orderId, {
+                "newUserId": selected.userId,
+                "prevUserId": ""
             }).then(response => {
                 if (response.data.success) {
                     setMessage(response.data.message)
@@ -311,7 +352,7 @@ const AssignOrderScreen = (props) => {
                 setIsError(true)
             })
         } else {
-            alert("seleccione  un  addmin o tecnico")
+            alert("Select an administrator or technician")
         }
 
     }
@@ -348,8 +389,8 @@ const AssignOrderScreen = (props) => {
                 user.userDoc.role === 2 &&
                 <TouchableOpacity
                     onPress={() => {
-                        if (order && order.orderId) {
-                            handleDelete(order.orderId)
+                        if (order_ && order_.orderId) {
+                            handleDelete(order_.orderId)
                         }
                     }}
                     style={{
@@ -401,7 +442,7 @@ const AssignOrderScreen = (props) => {
                             color: "white",
                             fontFamily: "Roboto_900Black",
                             fontSize: textSizeRender(6)
-                        }}>{order && order.orderId}</Text>
+                        }}>{order_ && order_.orderId}</Text>
                     </View>
                     <View style={{flex: 1, alignItems: "flex-end", justifyContent: 'center'}}>
                         <Text style={{
@@ -411,7 +452,7 @@ const AssignOrderScreen = (props) => {
                         }}>
 
                             {
-                                order.createdAt ? moment(order.createdAt, "", "en").format('MM/DD/YYYY')
+                                order_ && order_.createdAt ? moment(order.createdAt, "", "en").format('MM/DD/YYYY')
                                     :
                                     order.timestamp ? moment(order.timestamp, "", "en").format('MM/DD/YYYY')
                                         :
@@ -425,8 +466,8 @@ const AssignOrderScreen = (props) => {
                     <AssignOrderTo assigned={assigned} selected={selected} setVisibleUserPicker={setVisibleUserPicker}/>
                 }
 
-                <CustomerData user={order.client}/>
-                <OrderInfo gravestone={order && order.gravestone && order.gravestone}/>
+                <CustomerData user={order_ && order_.client}/>
+                <OrderInfo gravestone={order_ && order_.gravestone && order_.gravestone}/>
 
                 <View style={{marginBottom: 20}}>
                     {
@@ -483,7 +524,10 @@ const AssignOrderScreen = (props) => {
                                     fontFamily: "Roboto_500Medium",
                                     fontSize: textSizeRender(4)
                                 }}
-                            >{statusCode(status.code)}</Text>
+                            >{
+                                status &&
+                                statusCode(status.code)
+                            }</Text>
                             <View>
                                 <MaterialIcons name="keyboard-arrow-down" size={textSizeRender(6)} color="black"/>
                             </View>
@@ -524,7 +568,7 @@ const AssignOrderScreen = (props) => {
                 <CancelOrderModal
                     isAdmin={true}
                     status={status.code === 7 ? 3 : status.code}
-                    orderId={order.orderId}
+                    orderId={order_.orderId}
                     send={sendOrderCancellation}
                     visible={visible} setVisible={(v) => {
                     setVisible(v)

@@ -2,7 +2,6 @@ import APIKit from "./axiosApi";
 import axios from "axios";
 
 const baseURL = "https://dev-backend-cornerd-kdccl2goja-uc.a.run.app";
-//const baseURL = "https://0f96-2806-2f0-9001-a35d-9c95-933-4bbc-be9.ngrok.io";
 
 class ApiApp {
 
@@ -121,6 +120,7 @@ class ApiApp {
         return ApiApp.ApisTypeBase(`/api/admin/${userId}`, 'delete');
     }
     static putAssign = (orderId, params) => {
+        //alert(JSON.stringify(params))
         return ApiApp.ApisTypeBase(`/api/admin/orders/assign/${orderId}`, 'put', params);
     }
     static putReassign = (orderId, params) => {
@@ -135,10 +135,19 @@ class ApiApp {
         return ApiApp.ApisTypeBase(`/api/notifications/registerMobileToken`, 'post',params);
     }
 
+    //Client
     static getNotifications = (userId) => {
         return ApiApp.ApisTypeBase(`/api/notifications/${userId}`, 'get');
     }
 
+    //Admin and Tech
+    static getAdminTechNotifications = (userId) => {
+        return ApiApp.ApisTypeBase(`/api/notifications/orders/assigned/${userId}`, 'get');
+    }
+
+    static  seeNotificationPut=(orderId)=>{
+        return ApiApp.ApisTypeBase(`/api/notifications/seen/${orderId}`, 'put');
+    }
 
 
 }

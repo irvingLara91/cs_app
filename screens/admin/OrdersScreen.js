@@ -172,7 +172,7 @@ const OrdersScreen = (props) => {
         <ContainerAdmin
             isList={true}
             callApi={() => {
-                setStatus(-1)
+                setStatus(null)
                 getOrderAxios()
             }}
             title={"Orders"}
@@ -211,7 +211,7 @@ const OrdersScreen = (props) => {
                     setOrders(newOrders)
                     setOrdersOrigin(newOrders)
                 }}
-                data={orders.filter((order)=> status !== -1  ?  order.statusCode ===status : order  )}
+                data={orders.filter((order)=> status !== null  ?  order.status.code === status : order  )}
             />
 
             {

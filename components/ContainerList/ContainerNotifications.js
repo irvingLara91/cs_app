@@ -3,8 +3,18 @@ import {View, Text, TouchableOpacity, StyleSheet} from "react-native";
 import moment from "moment";
 import {AntDesign, Feather} from "@expo/vector-icons";
 import {SCREEN_WIDTH, textSizeRender} from "~/utils/utils";
+import ApiApp from "~/api/ApiApp";
 
-const ContainerNotifications = ({data = [], action = null}) => {
+const ContainerNotifications = ({data = [], action = null,callApi}) => {
+
+    const see=(id)=>{
+       /* ApiApp.seeNotificationPut(id).then(e=>{
+            console.log(e.data)
+            callApi()
+        }).catch(e=>{
+             console.log(e)
+        })*/
+    }
 
     const renderItem = (item, index) => (
         <View key={index} style={{
@@ -17,19 +27,34 @@ const ContainerNotifications = ({data = [], action = null}) => {
             elevation: 8,
             borderRadius: 10, backgroundColor: 'white', marginVertical: 5, padding: 20
         }}>
-            <View style={{flexDirection: 'row', alignItems: 'center', marginBottom: SCREEN_WIDTH * .05}}>
+            <View style={{flexDirection: 'row',
+                alignItems: 'center', marginBottom: SCREEN_WIDTH * .05}}>
                 <AntDesign name="calendar" size={24} color="red"/>
-                <Text style={styles.textDate}>{moment(item.date, "", "es").format('DD/MM/YYYY')}</Text>
+                <Text style={styles.textDate}>
+                    {moment(item.timestamp._seconds * 1000, "", "es").format('DD/MM/YYYY')}</Text>
+                <View style={{flex:1,alignItems: 'flex-end'}}>
+                    <Text style={[styles.textDate,{
+                        fontFamily: "Roboto_500Medium",
+                        alignItems: 'center'}]}>
+                        Order: {item.orderId}
+                    </Text>
+                    </View>
             </View>
             <View style={{flexDirection: 'row'}}>
                 <View style={{flex: .9}}>
-                    <Text style={styles.textMessage}>{item.message}</Text>
+                    <Text style={styles.textMessage}>{item.description}</Text>
                 </View>
                 <View style={{flex: .1, alignItems: 'center'}}>
-                    <TouchableOpacity onPress={()=>{
+                    <TouchableOpacity
+                        style={{
+                            borderRadius:100,
+                            padding:3,
+                            backgroundColor:'#000000'
+                        }}
+                        onPress={()=>{
                         action(item)
                     }}>
-                        <Feather name="trash-2" size={24} color="black"/>
+                        <AntDesign name="arrowright" size={24} color="white" />
                     </TouchableOpacity>
 
                 </View>

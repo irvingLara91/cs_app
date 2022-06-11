@@ -19,6 +19,7 @@ const UserPickerModal = ({
     useEffect(()=>{
         if (assigned && !selected){
             setAssigned_(assigned)
+            setSelected(assigned)
         }else if (selected) {
             setAssigned_(selected)
         }else {
