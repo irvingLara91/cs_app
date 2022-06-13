@@ -211,7 +211,7 @@ const OrdersScreen = (props) => {
                     setOrders(newOrders)
                     setOrdersOrigin(newOrders)
                 }}
-                data={orders.filter((order)=> status !== null  ?  order.status.code === status : order  )}
+                data= {orders && orders.filter((order)=> status !== null  ?  order.status.code === status : order  )}
             />
 
             {

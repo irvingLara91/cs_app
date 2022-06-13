@@ -324,7 +324,7 @@ const AssignOrderScreen = (props) => {
                     setIsError(true)
                 }
             }).catch(e => {
-                console.log(e)
+                console.log(JSON.stringify(e))
                 setMessage("Error")
                 setModalVisible(true)
                 setIsError(true)
